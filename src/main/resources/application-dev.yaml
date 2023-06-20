@@ -1,0 +1,4 @@
+server:
+  port: 8008
+  servlet:
+    context-path: /account
