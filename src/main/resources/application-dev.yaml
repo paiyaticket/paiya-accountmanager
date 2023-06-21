@@ -2,3 +2,13 @@ server:
   port: 8008
   servlet:
     context-path: /account
+
+# Database
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: paiya-account
+      password: ${PAIYA_DB_PASSWORD}
+      username: ${PAIYA_DB_USERNAME}
