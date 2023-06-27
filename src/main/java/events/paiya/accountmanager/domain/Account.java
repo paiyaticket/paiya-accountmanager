@@ -1,11 +1,14 @@
 package events.paiya.accountmanager.domain;
 
+import events.paiya.accountmanager.enumeration.FinancialAccountType;
 import events.paiya.accountmanager.enumeration.Gender;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document
 @Getter @Setter
@@ -19,6 +22,7 @@ public class Account {
     private String phoneNumber;
     private Organizer organizer;
     private Address address;
+    private List<FinancialAccount> financialAccounts;
 
     @PersistenceCreator
     public Account(String id, String lastname, String firstname, String email, Gender gender, String phoneNumber, Organizer organizer, Address address) {
