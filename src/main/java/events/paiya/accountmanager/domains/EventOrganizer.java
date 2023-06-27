@@ -1,4 +1,4 @@
-package events.paiya.accountmanager.domain;
+package events.paiya.accountmanager.domains;
 
 import lombok.Getter;
 import lombok.Setter;

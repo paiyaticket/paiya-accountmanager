@@ -1,7 +1,6 @@
-package events.paiya.accountmanager.domain;
+package events.paiya.accountmanager.domains;
 
-import events.paiya.accountmanager.enumeration.FinancialAccountType;
-import events.paiya.accountmanager.enumeration.Gender;
+import events.paiya.accountmanager.enumerations.Gender;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -22,7 +21,7 @@ public class Account {
     private String phoneNumber;
     private Organizer organizer;
     private Address address;
-    private List<FinancialAccount> financialAccounts;
+    private List<FinancialOperationAccount> financialOperationAccounts;
 
     @PersistenceCreator
     public Account(String id, String lastname, String firstname, String email, Gender gender, String phoneNumber, Organizer organizer, Address address) {
