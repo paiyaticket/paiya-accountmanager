@@ -11,7 +11,7 @@ import java.util.List;
 
 @Document
 @Getter @Setter
-public class Account {
+public class User {
     @Id
     private String id;
     private String lastname;
@@ -22,9 +22,18 @@ public class Account {
     private Organizer organizer;
     private Address address;
     private List<FinancialOperationAccount> financialOperationAccounts;
+    private boolean isEnabled;
+
+    public void enableUser(){
+        this.isEnabled = true;
+    }
+
+    public void disableUser(){
+        this.isEnabled = false;
+    }
 
     @PersistenceCreator
-    public Account(String id, String lastname, String firstname, String email, Gender gender, String phoneNumber, Organizer organizer, Address address) {
+    public User(String id, String lastname, String firstname, String email, Gender gender, String phoneNumber, Organizer organizer, Address address) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
