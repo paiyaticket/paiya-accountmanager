@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<User> findByUserId(String userId) throws HttpClientErrorException.NotFound;
+    User findByUserId(String userId) throws HttpClientErrorException.NotFound;
     List<User> findAllUser();
     Page<User> findPaginatedUserList(int page, int size);
     User createUser(User user);

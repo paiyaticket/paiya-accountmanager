@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService{
@@ -18,8 +19,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Optional<User> findByUserId(String userId) {
-        return this.userRepository.findById(userId);
+    public User findByUserId(String userId) {
+        Optional<User> userOptional = this.userRepository.findById(userId);
+        return userOptional.orElseThrow();
     }
 
     @Override
@@ -41,18 +43,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public User updateUser(String userId, User user) {
         Optional<User> userOptional = this.userRepository.findById(userId);
-        User oldUser = null;
         if (userOptional.isPresent()){
-            oldUser = userOptional.get();
+            User oldUser = userOptional.get();
             if (!user.getFirstname().equals(oldUser.getFirstname())) oldUser.setFirstname(user.getFirstname());
             if (!user.getLastname().equals(oldUser.getLastname())) oldUser.setLastname(user.getLastname());
             if (!user.getEmail().equals(oldUser.getEmail())) oldUser.setEmail(user.getEmail());
             if (!user.getGender().equals(oldUser.getGender())) oldUser.setGender(user.getGender());
             if (!user.getPhoneNumber().equals(oldUser.getPhoneNumber())) oldUser.setPhoneNumber(user.getPhoneNumber());
             if (!user.getOrganizer().equals(oldUser.getOrganizer())) oldUser.setOrganizer(user.getOrganizer());
-            oldUser = this.userRepository.save(oldUser);
+            return this.userRepository.save(oldUser);
+        } else {
+            throw new NoSuchElementException();
         }
-        return oldUser;
     }
 
     @Override
