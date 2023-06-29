@@ -8,6 +8,7 @@ import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Objects;
 
 @Document
 @Getter @Setter
@@ -59,14 +60,26 @@ public class User {
     }
 
     @Getter @Setter
-    private static class Organizer{
+    public static class Organizer{
         private EventOrganizer eventOrganizer;
         private String poste;
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Organizer organizer = (Organizer) o;
+            return eventOrganizer.equals(organizer.eventOrganizer) && poste.equals(organizer.poste);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(eventOrganizer, poste);
+        }
     }
 
     @Getter @Setter
-    private static class Address {
+    public static class Address {
         private String country;
         private String city;
         private String state;
