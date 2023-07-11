@@ -35,15 +35,16 @@ public class User {
     private Organizer organizer;
     private Address address;
     private List<FinancialOperationAccount> financialOperationAccounts;
-    private boolean isEnabled;
+    private boolean active;
 
     public void enableUser(){
-        this.isEnabled = true;
+        this.active = true;
     }
 
     public void disableUser(){
-        this.isEnabled = false;
+        this.active = false;
     }
+
 
     @PersistenceCreator
     public User(String id, String lastname, String firstname, String email, Gender gender, String phoneNumber, Organizer organizer, Address address) {

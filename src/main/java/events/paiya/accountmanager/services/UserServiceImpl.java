@@ -22,19 +22,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByUserId(String userId) {
-        Optional<User> userOptional = this.userRepository.findById(userId);
+        Optional<User> userOptional = this.userRepository.findUserByIdAndActiveIsTrue(userId);
         return userOptional.orElseThrow();
     }
 
     @Override
     public List<User> findAllUser() {
-        return this.userRepository.findAll();
+        return this.userRepository.findAllByActiveIsTrue();
     }
 
     @Override
     public Page<User> findPaginatedUserList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return this.userRepository.findAll(pageable);
+        return this.userRepository.findAllByActiveIsTrue(pageable);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
             if (!user.getEmail().equals(oldUser.getEmail())) oldUser.setEmail(user.getEmail());
             if (!user.getGender().equals(oldUser.getGender())) oldUser.setGender(user.getGender());
             if (!user.getPhoneNumber().equals(oldUser.getPhoneNumber())) oldUser.setPhoneNumber(user.getPhoneNumber());
-            if (!user.isEnabled() == oldUser.isEnabled()) oldUser.setEnabled(user.isEnabled());
+            if (!user.isActive() == oldUser.isActive()) oldUser.setActive(user.isActive());
             // if (!user.getOrganizer().equals(oldUser.getOrganizer())) oldUser.setOrganizer(user.getOrganizer());
             return this.userRepository.save(oldUser);
         } else {

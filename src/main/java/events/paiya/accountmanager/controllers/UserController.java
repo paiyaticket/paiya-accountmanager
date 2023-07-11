@@ -1,6 +1,8 @@
 package events.paiya.accountmanager.controllers;
 
 import events.paiya.accountmanager.domains.User;
+import events.paiya.accountmanager.mappers.UserMapper;
+import events.paiya.accountmanager.resources.UserResource;
 import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
@@ -9,35 +11,40 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
     private final UserService userService;
-    private UserController(UserServiceImpl userService){
+    private final UserMapper userMapper;
+    private UserController(UserServiceImpl userService, UserMapper userMapper){
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAllUser(){
-        return ResponseEntity.ok(this.userService.findAllUser());
+    public ResponseEntity<List<UserResource>> findAllUser(){
+        return ResponseEntity.ok(this.userService.findAllUser().stream().map(userMapper::userToUserResource).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable String id){
+    public ResponseEntity<UserResource> findUserById(@PathVariable String id){
         User user = this.userService.findByUserId(id);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userMapper.userToUserResource(user));
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+    public ResponseEntity<UserResource> createUser(@Valid @RequestBody User user){
         URI uri = URI.create("/v1/users");
-        return ResponseEntity.created(uri).body(this.userService.createUser(user));
+        User createdUser = this.userService.createUser(user);
+        return ResponseEntity.created(uri).body(userMapper.userToUserResource(createdUser));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @Valid @RequestBody User user){
-        return ResponseEntity.ok(this.userService.updateUser(id, user));
+    public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody User user){
+        User updatedUser = this.userService.updateUser(id, user);
+        return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
     }
 
     @DeleteMapping("/{id}")
