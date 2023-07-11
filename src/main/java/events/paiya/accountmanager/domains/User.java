@@ -1,6 +1,9 @@
 package events.paiya.accountmanager.domains;
 
 import events.paiya.accountmanager.enumerations.Gender;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -8,17 +11,26 @@ import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Objects;
 
 @Document
 @Getter @Setter
 public class User {
     @Id
     private String id;
+    @NotEmpty(message = "Last name is mandatory")
+    @Size(min = 2, max = 20, message = "Last name size must be between 2 and 20 caracters")
     private String lastname;
+
+    @NotEmpty(message = "firstname is mandatory")
+    @Size(min = 2, max = 30, message = "Last name size must be between 2 and 30 caracters")
     private String firstname;
+
+    @Email(message = "Must be a valid email")
     private String email;
+
     private Gender gender;
+
+    @NotEmpty(message = "Phone number is mandatory")
     private String phoneNumber;
     private Organizer organizer;
     private Address address;
@@ -59,31 +71,4 @@ public class User {
                 '}';
     }
 
-    @Getter @Setter
-    public static class Organizer{
-        private EventOrganizer eventOrganizer;
-        private String poste;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Organizer organizer = (Organizer) o;
-            return eventOrganizer.equals(organizer.eventOrganizer) && poste.equals(organizer.poste);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(eventOrganizer, poste);
-        }
-    }
-
-    @Getter @Setter
-    public static class Address {
-        private String country;
-        private String city;
-        private String state;
-        private String postal;
-        private String adressDetail;
-    }
 }

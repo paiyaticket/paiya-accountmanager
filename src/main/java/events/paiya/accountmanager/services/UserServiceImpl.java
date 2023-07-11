@@ -5,11 +5,13 @@ import events.paiya.accountmanager.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Component
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
@@ -50,7 +52,8 @@ public class UserServiceImpl implements UserService{
             if (!user.getEmail().equals(oldUser.getEmail())) oldUser.setEmail(user.getEmail());
             if (!user.getGender().equals(oldUser.getGender())) oldUser.setGender(user.getGender());
             if (!user.getPhoneNumber().equals(oldUser.getPhoneNumber())) oldUser.setPhoneNumber(user.getPhoneNumber());
-            if (!user.getOrganizer().equals(oldUser.getOrganizer())) oldUser.setOrganizer(user.getOrganizer());
+            if (!user.isEnabled() == oldUser.isEnabled()) oldUser.setEnabled(user.isEnabled());
+            // if (!user.getOrganizer().equals(oldUser.getOrganizer())) oldUser.setOrganizer(user.getOrganizer());
             return this.userRepository.save(oldUser);
         } else {
             throw new NoSuchElementException();

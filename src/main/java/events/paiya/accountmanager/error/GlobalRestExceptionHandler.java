@@ -3,6 +3,7 @@ package events.paiya.accountmanager.error;
 import events.paiya.accountmanager.resources.ApiErrorResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -18,7 +19,7 @@ public class GlobalRestExceptionHandler {
         return new ResponseEntity<>(apiErrorResource, apiErrorResource.getStatus());
     }
 
-    @ExceptionHandler({IllegalArgumentException.class})
+    @ExceptionHandler({IllegalArgumentException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<Object> handleBadParameter(Exception ex){
         ApiErrorResource apiErrorResource = new ApiErrorResource("paiya.internal.error.message",
                 ex.getMessage(), HttpStatus.BAD_REQUEST, null);
