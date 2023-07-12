@@ -8,6 +8,12 @@ group = 'events.paiya'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+ext {
+	mapstructVersion = "1.5.5.Final"
+	lombokVersion = "1.18.20"
+	lombokMapstructBindingVersion = "0.2.0"
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -18,26 +24,30 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
 compileJava {
 	options.compilerArgs += [
 			'-Amapstruct.suppressGeneratorTimestamp=true',
 			'-Amapstruct.suppressGeneratorVersionInfoComment=true',
 			'-Amapstruct.verbose=false',
-			'-Amapstruct.unmappedSourcePolicy=IGNORE',
-			'-Amapstruct.unmappedTargetPolicy=IGNORE'
+			'-Amapstruct.unmappedTargetPolicy=IGNORE',
+			'-Amapstruct.unmappedSourcePolicy=IGNORE'
 	]
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	implementation "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {

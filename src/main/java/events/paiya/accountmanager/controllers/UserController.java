@@ -6,6 +6,11 @@ import events.paiya.accountmanager.resources.UserResource;
 import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Level;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +20,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/users")
+@Log4j2
 public class UserController {
     private final UserService userService;
+
     private final UserMapper userMapper;
     private UserController(UserServiceImpl userService, UserMapper userMapper){
         this.userService = userService;
@@ -25,7 +32,18 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserResource>> findAllUser(){
-        return ResponseEntity.ok(this.userService.findAllUser().stream().map(userMapper::userToUserResource).collect(Collectors.toList()));
+        return ResponseEntity.ok(this.userService.findAllUser()
+                .stream().map(userMapper::userToUserResource).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<List<UserResource>> findUserPaginatedList(@RequestParam int page, @RequestParam int size){
+        Page<User> paginatedUserList = this.userService.findPaginatedUserList(page, size);
+        List<UserResource> userResourceList = paginatedUserList.stream().map(userMapper::userToUserResource).toList();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Total-Elements", String.valueOf(paginatedUserList.getTotalElements()));
+        httpHeaders.add("Total-Pages", String.valueOf(paginatedUserList.getTotalPages()));
+        return ResponseEntity.ok().headers(httpHeaders).body(userResourceList);
     }
 
     @GetMapping("/{id}")
@@ -42,13 +60,24 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody User user){
-        User updatedUser = this.userService.updateUser(id, user);
+    public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody UserResource userResource){
+        log.log(Level.INFO, userResource.toString());
+        User user = userMapper.userResourceToUser(userResource);
+        log.log(Level.INFO, user.toString());
+        User updatedUser = this.userService.updateUser(id, userMapper.userResourceToUser(userResource));
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id){
+    public ResponseEntity<?> delete(@PathVariable String id){
         this.userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<UserResource> changeUserAccountActiveStatus (@PathVariable String id, @PathParam("status") boolean status){
+        User updatedUser = this.userService.changeUserAccountActiveStatus(id, status);
+        return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
+    }
+
 }

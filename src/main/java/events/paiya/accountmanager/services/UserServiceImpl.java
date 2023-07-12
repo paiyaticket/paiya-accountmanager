@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService{
             if (!user.getGender().equals(oldUser.getGender())) oldUser.setGender(user.getGender());
             if (!user.getPhoneNumber().equals(oldUser.getPhoneNumber())) oldUser.setPhoneNumber(user.getPhoneNumber());
             if (!user.isActive() == oldUser.isActive()) oldUser.setActive(user.isActive());
-            // if (!user.getOrganizer().equals(oldUser.getOrganizer())) oldUser.setOrganizer(user.getOrganizer());
             return this.userRepository.save(oldUser);
         } else {
             throw new NoSuchElementException();
@@ -66,20 +65,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void disableUserAccount(String userId) {
+    public User changeUserAccountActiveStatus(String userId, boolean status) {
         Optional<User> userOptional = this.userRepository.findById(userId);
-        userOptional.ifPresent(user -> {
-            user.disableUser();
-            this.userRepository.save(user);
-        });
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            if (status){
+                user.enableUser();
+            } else {
+                user.disableUser();
+            }
+            return this.userRepository.save(user);
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
-    @Override
-    public void enableUserAccount(String userId) {
-        Optional<User> userOptional = this.userRepository.findById(userId);
-        userOptional.ifPresent(user -> {
-            user.enableUser();
-            this.userRepository.save(user);
-        });
-    }
 }

@@ -1,15 +1,17 @@
 package events.paiya.accountmanager.resources;
 
-import events.paiya.accountmanager.domains.Address;
-import events.paiya.accountmanager.domains.Organizer;
 import events.paiya.accountmanager.enumerations.Gender;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter @Setter
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class UserResource {
 
     private String id;
@@ -25,13 +27,11 @@ public class UserResource {
     @Email(message = "Must be a valid email")
     private String email;
 
-    @NotEmpty(message = "Gender is mandatory")
     private Gender gender;
 
     @NotEmpty(message = "Phone number is mandatory")
     private String phoneNumber;
     private boolean active;
 
-    public UserResource() {
-    }
+
 }

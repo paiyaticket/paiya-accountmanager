@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     User findByUserId(String userId) throws HttpClientErrorException.NotFound;
@@ -14,6 +13,5 @@ public interface UserService {
     User createUser(User user);
     User updateUser(String userId, User user);
     void deleteUser(String userId);
-    void disableUserAccount(String userId);
-    void enableUserAccount(String userId);
+    User changeUserAccountActiveStatus(String userId, boolean status);
 }
