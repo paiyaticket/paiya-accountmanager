@@ -1,6 +1,7 @@
 package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.domains.User;
+import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,10 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Component
 public class UserServiceImpl implements UserService{
 
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("messages");
     private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -38,7 +41,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user) throws UserAlreadyExistException {
+        if (this.userRepository.existsByEmailAndActiveIsTrue(user.getEmail()))
+            throw new UserAlreadyExistException(resourceBundle.getString("user.already.exist"));
+
         return this.userRepository.save(user);
     }
 

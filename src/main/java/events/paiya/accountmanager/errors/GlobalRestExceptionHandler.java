@@ -1,4 +1,4 @@
-package events.paiya.accountmanager.error;
+package events.paiya.accountmanager.errors;
 
 import events.paiya.accountmanager.resources.ApiErrorResource;
 import org.springframework.http.HttpStatus;

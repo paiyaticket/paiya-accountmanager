@@ -1,6 +1,7 @@
 package events.paiya.accountmanager.controllers;
 
 import events.paiya.accountmanager.domains.User;
+import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.mappers.UserMapper;
 import events.paiya.accountmanager.resources.UserResource;
 import events.paiya.accountmanager.services.UserService;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResource> createUser(@Valid @RequestBody User user){
+    public ResponseEntity<UserResource> createUser(@Valid @RequestBody User user) throws UserAlreadyExistException {
         URI uri = URI.create("/v1/users");
         User createdUser = this.userService.createUser(user);
         return ResponseEntity.created(uri).body(userMapper.userToUserResource(createdUser));
