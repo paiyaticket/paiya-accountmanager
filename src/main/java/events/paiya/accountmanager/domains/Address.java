@@ -1,14 +1,15 @@
 package events.paiya.accountmanager.domains;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Address {
-    private String country;
+    private Country country;
     private String city;
     private String state;
     private String postal;
-    private String adressDetail;
+    private String addressDetail;
 }

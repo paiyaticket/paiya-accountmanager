@@ -1,15 +1,17 @@
 package events.paiya.accountmanager.controllers;
 
+import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
+import events.paiya.accountmanager.mappers.AddressMapper;
 import events.paiya.accountmanager.mappers.UserMapper;
+import events.paiya.accountmanager.resources.AddressResource;
 import events.paiya.accountmanager.resources.UserResource;
 import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +28,11 @@ public class UserController {
     private final UserService userService;
 
     private final UserMapper userMapper;
-    private UserController(UserServiceImpl userService, UserMapper userMapper){
+    private final AddressMapper addressMapper;
+    private UserController(UserServiceImpl userService, UserMapper userMapper, AddressMapper addressMapper){
         this.userService = userService;
         this.userMapper = userMapper;
+        this.addressMapper = addressMapper;
     }
 
     @GetMapping
@@ -62,13 +66,16 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody UserResource userResource){
-        log.log(Level.INFO, userResource.toString());
         User user = userMapper.userResourceToUser(userResource);
-        log.log(Level.INFO, user.toString());
-        User updatedUser = this.userService.updateUser(id, userMapper.userResourceToUser(userResource));
+        User updatedUser = this.userService.updateUser(id, user);
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
     }
-
+    @PutMapping("/{id}/address")
+    public ResponseEntity<UserResource> updateUserAddress(@PathVariable String id, @Valid @RequestBody AddressResource addressResource) {
+        Address address = addressMapper.addressResourceToAddress(addressResource);
+        this.userService.updateUserAddress(id, address);
+        return ResponseEntity.ok(userMapper.userToUserResource(this.userService.findByUserId(id)));
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id){
         this.userService.deleteUser(id);

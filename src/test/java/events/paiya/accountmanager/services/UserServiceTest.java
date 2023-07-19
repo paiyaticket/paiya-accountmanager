@@ -1,5 +1,6 @@
 package events.paiya.accountmanager.services;
 
+import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
@@ -88,6 +89,13 @@ class UserServiceTest {
         Assert.notNull(updateUser, "User is null");
         Assertions.assertEquals(updateUser.getId(), USER_ID);
         Assertions.assertEquals(updateUser.getFirstname(), "Johnnas");
+    }
+
+    @Test
+    void userUpdateAddress(){
+        Mockito.doNothing().when(userRepository).updateUserAddressById(Mockito.anyString(), Mockito.any(Address.class));
+        userService.updateUserAddress(USER_ID, new Address());
+        Mockito.verify(userRepository, Mockito.times(1)).updateUserAddressById(USER_ID, new Address());
     }
 
     @Test

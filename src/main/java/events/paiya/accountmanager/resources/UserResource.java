@@ -31,7 +31,10 @@ public class UserResource {
 
     @NotEmpty(message = "Phone number is mandatory")
     private String phoneNumber;
+
     private boolean active;
+
+    private AddressResource address;
 
 
 }

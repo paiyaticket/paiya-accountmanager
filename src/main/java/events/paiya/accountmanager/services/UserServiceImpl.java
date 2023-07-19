@@ -1,5 +1,6 @@
 package events.paiya.accountmanager.services;
 
+import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
@@ -63,6 +64,11 @@ public class UserServiceImpl implements UserService{
         } else {
             throw new NoSuchElementException();
         }
+    }
+
+    @Override
+    public void updateUserAddress(String id, Address address) {
+        userRepository.updateUserAddressById(id, address);
     }
 
     @Override
