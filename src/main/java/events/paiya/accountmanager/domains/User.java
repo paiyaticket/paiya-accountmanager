@@ -2,9 +2,13 @@ package events.paiya.accountmanager.domains;
 
 import events.paiya.accountmanager.enumerations.Gender;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document
@@ -25,6 +29,14 @@ public class User {
     private Address address;
     private List<FinancialOperationAccount> financialOperationAccounts;
     private boolean active;
+
+    // Auditing
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+    @Version
+    private Integer version;
 
     public void enableUser(){
         this.active = true;

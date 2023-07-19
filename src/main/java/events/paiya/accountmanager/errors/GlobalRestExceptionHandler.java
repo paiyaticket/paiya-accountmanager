@@ -1,5 +1,6 @@
 package events.paiya.accountmanager.errors;
 
+import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.resources.ApiErrorResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class GlobalRestExceptionHandler {
         return new ResponseEntity<>(apiErrorResource, apiErrorResource.getStatus());
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler({IllegalArgumentException.class, HttpMessageNotReadableException.class, UserAlreadyExistException.class})
     public ResponseEntity<Object> handleBadParameter(Exception ex){
         ApiErrorResource apiErrorResource = new ApiErrorResource("paiya.internal.error.message",
                 ex.getMessage(), HttpStatus.BAD_REQUEST, null);
