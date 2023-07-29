@@ -11,7 +11,6 @@ import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/users")
-@Log4j2
 public class UserController {
     private final UserService userService;
 

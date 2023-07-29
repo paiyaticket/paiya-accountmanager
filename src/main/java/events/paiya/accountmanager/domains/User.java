@@ -27,7 +27,7 @@ public class User {
     private String phoneNumber;
     private Organizer organizer;
     private Address address;
-    private List<FinancialOperationAccount> financialOperationAccounts;
+    private List<FinancialAccount> financialAccounts;
     private boolean active;
 
     // Auditing

@@ -1,10 +1,9 @@
 package events.paiya.accountmanager.domains;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
-public class BankOperationAccount extends FinancialOperationAccount {
+@Data
+public class BankAccount{
     private String banqueCode;
     private String counterNumber;
     private String accountNumber;

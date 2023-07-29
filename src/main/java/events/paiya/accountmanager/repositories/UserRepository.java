@@ -19,5 +19,6 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     @Query("{'_id': ?0}")
     @Update("{'$set' : {'address' : ?1} }")
-    void updateUserAddressById(String id, Address address);
+    void updateUserAddressById(String userId, Address address);
+
 }
