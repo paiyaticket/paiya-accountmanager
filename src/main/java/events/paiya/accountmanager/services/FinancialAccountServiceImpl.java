@@ -40,7 +40,8 @@ public class FinancialAccountServiceImpl implements FinancialAccountService{
 
     @Override
     public FinancialAccount changeDefaultFinancialAccountByUserId(String userId, String financialAccountId) {
-        this.financialAccountRepository.unDefaultFinancialAccountByUserId(userId);
+        if (this.hasFinancialAccounts(userId))
+            this.financialAccountRepository.unDefaultFinancialAccountByUserId(userId);
         this.financialAccountRepository.defaultFinancialAccountByUserId(userId, financialAccountId);
         return this.financialAccountRepository.findFinancialAccountById(userId, financialAccountId);
     }
