@@ -1,0 +1,351 @@
+{
+	"info": {
+		"_postman_id": "e8d23ada-cef1-44de-91cf-f05b2cf4e007",
+		"name": "accountmanager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6243970"
+	},
+	"item": [
+		{
+			"name": "user-create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lastname\": \"Johny\",\n    \"firstname\": \"Lafleur\",\n    \"email\": \"johnylafleur@gmail.com\",\n    \"gender\": \"MAN\",\n    \"phoneNumber\": \"0748286946\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-by-id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64bf0274b5ede8081c9d1654",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64bf0274b5ede8081c9d1654"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lastname\": \"Johny\",\n    \"firstname\": \"LaFleur\",\n    \"email\": \"johnylafleur@gmail.com\",\n    \"gender\": \"MAN\",\n    \"phoneNumber\": \"+2250707286946\",\n    \"active\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64b8403de922547345031178",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64b8403de922547345031178"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64bf3ff3ffd5841844de2563",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64bf3ff3ffd5841844de2563"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-liste-paginated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/paginated?page=1&size=2",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-update-address",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"country\": {\n        \"name\" : \"Côte d'ivoire\",\n        \"code\" : \"CIV\"\n    },\n    \"city\": \"Abidjan\",\n    \"state\": \"Abidjan\",\n    \"postal\": \"\",\n    \"addressDetail\": \"Cocody Angré, carrefour Mahou, rue L345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64b74be903972b21cdd0f620/address",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64b74be903972b21cdd0f620",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-mobile-money-create",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"financialAccountType\": \"MOBILE_MONEY\",\n    \"isDefault\": true,\n    \"mobileMoneyAccount\": {\n        \"countryPrefixNumber\": \"+225\",\n        \"phoneNumber\": \"0707254515\",\n        \"provider\": \"orange_ci\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64c26568db986522f84f0785/financial-accounts",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64c26568db986522f84f0785",
+						"financial-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-card-create",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"financialAccountType\": \"CREDIT_CARD\",\n    \"isDefault\": true,\n    \"creditCardAccount\": {\n        \"cardNumber\": \"45123-21543-48756-00012\",\n        \"expirationDate\": \"2026-07-07\",\n        \"securityCode\": \"315\",\n        \"provider\": \"MASTERCARD\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64bf68990dce0d352044f90d/financial-accounts",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64bf68990dce0d352044f90d",
+						"financial-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-bank-create",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"financialAccountType\": \"CREDIT_CARD\",\n    \"isDefault\": true,\n    \"creditCardAccount\": {\n        \"cardNumber\": \"45123-21543-48756-00012\",\n        \"expirationDate\": \"2026-07-07\",\n        \"securityCode\": \"315\",\n        \"provider\": \"MASTERCARD\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64bf68990dce0d352044f90d/financial-accounts",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64bf68990dce0d352044f90d",
+						"financial-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-financial-accounts-list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64bf68990dce0d352044f90d/financial-accounts",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64bf68990dce0d352044f90d",
+						"financial-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-financial-accounts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseurl}}/v1/users/64bf68990dce0d352044f90d/financial-accounts?financialAccountId",
+					"protocol": "http",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"v1",
+						"users",
+						"64bf68990dce0d352044f90d",
+						"financial-accounts"
+					],
+					"query": [
+						{
+							"key": "financialAccountId",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "localhost:8008/paiya-accountmanager",
+			"type": "string"
+		}
+	]
+}
