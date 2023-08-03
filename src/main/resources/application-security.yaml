@@ -1,13 +1,13 @@
 server:
   port: 8008
   servlet:
-    context-path: /paiya-accountmanager
+    context-path: /paiya-accountmanager/api/
 
-# Database
 spring:
+# Database
   data:
     mongodb:
-#      uri: "mongodb://admin:admin@localhost:27017/paiya_accountmanager"
+      # uri: "mongodb://admin:admin@localhost:27017/paiya_accountmanager"
       host: localhost
       port: 27017
       database: paiya_accountmanager
@@ -19,4 +19,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_erJ65vjbu/
+          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_erJ65vjbu
