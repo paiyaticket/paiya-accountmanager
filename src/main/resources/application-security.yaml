@@ -20,3 +20,4 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_erJ65vjbu
+          jwk-set-uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_erJ65vjbu/.well-known/jwks.json
