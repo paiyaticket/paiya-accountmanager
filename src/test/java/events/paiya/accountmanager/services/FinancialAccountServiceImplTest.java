@@ -1,5 +1,6 @@
 package events.paiya.accountmanager.services;
 
+import events.paiya.accountmanager.configs.ApiSecurityConfig;
 import events.paiya.accountmanager.domains.FinancialAccount;
 import events.paiya.accountmanager.domains.MobileMoneyAccount;
 import events.paiya.accountmanager.domains.User;
@@ -13,16 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles(value = "dev")
+@ContextConfiguration(classes = ApiSecurityConfig.class)
 class FinancialAccountServiceImplTest {
 
     private final String USER_ID = "64acee0e2162f374bd198208";
@@ -30,9 +29,6 @@ class FinancialAccountServiceImplTest {
     private FinancialAccountRepository financialAccountRepository;
     @Mock
     private UserServiceImpl userService;
-
-    @MockBean
-    private JwtDecoder jwtDecoder;
 
     @InjectMocks
     private FinancialAccountServiceImpl financialAccountService;

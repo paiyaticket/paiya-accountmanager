@@ -1,5 +1,6 @@
 package events.paiya.accountmanager.services;
 
+import events.paiya.accountmanager.configs.ApiSecurityConfig;
 import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
@@ -14,11 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -26,13 +25,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles(value = "dev")
+@ContextConfiguration(classes = ApiSecurityConfig.class)
 class UserServiceTest {
     private final String USER_ID = "64acee0e2162f374bd198208";
     @Mock
     private UserRepository userRepository;
-    @MockBean
-    private JwtDecoder jwtDecoder;
     @InjectMocks
     private UserServiceImpl userService;
 
