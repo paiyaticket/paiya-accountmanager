@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/v1/financial-accounts")
 @Log4j2
 public class FinancialAccountController {
     private final FinancialAccountService financialAccountService;
@@ -24,43 +24,43 @@ public class FinancialAccountController {
         this.financialAccountMapper = financialAccountMapper;
     }
 
-    @PutMapping("/{id}/financial-accounts")
-    public ResponseEntity<List<FinancialAccountResource>> addFinancialAccountByUserId(@PathVariable String id,
+    @GetMapping ()
+    public ResponseEntity<List<FinancialAccountResource>> findAllFinancialAccountByUserId(@RequestParam(name = "userId") String userId){
+        List<FinancialAccount> financialAccounts = financialAccountService.findAllFinancialAccountByUserId(userId);
+        List<FinancialAccountResource> financialAccountResources = financialAccountMapper.toResourceList(financialAccounts);
+        return ResponseEntity.ok(financialAccountResources);
+    }
+
+    @PutMapping()
+    public ResponseEntity<List<FinancialAccountResource>> addFinancialAccountByUserId(@RequestParam String userId,
                                                                                       @RequestBody @Valid FinancialAccountResource financialAccountResource){
         FinancialAccount financialAccount = financialAccountMapper.toEntity(financialAccountResource);
-        List<FinancialAccount> financialAccounts = financialAccountService.addFinancialAccountByUserId(id, financialAccount);
+        List<FinancialAccount> financialAccounts = financialAccountService.addFinancialAccountByUserId(userId, financialAccount);
         List<FinancialAccountResource> financialAccountResources = financialAccountMapper.toResourceList(financialAccounts);
         return ResponseEntity.ok(financialAccountResources);
     }
 
-    @DeleteMapping ("/{id}/financial-accounts")
-    public ResponseEntity<List<FinancialAccountResource>> removeFinancialAccountByUserId(@PathVariable String id,
+    @DeleteMapping ()
+    public ResponseEntity<List<FinancialAccountResource>> removeFinancialAccountByUserId(@RequestParam String userId,
                                                                                          @RequestParam String financialAccountId){
-        List<FinancialAccount> financialAccounts = financialAccountService.removeFinancialAccountByUserId(id, financialAccountId);
+        List<FinancialAccount> financialAccounts = financialAccountService.removeFinancialAccountByUserId(userId, financialAccountId);
         List<FinancialAccountResource> financialAccountResources = financialAccountMapper.toResourceList(financialAccounts);
         return ResponseEntity.ok(financialAccountResources);
     }
 
-    @PutMapping("/{id}/financial-accounts/default")
-    public ResponseEntity<FinancialAccountResource> changeDefaultFinancialAccountByUserId(@PathVariable String id,
+    @PutMapping("/default")
+    public ResponseEntity<FinancialAccountResource> changeDefaultFinancialAccountByUserId(@RequestParam String userId,
                                                                                           @RequestParam String financialAccountId){
-        FinancialAccount financialAccount = this.financialAccountService.changeDefaultFinancialAccountByUserId(id, financialAccountId);
+        FinancialAccount financialAccount = this.financialAccountService.changeDefaultFinancialAccountByUserId(userId, financialAccountId);
         FinancialAccountResource financialAccountResource = this.financialAccountMapper.toResource(financialAccount);
         return ResponseEntity.ok(financialAccountResource);
     }
 
-    @GetMapping("/{id}/financial-accounts/default")
-    public ResponseEntity<FinancialAccountResource> findDefaultFinancialAccountByUserId(@PathVariable String id){
-        FinancialAccount financialAccount = this.financialAccountService.findDefaultFinancialAccountByUserId(id);
+    @GetMapping("/default")
+    public ResponseEntity<FinancialAccountResource> findDefaultFinancialAccountByUserId(@RequestParam String userId){
+        FinancialAccount financialAccount = this.financialAccountService.findDefaultFinancialAccountByUserId(userId);
         FinancialAccountResource financialAccountResource = this.financialAccountMapper.toResource(financialAccount);
         return ResponseEntity.ok(financialAccountResource);
-    }
-
-    @GetMapping ("/{id}/financial-accounts")
-    public ResponseEntity<List<FinancialAccountResource>> findAllFinancialAccountByUserId(@PathVariable String id){
-        List<FinancialAccount> financialAccounts = financialAccountService.findAllFinancialAccountByUserId(id);
-        List<FinancialAccountResource> financialAccountResources = financialAccountMapper.toResourceList(financialAccounts);
-        return ResponseEntity.ok(financialAccountResources);
     }
 
 }

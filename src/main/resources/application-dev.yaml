@@ -1,7 +1,7 @@
 server:
   port: 8008
   servlet:
-    context-path: /paiya-accountmanager
+    context-path: /paiya-accountmanager/api/
 
 # Database
 spring:
