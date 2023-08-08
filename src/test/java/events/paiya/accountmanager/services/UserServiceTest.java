@@ -14,8 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.Assert;
 
@@ -29,7 +31,8 @@ class UserServiceTest {
     private final String USER_ID = "64acee0e2162f374bd198208";
     @Mock
     private UserRepository userRepository;
-
+    @MockBean
+    private JwtDecoder jwtDecoder;
     @InjectMocks
     private UserServiceImpl userService;
 

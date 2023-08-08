@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
@@ -28,6 +30,9 @@ class FinancialAccountServiceImplTest {
     private FinancialAccountRepository financialAccountRepository;
     @Mock
     private UserServiceImpl userService;
+
+    @MockBean
+    private JwtDecoder jwtDecoder;
 
     @InjectMocks
     private FinancialAccountServiceImpl financialAccountService;
