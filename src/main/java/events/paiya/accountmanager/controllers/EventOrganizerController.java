@@ -1,0 +1,73 @@
+package events.paiya.accountmanager.controllers;
+
+import events.paiya.accountmanager.domains.EventOrganizer;
+import events.paiya.accountmanager.domains.OrganizationMember;
+import events.paiya.accountmanager.mappers.EventOrganizerMapper;
+import events.paiya.accountmanager.resources.EventOrganizerResource;
+import events.paiya.accountmanager.services.EventOrganizerServiceImpl;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/v1/event-organizers")
+@Log4j2
+public class EventOrganizerController {
+
+    private final EventOrganizerServiceImpl eventOrganizerService;
+    private final EventOrganizerMapper eventOrganizerMapper;
+
+    public EventOrganizerController(EventOrganizerServiceImpl eventOrganizerService, EventOrganizerMapper eventOrganizerMapper) {
+        this.eventOrganizerService = eventOrganizerService;
+        this.eventOrganizerMapper = eventOrganizerMapper;
+    }
+
+    @PostMapping
+    public ResponseEntity<EventOrganizerResource> create(@RequestBody EventOrganizerResource eventOrganizerResource){
+        EventOrganizer eventOrganizer = eventOrganizerMapper.toEntity(eventOrganizerResource);
+        eventOrganizer = eventOrganizerService.create(eventOrganizer);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id){
+        eventOrganizerService.delete(id);
+        return (ResponseEntity<?>) ResponseEntity.ok();
+    }
+
+    @GetMapping()
+    public ResponseEntity<EventOrganizerResource> findByName(@RequestParam(value = "name") String name) {
+        EventOrganizer eventOrganizer = eventOrganizerService.findByName(name);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @GetMapping()
+    public ResponseEntity<EventOrganizerResource> findByEmail(@RequestParam(value = "email") String email) {
+        EventOrganizer eventOrganizer = eventOrganizerService.findByEmail(email);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @GetMapping
+    public ResponseEntity<EventOrganizerResource> findByCreatedBy(@RequestParam(value = "userEmail") String userEmail) {
+        EventOrganizer eventOrganizer = eventOrganizerService.findByCreatedBy(userEmail);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @PutMapping("/add-member")
+    public ResponseEntity<EventOrganizerResource> addMemberByEoId(@RequestParam(value = "eventOrganizerId") String eventOrganizerId,
+                                                                  @RequestBody List<OrganizationMember> organizationMemberList) {
+        // eventOrganizerService.addMemberByEoId(eventOrganizerId, organizationMemberList);
+        EventOrganizer eventOrganizer = eventOrganizerService.findById(eventOrganizerId);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @PutMapping()
+    public ResponseEntity<EventOrganizerResource> removeMemberByEoId(@RequestParam(value = "eventOrganizerId") String eventOrganizerId,
+                                                                     @RequestBody List<OrganizationMember> organizationMemberList) {
+        // eventOrganizerService.addMemberByEoId(eventOrganizerId, organizationMemberList);
+        EventOrganizer eventOrganizer = eventOrganizerService.findById(eventOrganizerId);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+}

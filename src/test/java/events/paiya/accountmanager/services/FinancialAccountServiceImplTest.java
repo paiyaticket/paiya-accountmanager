@@ -4,7 +4,7 @@ import events.paiya.accountmanager.configs.ApiSecurityConfig;
 import events.paiya.accountmanager.domains.FinancialAccount;
 import events.paiya.accountmanager.domains.MobileMoneyAccount;
 import events.paiya.accountmanager.domains.User;
-import events.paiya.accountmanager.domains.projections.UserFinancialAccount;
+import events.paiya.accountmanager.domains.UserFinancialAccount;
 import events.paiya.accountmanager.enumerations.FinancialAccountType;
 import events.paiya.accountmanager.repositories.FinancialAccountRepository;
 import org.junit.jupiter.api.Assertions;

@@ -2,6 +2,7 @@ package events.paiya.accountmanager.repositories;
 
 import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
+import events.paiya.accountmanager.domains.projections.OrganizationMemberProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<User, String> {
     List<User> findAllByActiveIsTrue();
+
+    List<OrganizationMemberProjection> findUserByEmailIn(List<String> userEmailList);
     Page<User> findAllByActiveIsTrue(Pageable pageable);
     Optional<User> findUserByIdAndActiveIsTrue(String id);
     boolean existsByEmailAndActiveIsTrue(String email);

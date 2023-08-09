@@ -25,7 +25,6 @@ public class User {
     private String email;
     private Gender gender;
     private String phoneNumber;
-    private Organizer organizer;
     private Address address;
     private List<FinancialAccount> financialAccounts;
     private boolean active;

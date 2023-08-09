@@ -1,7 +1,7 @@
 package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.domains.FinancialAccount;
-import events.paiya.accountmanager.domains.projections.UserFinancialAccount;
+import events.paiya.accountmanager.domains.UserFinancialAccount;
 import events.paiya.accountmanager.repositories.FinancialAccountRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
