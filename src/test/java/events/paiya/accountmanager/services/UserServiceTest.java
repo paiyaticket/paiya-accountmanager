@@ -1,6 +1,6 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.ApiSecurityConfig;
+import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = ApiSecurityConfig.class)
+@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class UserServiceTest {
     private final String USER_ID = "64acee0e2162f374bd198208";
     @Mock

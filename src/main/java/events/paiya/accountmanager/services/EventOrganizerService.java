@@ -12,15 +12,13 @@ public interface EventOrganizerService {
 
     EventOrganizer findById(String eventOrganizerId);
 
-    EventOrganizer findByName(String name);
+    List<EventOrganizer> findByOrganizationMembersEmail(String email);
 
-    EventOrganizer findByEmail(String email);
-
-    EventOrganizer findByCreatedBy(String userEmail);
+    List<EventOrganizer> findByCreatedBy(String userEmail);
 
     EventOrganizer addMemberToEventOrganizer(String eventOrganizerId, List<String> userEmailList);
 
     EventOrganizer removeMemberFromEventOrganizer(String eventOrganizerId, List<String> userEmailList);
 
-    void updateEventOrganizer(String eventOrganizerId, EventOrganizer eventOrganizer);
+    EventOrganizer updateEventOrganizer(String eventOrganizerId, EventOrganizer eventOrganizer);
 }

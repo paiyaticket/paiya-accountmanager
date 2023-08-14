@@ -1,6 +1,6 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.ApiSecurityConfig;
+import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.FinancialAccount;
 import events.paiya.accountmanager.domains.MobileMoneyAccount;
 import events.paiya.accountmanager.domains.User;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = ApiSecurityConfig.class)
+@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class FinancialAccountServiceImplTest {
 
     private final String USER_ID = "64acee0e2162f374bd198208";

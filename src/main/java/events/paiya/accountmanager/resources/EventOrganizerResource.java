@@ -15,7 +15,8 @@ public class EventOrganizerResource {
     private String id;
     private String name;
     private String email;
-    private List<String> phoneNumber;
+    private List<String> phoneNumbers;
     private Map<String, String> socialLinks;
     private List<OrganizationMember> organizationMembers;
+    private String createdBy;
 }

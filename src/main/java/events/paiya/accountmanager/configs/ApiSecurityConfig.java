@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -20,6 +18,7 @@ public class ApiSecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v1/financial-accounts/**").hasAuthority("SCOPE_paiya_amrs/user_financials")
                         .requestMatchers("/v1/users/**").hasAuthority("SCOPE_paiya_amrs/user_info")
+                        .requestMatchers("/v1/event-organizers/**").hasAuthority("SCOPE_paiya_amrs/user_info")
                         .requestMatchers("/v1/**").hasAuthority("SCOPE_paiya_amrs/alldata")
                         .anyRequest().authenticated());
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
@@ -29,11 +28,6 @@ public class ApiSecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder(){
-        return new JwtDecoder() {
-            @Override
-            public Jwt decode(String token) throws JwtException {
-                return null;
-            }
-        };
+        return token -> null;
     }
 }

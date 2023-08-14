@@ -15,7 +15,8 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository<User, String> {
     List<User> findAllByActiveIsTrue();
 
-    List<OrganizationMemberProjection> findUserByEmailIn(List<String> userEmailList);
+    @Query("{'email' : {'$in' : ?0}}")
+    List<OrganizationMemberProjection> findByEmailIn(String[] userEmailList);
     Page<User> findAllByActiveIsTrue(Pageable pageable);
     Optional<User> findUserByIdAndActiveIsTrue(String id);
     boolean existsByEmailAndActiveIsTrue(String email);

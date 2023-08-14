@@ -41,18 +41,13 @@ public class EventOrganizerServiceImpl implements EventOrganizerService{
     }
 
     @Override
-    public EventOrganizer findByName(String name) {
-        return eventOrganizerRepository.findByName(name).orElseThrow();
+    public List<EventOrganizer> findByOrganizationMembersEmail(String email) {
+        return eventOrganizerRepository.findByOrganizationMembersEmail(email);
     }
 
     @Override
-    public EventOrganizer findByEmail(String email) {
-        return eventOrganizerRepository.findByEmail(email).orElseThrow();
-    }
-
-    @Override
-    public EventOrganizer findByCreatedBy(String userEmail) {
-        return eventOrganizerRepository.findByCreatedBy(userEmail).orElseThrow();
+    public List<EventOrganizer> findByCreatedBy(String userEmail) {
+        return eventOrganizerRepository.findByCreatedBy(userEmail);
     }
 
     @Override
@@ -71,15 +66,24 @@ public class EventOrganizerServiceImpl implements EventOrganizerService{
         return eventOrganizerRepository.save(eventOrganizer);
     }
 
-
-    //TODO : Ecrire le processus de mise a jour d'un EventOrganiizer
     @Override
-    public void updateEventOrganizer(String eventOrganizerId, EventOrganizer eventOrganizer) {
+    public EventOrganizer updateEventOrganizer(String eventOrganizerId, EventOrganizer eventOrganizer) {
+        EventOrganizer eventOrganizerToUpdate = this.findById(eventOrganizerId);
+        if (eventOrganizer.getName()!=null && !eventOrganizer.getName().isBlank() && !eventOrganizer.getName().equals(eventOrganizerToUpdate.getName()))
+            eventOrganizerToUpdate.setName(eventOrganizer.getName());
+        if (eventOrganizer.getEmail()!=null && !eventOrganizer.getEmail().isBlank() && !eventOrganizer.getEmail().equals(eventOrganizerToUpdate.getEmail()))
+            eventOrganizerToUpdate.setEmail(eventOrganizer.getEmail());
+        if (eventOrganizer.getPhoneNumbers()!=null && !eventOrganizer.getPhoneNumbers().isEmpty() && !eventOrganizer.getPhoneNumbers().equals(eventOrganizerToUpdate.getPhoneNumbers()))
+            eventOrganizerToUpdate.setPhoneNumbers(eventOrganizer.getPhoneNumbers());
+        if (eventOrganizer.getSocialLinks()!=null && !eventOrganizer.getSocialLinks().isEmpty() && !eventOrganizer.getSocialLinks().equals(eventOrganizerToUpdate.getSocialLinks()))
+            eventOrganizerToUpdate.setSocialLinks(eventOrganizer.getSocialLinks());
 
+        return eventOrganizerRepository.save(eventOrganizerToUpdate);
     }
 
     private List<OrganizationMember> findOrganizationMemberByEmailList(List<String> userEmailList){
-        List<OrganizationMemberProjection> organizationMemberProjectionList= userRepository.findUserByEmailIn(userEmailList);
+        String[] userEmailArray = userEmailList.toArray(new String[0]);
+        List<OrganizationMemberProjection> organizationMemberProjectionList= userRepository.findByEmailIn(userEmailArray);
         return organizationMemberProjectionMapper.toEntityList(organizationMemberProjectionList);
     }
 }
