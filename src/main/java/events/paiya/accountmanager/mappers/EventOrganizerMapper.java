@@ -15,6 +15,6 @@ public interface EventOrganizerMapper {
     EventOrganizer toEntity(EventOrganizerResource eventOrganizerResource);
     EventOrganizerResource toResource(EventOrganizer eventOrganizer);
 
-    List<EventOrganizer> toEntityList(List<EventOrganizerResource> eventOrganizerResourceList);
+    // List<EventOrganizer> toEntityList(List<EventOrganizerResource> eventOrganizerResourceList);
     List<EventOrganizerResource> toResourceList(List<EventOrganizer> eventOrganizerList);
 }

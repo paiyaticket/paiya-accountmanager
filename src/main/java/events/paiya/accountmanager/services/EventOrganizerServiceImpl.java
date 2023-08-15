@@ -9,6 +9,7 @@ import events.paiya.accountmanager.repositories.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class EventOrganizerServiceImpl implements EventOrganizerService{
@@ -37,7 +38,8 @@ public class EventOrganizerServiceImpl implements EventOrganizerService{
 
     @Override
     public EventOrganizer findById(String eventOrganizerId) {
-        return eventOrganizerRepository.findById(eventOrganizerId).orElseThrow();
+        Optional<EventOrganizer> opt = eventOrganizerRepository.findById(eventOrganizerId);
+        return opt.orElseThrow();
     }
 
     @Override

@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +25,10 @@ public class EventOrganizer {
     private String name;
     private String email;
     private List<String> phoneNumbers;
-    private Map<String, String> socialLinks;
-    private List<OrganizationMember> organizationMembers;
+    @Builder.Default
+    private Map<String, String> socialLinks = new HashMap<>();
+    @Builder.Default
+    private List<OrganizationMember> organizationMembers = new ArrayList<>();
 
 
     // Auditing
