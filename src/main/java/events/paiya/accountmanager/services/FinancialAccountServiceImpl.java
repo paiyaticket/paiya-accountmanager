@@ -1,16 +1,14 @@
 package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.domains.FinancialAccount;
-import events.paiya.accountmanager.domains.projections.UserFinancialAccount;
+import events.paiya.accountmanager.domains.UserFinancialAccount;
 import events.paiya.accountmanager.repositories.FinancialAccountRepository;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
 @Component
-@Log4j2
 public class FinancialAccountServiceImpl implements FinancialAccountService{
 
     private final FinancialAccountRepository financialAccountRepository;

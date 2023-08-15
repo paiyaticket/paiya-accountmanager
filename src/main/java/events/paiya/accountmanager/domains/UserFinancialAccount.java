@@ -1,6 +1,5 @@
-package events.paiya.accountmanager.domains.projections;
+package events.paiya.accountmanager.domains;
 
-import events.paiya.accountmanager.domains.FinancialAccount;
 import lombok.Builder;
 import lombok.Data;
 

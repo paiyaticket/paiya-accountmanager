@@ -2,7 +2,7 @@ package events.paiya.accountmanager.repositories;
 
 import events.paiya.accountmanager.domains.FinancialAccount;
 import events.paiya.accountmanager.domains.User;
-import events.paiya.accountmanager.domains.projections.UserFinancialAccount;
+import events.paiya.accountmanager.domains.UserFinancialAccount;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.Update;

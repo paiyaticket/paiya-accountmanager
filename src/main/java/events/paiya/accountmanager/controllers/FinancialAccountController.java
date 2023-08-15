@@ -5,7 +5,6 @@ import events.paiya.accountmanager.mappers.FinancialAccountMapper;
 import events.paiya.accountmanager.resources.FinancialAccountResource;
 import events.paiya.accountmanager.services.FinancialAccountService;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/financial-accounts")
-@Log4j2
 public class FinancialAccountController {
     private final FinancialAccountService financialAccountService;
     private final FinancialAccountMapper financialAccountMapper;
