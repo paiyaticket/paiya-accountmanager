@@ -6,12 +6,13 @@ import lombok.*;
 import java.util.List;
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class EventOrganizerResource {
+public class EventOrganizerResource extends BaseResource{
     private String id;
     private String name;
     private String email;

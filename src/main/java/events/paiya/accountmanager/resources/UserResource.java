@@ -5,19 +5,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
 
-import java.time.LocalDateTime;
-
-
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class UserResource {
+public class UserResource extends BaseResource{
 
     private String id;
 
@@ -40,13 +35,5 @@ public class UserResource {
     private boolean active;
 
     private AddressResource address;
-
-    // Auditing
-    @CreatedDate
-    private LocalDateTime createdDate;
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
-    @Version
-    private Integer version;
 
 }
