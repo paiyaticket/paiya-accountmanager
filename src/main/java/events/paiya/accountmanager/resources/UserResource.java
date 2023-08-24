@@ -6,13 +6,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@EqualsAndHashCode(callSuper = true)
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-public class UserResource extends BaseResource{
+public class UserResource{
 
     private String id;
 
@@ -35,5 +36,9 @@ public class UserResource extends BaseResource{
     private boolean active;
 
     private AddressResource address;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
+    private Integer version;
 
 }

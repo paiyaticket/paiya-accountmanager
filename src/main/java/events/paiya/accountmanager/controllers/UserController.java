@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -58,8 +59,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResource> createUser(@Valid @RequestBody User user) throws UserAlreadyExistException {
+    public ResponseEntity<UserResource> createUser(@Valid @RequestBody UserResource userResource) throws UserAlreadyExistException {
         URI uri = URI.create("/v1/users");
+        if (!"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+            userResource.setId(userId);
+        }
+        User user = userMapper.userResourceToUser(userResource);
         User createdUser = this.userService.createUser(user);
         return ResponseEntity.created(uri).body(userMapper.userToUserResource(createdUser));
     }
