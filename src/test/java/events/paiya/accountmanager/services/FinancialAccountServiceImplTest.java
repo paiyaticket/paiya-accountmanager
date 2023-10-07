@@ -5,6 +5,7 @@ import events.paiya.accountmanager.domains.FinancialAccount;
 import events.paiya.accountmanager.domains.MobileMoneyAccount;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.domains.UserFinancialAccount;
+import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
 import events.paiya.accountmanager.repositories.FinancialAccountRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -125,7 +126,7 @@ class FinancialAccountServiceImplTest {
 
     private FinancialAccount buildFinancialAccount(){
         return FinancialAccount.builder().id(UUID.randomUUID().toString())
-                .mobileMoneyAccount(new MobileMoneyAccount("+225", "0745424117", "orange_ci"))
+                .mobileMoneyAccount(new MobileMoneyAccount("+225", "0745424117", MobileMoneyProvider.WAVE_CI))
                 .build();
     }
 }
