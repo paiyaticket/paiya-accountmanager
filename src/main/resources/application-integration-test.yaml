@@ -1,7 +1,7 @@
 server:
-  port: 8008
+  port: 8011
   servlet:
-    context-path: /paiya-accountmanager/api/
+    context-path: /paiya-transactionmanager/api
 
 # Database
 spring:
@@ -12,3 +12,6 @@ spring:
       database: paiya_accountmanager
       username: ${PAIYA_DB_USERNAME:paiya}
       password: ${PAIYA_DB_PASSWORD:paiya}
+  cloud:
+    config:
+      enabled: false
