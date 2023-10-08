@@ -10,6 +10,6 @@ et toutes leurs information personelles.
 * Un compte utilisateur est soit de type Promoteur, soit de type Participant;
 
 **Compte financier**
-* Un utilisateur peut avoir un ou plusieurs compte financier (FinancialAccount);
-* Un compte utilisateur a un seul compte finanicer par defaut
+* Un utilisateur peut avoir un ou plusieurs comptes financier (FinancialAccount);
+* Un compte utilisateur a un seul compte finanicer par defaut;
 
