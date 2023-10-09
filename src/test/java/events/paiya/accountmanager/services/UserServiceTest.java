@@ -1,7 +1,6 @@
 package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
-import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
@@ -83,22 +82,15 @@ class UserServiceTest {
 
     @Test
     void givenIdAndUser_whenExist_thenUpdate() {
-        Mockito.when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(this.buildUser()));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(this.buildUserUpdate());
 
-        User updateUser = userService.updateUser(USER_ID, this.buildUserUpdate());
+        User updateUser = userService.updateUser(this.buildUserUpdate());
 
         Assert.notNull(updateUser, "User is null");
         Assertions.assertEquals(updateUser.getId(), USER_ID);
         Assertions.assertEquals(updateUser.getFirstname(), "Johnnas");
     }
 
-    @Test
-    void userUpdateAddress(){
-        Mockito.doNothing().when(userRepository).updateUserAddressById(Mockito.anyString(), Mockito.any(Address.class));
-        userService.updateUserAddress(USER_ID, new Address());
-        Mockito.verify(userRepository, Mockito.times(1)).updateUserAddressById(USER_ID, new Address());
-    }
 
     @Test
     void deleteUser() {

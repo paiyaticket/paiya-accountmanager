@@ -1,6 +1,5 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
@@ -50,25 +49,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUser(String userId, User user) {
-        Optional<User> userOptional = this.userRepository.findById(userId);
-        if (userOptional.isPresent()){
-            User oldUser = userOptional.get();
-            if (!user.getFirstname().equals(oldUser.getFirstname())) oldUser.setFirstname(user.getFirstname());
-            if (!user.getLastname().equals(oldUser.getLastname())) oldUser.setLastname(user.getLastname());
-            if (!user.getEmail().equals(oldUser.getEmail())) oldUser.setEmail(user.getEmail());
-            if (!user.getGender().equals(oldUser.getGender())) oldUser.setGender(user.getGender());
-            if (!user.getPhoneNumber().equals(oldUser.getPhoneNumber())) oldUser.setPhoneNumber(user.getPhoneNumber());
-            if (!user.isActive() == oldUser.isActive()) oldUser.setActive(user.isActive());
-            return this.userRepository.save(oldUser);
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
-
-    @Override
-    public void updateUserAddress(String id, Address address) {
-        userRepository.updateUserAddressById(id, address);
+    public User updateUser(User user) {
+        return this.userRepository.save(user);
     }
 
     @Override
@@ -90,6 +72,11 @@ public class UserServiceImpl implements UserService{
         } else {
             throw new NoSuchElementException();
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 
 }

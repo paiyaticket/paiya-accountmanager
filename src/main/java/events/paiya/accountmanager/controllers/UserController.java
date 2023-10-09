@@ -1,11 +1,8 @@
 package events.paiya.accountmanager.controllers;
 
-import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
-import events.paiya.accountmanager.mappers.AddressMapper;
 import events.paiya.accountmanager.mappers.UserMapper;
-import events.paiya.accountmanager.resources.AddressResource;
 import events.paiya.accountmanager.resources.UserResource;
 import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
@@ -27,19 +24,35 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserController {
     private final UserService userService;
-
     private final UserMapper userMapper;
-    private final AddressMapper addressMapper;
-    private UserController(UserServiceImpl userService, UserMapper userMapper, AddressMapper addressMapper){
+    public UserController(UserServiceImpl userService, UserMapper userMapper){
         this.userService = userService;
         this.userMapper = userMapper;
-        this.addressMapper = addressMapper;
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResource> createUser(@Valid @RequestBody UserResource userResource) throws UserAlreadyExistException {
+        URI uri = URI.create("/v1/users");
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                !"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+            userResource.setId(userId);
+        }
+        User user = userMapper.userResourceToUser(userResource);
+        User createdUser = this.userService.createUser(user);
+        return ResponseEntity.created(uri).body(userMapper.userToUserResource(createdUser));
     }
 
     @GetMapping
     public ResponseEntity<List<UserResource>> findAllUser(){
         return ResponseEntity.ok(this.userService.findAllUser()
                 .stream().map(userMapper::userToUserResource).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResource> findUserById(@PathVariable String id){
+        User user = this.userService.findByUserId(id);
+        return ResponseEntity.ok(userMapper.userToUserResource(user));
     }
 
     @GetMapping("/paginated")
@@ -52,40 +65,19 @@ public class UserController {
         return ResponseEntity.ok().headers(httpHeaders).body(userResourceList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResource> findUserById(@PathVariable String id){
-        User user = this.userService.findByUserId(id);
-        return ResponseEntity.ok(userMapper.userToUserResource(user));
-    }
 
-    @PostMapping
-    public ResponseEntity<UserResource> createUser(@Valid @RequestBody UserResource userResource) throws UserAlreadyExistException {
-        URI uri = URI.create("/v1/users");
-        if (!"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())){
-            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            userResource.setId(userId);
-        }
-        User user = userMapper.userResourceToUser(userResource);
-        User createdUser = this.userService.createUser(user);
-        return ResponseEntity.created(uri).body(userMapper.userToUserResource(createdUser));
-    }
-
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody UserResource userResource){
-        User user = userMapper.userResourceToUser(userResource);
-        User updatedUser = this.userService.updateUser(id, user);
+        User user = userService.findByUserId(id);
+        userMapper.updateUserFromResource(userResource, user);
+        User updatedUser = this.userService.updateUser(user);
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
     }
-    @PutMapping("/{id}/address")
-    public ResponseEntity<UserResource> updateUserAddress(@PathVariable String id, @Valid @RequestBody AddressResource addressResource) {
-        Address address = addressMapper.addressResourceToAddress(addressResource);
-        this.userService.updateUserAddress(id, address);
-        return ResponseEntity.ok(userMapper.userToUserResource(this.userService.findByUserId(id)));
-    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id){
         this.userService.deleteUser(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/status")

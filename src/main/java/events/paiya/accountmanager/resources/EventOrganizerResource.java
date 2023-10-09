@@ -2,15 +2,14 @@ package events.paiya.accountmanager.resources;
 
 import events.paiya.accountmanager.domains.OrganizationMember;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@SuperBuilder
 @ToString
 public class EventOrganizerResource extends BaseResource{
     private String id;
