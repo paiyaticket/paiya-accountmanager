@@ -1,18 +1,19 @@
 package events.paiya.accountmanager.domains;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.Id;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class FinancialAccount {
+@SuperBuilder
+public abstract class FinancialAccount {
+    @Id
     private String id;
-    private Boolean isDefault;
-    private BankAccount bankAccount;
-    private CreditCardAccount creditCardAccount;
-    private MobileMoneyAccount mobileMoneyAccount;
+    @Builder.Default
+    private Boolean isDefault = false;
+    private String ownerId;
+
+    public FinancialAccount() {
+    }
 }

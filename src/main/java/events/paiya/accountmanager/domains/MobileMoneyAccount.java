@@ -1,15 +1,25 @@
 package events.paiya.accountmanager.domains;
 
 import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
-public class MobileMoneyAccount {
+@AllArgsConstructor
+public class MobileMoneyAccount extends FinancialAccount{
     private String countryPrefixNumber;
     private String phoneNumber;
     private MobileMoneyProvider mobileMoneyProvider;
+
+    @Override
+    public String toString() {
+        return "MobileMoneyAccount{" +
+                "countryPrefixNumber='" + countryPrefixNumber + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", mobileMoneyProvider=" + mobileMoneyProvider +
+                "} " + super.toString();
+    }
 }

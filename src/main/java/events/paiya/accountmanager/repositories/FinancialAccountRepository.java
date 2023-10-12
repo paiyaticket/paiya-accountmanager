@@ -1,14 +1,21 @@
 package events.paiya.accountmanager.repositories;
 
 import events.paiya.accountmanager.domains.FinancialAccount;
-import events.paiya.accountmanager.domains.User;
-import events.paiya.accountmanager.domains.UserFinancialAccount;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.mongodb.repository.Update;
 
-public interface FinancialAccountRepository extends MongoRepository<User, String> {
+import java.util.List;
+import java.util.Optional;
 
+public interface FinancialAccountRepository extends MongoRepository<FinancialAccount, String> {
+
+    List<FinancialAccount> findByOwnerId(String id);
+    Optional<FinancialAccount> findByOwnerIdAndIsDefault(String id, Boolean isDefault);
+    void deleteByOwnerId(String id);
+    void deleteAllByOwnerId(String id);
+
+
+
+    /*
     @Query("{'_id': ?0}")
     @Update("{'$push' : {'financialAccounts' : ?1} }")
     void addFinancialAccountByUserId(String userId, FinancialAccount financialAccount);
@@ -33,6 +40,6 @@ public interface FinancialAccountRepository extends MongoRepository<User, String
 
     @Query(value = "{'_id': ?0}", fields = "{'financialAccounts': 1}")
     UserFinancialAccount findAllFinancialAccountByUserId(String userId);
-
+    */
 
 }

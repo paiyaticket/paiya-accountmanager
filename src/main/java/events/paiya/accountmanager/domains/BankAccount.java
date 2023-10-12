@@ -1,13 +1,17 @@
 package events.paiya.accountmanager.domains;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class BankAccount{
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class BankAccount extends FinancialAccount{
     private String banqueCode;
-    private String counterNumber;
     private String accountNumber;
-    private String ribKey;
+    private String checkNumber;
     private String iban;
     private String bicSwift;
 }

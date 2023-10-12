@@ -1,12 +1,16 @@
 package events.paiya.accountmanager.resources;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-@Getter @Setter
+@Data
+@SuperBuilder
 public abstract class BaseResource {
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
     private Integer version;
+
+    public BaseResource() {
+    }
 }

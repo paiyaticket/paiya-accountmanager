@@ -5,14 +5,13 @@ import events.paiya.accountmanager.domains.FinancialAccount;
 import java.util.List;
 
 public interface FinancialAccountService {
-    List<FinancialAccount> addFinancialAccountByUserId(String userId, FinancialAccount financialAccount);
-
-    List<FinancialAccount> removeFinancialAccountByUserId(String userId, String financialAccountId);
-
-    FinancialAccount changeDefaultFinancialAccountByUserId(String userId, String financialAccountId);
-
-    FinancialAccount findDefaultFinancialAccountByUserId(String userId);
-
-    List<FinancialAccount> findAllFinancialAccountByUserId(String userId);
-
+    FinancialAccount findById(String id);
+    FinancialAccount create(FinancialAccount financialAccount);
+    FinancialAccount update(FinancialAccount financialAccount);
+    List<FinancialAccount> findByUserId(String id);
+    FinancialAccount findByUserIdAndIsDefault(String id, Boolean isDefault);
+    void deleteAllByOwnerId(String id);
+    void deleteByOwnerId(String id);
+    void deleteById(String id);
+    void deleteAll();
 }

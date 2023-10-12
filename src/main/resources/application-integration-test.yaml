@@ -3,8 +3,9 @@ server:
   servlet:
     context-path: /paiya-transactionmanager/api
 
-# Database
+
 spring:
+  # Database
   data:
     mongodb:
       host: localhost

@@ -1,23 +1,34 @@
 package events.paiya.accountmanager.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import events.paiya.accountmanager.domains.BankAccount;
-import events.paiya.accountmanager.domains.CreditCardAccount;
-import events.paiya.accountmanager.domains.MobileMoneyAccount;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import events.paiya.accountmanager.enumerations.FinancialAccountType;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FinancialAccountResource extends BaseResource{
+@JsonTypeInfo(
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        use = JsonTypeInfo.Id.NAME,
+        property = "financialAccountType",
+        visible = true
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value=BankAccountResource.class, name="BANK_ACCOUNT"),
+        @JsonSubTypes.Type(value= CardAccountResource.class, name="CARD"),
+        @JsonSubTypes.Type(value= MobileMoneyAccountResource.class, name="MOBILE_MONEY")
+})
+@SuperBuilder
+public abstract class FinancialAccountResource extends BaseResource{
     private String id;
     private FinancialAccountType financialAccountType;
     private Boolean isDefault;
-    private BankAccount bankAccount;
-    private CreditCardAccount creditCardAccount;
-    private MobileMoneyAccount mobileMoneyAccount;
+    private String ownerId;
+
+    public FinancialAccountResource() {
+    }
 }

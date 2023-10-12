@@ -2,12 +2,12 @@ package events.paiya.accountmanager.resources;
 
 import events.paiya.accountmanager.domains.Country;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
+@SuperBuilder
 public class AddressResource extends BaseResource{
     private Country country;
     private String city;
