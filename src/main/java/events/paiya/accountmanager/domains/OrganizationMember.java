@@ -1,19 +1,23 @@
 package events.paiya.accountmanager.domains;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Objects;
 
 @Data
 @Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrganizationMember {
     private String id;
     private String lastname;
     private String firstname;
     private String email;
-    private boolean isOrganizationOwner;
-    private boolean isAdmin;
+    @Builder.Default
+    private boolean isOrganizationOwner = false;
+    @Builder.Default
+    private boolean isAdmin = false;
 
     @Override
     public boolean equals(Object o) {

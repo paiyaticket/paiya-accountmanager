@@ -11,6 +11,8 @@ import java.util.Map;
 @Data
 @SuperBuilder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventOrganizerResource extends BaseResource{
     private String id;
     private String name;

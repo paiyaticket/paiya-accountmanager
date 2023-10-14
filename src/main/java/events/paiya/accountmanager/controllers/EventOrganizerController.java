@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,41 +28,55 @@ public class EventOrganizerController {
     public ResponseEntity<EventOrganizerResource> create(@Valid @RequestBody EventOrganizerResource eventOrganizerResource){
         EventOrganizer eventOrganizer = eventOrganizerMapper.toEntity(eventOrganizerResource);
         eventOrganizer = eventOrganizerService.create(eventOrganizer);
+        URI uri = URI.create("/v1/users/"+eventOrganizer.getId());
+        return ResponseEntity.created(uri).body(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EventOrganizerResource> findById(@PathVariable(name = "id") String id) {
+        EventOrganizer eventOrganizer = eventOrganizerService.findById(id);
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id){
-        eventOrganizerService.delete(id);
-        return (ResponseEntity<?>) ResponseEntity.ok();
+    @GetMapping()
+    public ResponseEntity<List<EventOrganizerResource>> findAll() {
+        List<EventOrganizer> eventOrganizers = eventOrganizerService.findAll();
+        return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizers));
     }
 
-    @GetMapping()
-    public ResponseEntity<List<EventOrganizerResource>> findByName(@RequestParam(value = "parameter", defaultValue = "createdBy") String parameter,
-                                                             @RequestParam(value = "value") String value) {
-        List<EventOrganizer> eventOrganizer = ("createdBy".equals(parameter)) ?
+    @GetMapping("/criteria")
+    public ResponseEntity<List<EventOrganizerResource>> findByName(@RequestParam(value = "parameter", defaultValue = "owner") String parameter,
+                                                                   @RequestParam(value = "value") String value) {
+        List<EventOrganizer> eventOrganizer = ("owner".equals(parameter)) ?
                 eventOrganizerService.findByCreatedBy(value) : eventOrganizerService.findByOrganizationMembersEmail(value);
         return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizer));
     }
 
-    @PutMapping("/add-member")
+    @PatchMapping("/add-members")
     public ResponseEntity<EventOrganizerResource> addMemberByEoId(@RequestParam(value = "eventOrganizerId") String eventOrganizerId,
                                                                   @RequestBody @NotNull List<String> organizationMemberList) {
         EventOrganizer eventOrganizer = eventOrganizerService.addMemberToEventOrganizer(eventOrganizerId, organizationMemberList);
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
-    @PutMapping("/remove-member")
+    @PatchMapping("/remove-members")
     public ResponseEntity<EventOrganizerResource> removeMemberByEoId(@RequestParam(value = "eventOrganizerId") String eventOrganizerId,
                                                                      @RequestBody List<String> organizationMemberList) {
         EventOrganizer eventOrganizer = eventOrganizerService.removeMemberFromEventOrganizer(eventOrganizerId, organizationMemberList);
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<EventOrganizerResource> update(@PathVariable String id, @RequestBody EventOrganizerResource eventOrganizerResource) {
-        EventOrganizer eventOrganizer = eventOrganizerMapper.toEntity(eventOrganizerResource);
-        EventOrganizer eventOrganizerUpdated = eventOrganizerService.updateEventOrganizer(id, eventOrganizer);
-        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizerUpdated));
+        EventOrganizer eventOrganizer = eventOrganizerService.findById(id);
+        eventOrganizerMapper.updateFromResource(eventOrganizerResource, eventOrganizer);
+        eventOrganizer = eventOrganizerService.updateEventOrganizer(eventOrganizer);
+        return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        eventOrganizerService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

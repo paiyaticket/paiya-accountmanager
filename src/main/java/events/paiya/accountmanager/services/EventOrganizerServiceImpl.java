@@ -6,6 +6,7 @@ import events.paiya.accountmanager.domains.projections.OrganizationMemberProject
 import events.paiya.accountmanager.mappers.projection.OrganizationMemberProjectionMapper;
 import events.paiya.accountmanager.repositories.EventOrganizerRepository;
 import events.paiya.accountmanager.repositories.UserRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,6 +49,11 @@ public class EventOrganizerServiceImpl implements EventOrganizerService{
     }
 
     @Override
+    public List<EventOrganizer> findAll() {
+        return eventOrganizerRepository.findAll(Sort.by("name"));
+    }
+
+    @Override
     public List<EventOrganizer> findByCreatedBy(String userEmail) {
         return eventOrganizerRepository.findByCreatedBy(userEmail);
     }
@@ -69,18 +75,13 @@ public class EventOrganizerServiceImpl implements EventOrganizerService{
     }
 
     @Override
-    public EventOrganizer updateEventOrganizer(String eventOrganizerId, EventOrganizer eventOrganizer) {
-        EventOrganizer eventOrganizerToUpdate = this.findById(eventOrganizerId);
-        if (eventOrganizer.getName()!=null && !eventOrganizer.getName().isBlank() && !eventOrganizer.getName().equals(eventOrganizerToUpdate.getName()))
-            eventOrganizerToUpdate.setName(eventOrganizer.getName());
-        if (eventOrganizer.getEmail()!=null && !eventOrganizer.getEmail().isBlank() && !eventOrganizer.getEmail().equals(eventOrganizerToUpdate.getEmail()))
-            eventOrganizerToUpdate.setEmail(eventOrganizer.getEmail());
-        if (eventOrganizer.getPhoneNumbers()!=null && !eventOrganizer.getPhoneNumbers().isEmpty() && !eventOrganizer.getPhoneNumbers().equals(eventOrganizerToUpdate.getPhoneNumbers()))
-            eventOrganizerToUpdate.setPhoneNumbers(eventOrganizer.getPhoneNumbers());
-        if (eventOrganizer.getSocialLinks()!=null && !eventOrganizer.getSocialLinks().isEmpty() && !eventOrganizer.getSocialLinks().equals(eventOrganizerToUpdate.getSocialLinks()))
-            eventOrganizerToUpdate.setSocialLinks(eventOrganizer.getSocialLinks());
+    public EventOrganizer updateEventOrganizer(EventOrganizer eventOrganizer) {
+        return eventOrganizerRepository.save(eventOrganizer);
+    }
 
-        return eventOrganizerRepository.save(eventOrganizerToUpdate);
+    @Override
+    public void deleteAll() {
+        eventOrganizerRepository.deleteAll();
     }
 
     private List<OrganizationMember> findOrganizationMemberByEmailList(List<String> userEmailList){
