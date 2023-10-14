@@ -10,7 +10,6 @@ public interface EventOrganizerRepository  extends MongoRepository<EventOrganize
 
     @Query("{'organizationMembers.email' : ?0}")
     List<EventOrganizer> findByOrganizationMembersEmail(String email);
-
     List<EventOrganizer> findByCreatedBy(String userEmail);
 
 }
