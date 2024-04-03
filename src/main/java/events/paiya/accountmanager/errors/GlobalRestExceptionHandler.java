@@ -20,6 +20,7 @@ public class GlobalRestExceptionHandler {
         return new ResponseEntity<>(apiErrorResource, apiErrorResource.getStatus());
     }
 
+
     @ExceptionHandler({IllegalArgumentException.class, HttpMessageNotReadableException.class, UserAlreadyExistException.class})
     public ResponseEntity<Object> handleBadParameter(Exception ex){
         ApiErrorResource apiErrorResource = new ApiErrorResource("paiya.internal.error.message",
