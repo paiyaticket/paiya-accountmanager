@@ -4,10 +4,10 @@ Cette API permet de gérer les comptes utilisateur de la plateforme Paiya.event
 et toutes leurs information personelles.
 ## Régles de gestion et fonctionnalités
 **Compte utilisateur (User)**
-* Un compte utilisateur appartient a un et un seul utilisateur physique. Le compte 
+* Un compte utilisateur appartient a un et un seul utilisateur (personne physique ou morale). Le compte 
 utilisateur est le point de départ pour faire quoique ce soit dans l'application. 
-Il n'est donc pas possible de faire des action dans le systeme sous annonymat excepté
-consulter la liste des evènemnts avenirs.
+Il n'est donc pas possible de faire des actions dans le systeme sous annonymat excepté
+consulter la liste des evènements avenirs.
 * Un utilisateur peut appartenir à un groupe d'organisateur d'evenement (EventOrganizer);
 * ID d'un compte utilisateur est un ID fournit par AWS cognito.
 * Un compte utilisateur est soit de type Promoteur, soit de type Participant.

@@ -26,6 +26,7 @@ public class User {
     @Indexed(unique = true)
     private String email;
     private Gender gender;
+    @Indexed(unique = true)
     private String phoneNumber;
     private Address address;
     private List<FinancialAccount> financialAccounts;
