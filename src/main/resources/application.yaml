@@ -4,7 +4,15 @@ server:
     context-path: /api
 
 spring:
+  application:
+    name: paiya-accountmanager
   profiles:
     active: default
 
 
+# OpenApi documentation
+springdoc:
+  api-docs:
+    path: /doc
+  swagger-ui:
+    path: /swagger-ui.html
