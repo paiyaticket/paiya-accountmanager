@@ -1,0 +1,7 @@
+spring:
+  #Config Server
+  config:
+    import:
+    - optional:configserver:https://paiya-config-server-c24vseuh2q-uc.a.run.app
+
+
