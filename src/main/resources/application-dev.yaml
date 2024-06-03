@@ -3,8 +3,13 @@ server:
   servlet:
     context-path: /api
 
-# Database
+logging:
+  level:
+    web: debug
+
+    
 spring:
+  # Database
   data:
     mongodb:
       host: localhost
@@ -12,3 +17,10 @@ spring:
       database: paiya_accountmanager
       username: paiya
       password: paiya
+
+  #Config Server
+  config:
+    import:
+    - optional:configserver:http://configuser:20232024@localhost:8888
+
+
