@@ -18,6 +18,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/v1/users")
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
@@ -28,6 +29,12 @@ public class UserController {
         this.userService = userService;
         this.userMapper = userMapper;
     }
+
+    @GetMapping("/{id}/isexist")
+    public ResponseEntity<Boolean> isUserExist(@PathVariable String id) {
+        return ResponseEntity.ok(userService.isUserExist(id));
+    }
+    
 
     @PostMapping
     public ResponseEntity<UserResource> createUser(@Valid @RequestBody UserResource userResource) throws UserAlreadyExistException {
