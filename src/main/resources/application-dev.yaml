@@ -1,5 +1,5 @@
 server:
-  port: 8008
+  port: 8010
   servlet:
     context-path: /api
 
@@ -10,5 +10,5 @@ spring:
       host: localhost
       port: 27017
       database: paiya_accountmanager
-      username: ${PAIYA_DB_USERNAME:paiya}
-      password: ${PAIYA_DB_PASSWORD:paiya}
+      username: paiya
+      password: paiya

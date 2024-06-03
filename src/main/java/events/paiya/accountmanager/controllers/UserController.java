@@ -8,7 +8,6 @@ import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/users")
-@Slf4j
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
@@ -80,6 +79,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    // TODO: Add a body to this put Method
     @PutMapping("/{id}/status")
     public ResponseEntity<UserResource> changeUserAccountActiveStatus (@PathVariable String id, @PathParam("status") boolean status){
         User updatedUser = this.userService.changeUserAccountActiveStatus(id, status);
