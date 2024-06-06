@@ -30,8 +30,8 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping("/{id}/isexist")
-    public ResponseEntity<Boolean> isUserExist(@PathVariable String id) {
+    @GetMapping("/isexist")
+    public ResponseEntity<Boolean> isUserExist(@RequestParam(value = "userId") String id) {
         return ResponseEntity.ok(userService.isUserExist(id));
     }
     
