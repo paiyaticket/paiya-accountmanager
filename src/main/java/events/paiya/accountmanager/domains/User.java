@@ -25,6 +25,7 @@ public class User {
     private String id;
     private String lastname;
     private String firstname;
+    private String displayname;
     @Indexed(unique = true)
     private String email;
     private Gender gender;

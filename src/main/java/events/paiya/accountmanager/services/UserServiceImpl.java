@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -82,6 +83,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteAll() {
         userRepository.deleteAll();
+    }
+
+    @Override
+    public User findByEmail(String email) throws NotFound {
+        return userRepository.findByEmailAndActiveIsTrue(email).orElseThrow();
     }
 
 }

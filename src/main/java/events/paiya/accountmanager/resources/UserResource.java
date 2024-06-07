@@ -19,6 +19,7 @@ public class UserResource{
     private String id;
     private String lastname;
     private String firstname;
+    private String displayname;
     @Email(message = "Must be a valid email")
     private String email;
     private Gender gender;

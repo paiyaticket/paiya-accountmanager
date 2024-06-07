@@ -8,7 +8,6 @@ import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -50,9 +49,9 @@ public class UserController {
                 .stream().map(userMapper::userToUserResource).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResource> findUserById(@PathVariable String id){
-        User user = this.userService.findByUserId(id);
+    @GetMapping("/{email}")
+    public ResponseEntity<UserResource> findUserByEmail(@PathVariable String email){
+        User user = this.userService.findByEmail(email);
         return ResponseEntity.ok(userMapper.userToUserResource(user));
     }
 
