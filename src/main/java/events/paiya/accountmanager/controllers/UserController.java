@@ -8,6 +8,7 @@ import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/isexist")
-    public ResponseEntity<Boolean> isUserExist(@RequestParam(value = "userId") String id) {
-        return ResponseEntity.ok(userService.isUserExist(id));
+    public ResponseEntity<Boolean> isUserExist(@RequestParam(value = "email") String email) {
+        return ResponseEntity.ok(userService.isUserExist(email));
     }
     
 
@@ -66,9 +67,9 @@ public class UserController {
     }
 
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody UserResource userResource){
-        User user = userService.findByUserId(id);
+    @PatchMapping("/{email}")
+    public ResponseEntity<UserResource> updateUser(@PathVariable String email, @Valid @RequestBody UserResource userResource){
+        User user = userService.findByEmail(email);
         userMapper.updateUserFromResource(userResource, user);
         User updatedUser = this.userService.updateUser(user);
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
