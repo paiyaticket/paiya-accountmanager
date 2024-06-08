@@ -2,6 +2,8 @@ package events.paiya.accountmanager.domains;
 
 import events.paiya.accountmanager.enumerations.Gender;
 import lombok.*;
+import lombok.Builder.Default;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,6 +25,7 @@ public class User {
     private String id;
     private String lastname;
     private String firstname;
+    private String displayname;
     @Indexed(unique = true)
     private String email;
     private Gender gender;
@@ -30,7 +33,8 @@ public class User {
     private String phoneNumber;
     private Address address;
     private List<FinancialAccount> financialAccounts;
-    private boolean active;
+    @Builder.Default
+    private boolean active = true;
 
     // Auditing
     @CreatedDate

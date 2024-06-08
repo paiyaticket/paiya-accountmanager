@@ -8,16 +8,16 @@ import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @RestController
 @RequestMapping("/v1/users")
@@ -30,20 +30,15 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping("/{id}/isexist")
-    public ResponseEntity<Boolean> isUserExist(@PathVariable String id) {
-        return ResponseEntity.ok(userService.isUserExist(id));
+    @GetMapping("/isexist")
+    public ResponseEntity<Boolean> isUserExist(@RequestParam(value = "email") String email) {
+        return ResponseEntity.ok(userService.isUserExist(email));
     }
     
 
     @PostMapping
     public ResponseEntity<UserResource> createUser(@Valid @RequestBody UserResource userResource) throws UserAlreadyExistException {
         URI uri = URI.create("/v1/users");
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                !"anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getName())){
-            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-            userResource.setId(userId);
-        }
         User user = userMapper.userResourceToUser(userResource);
         User createdUser = this.userService.createUser(user);
         return ResponseEntity.created(uri).body(userMapper.userToUserResource(createdUser));
@@ -55,9 +50,9 @@ public class UserController {
                 .stream().map(userMapper::userToUserResource).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResource> findUserById(@PathVariable String id){
-        User user = this.userService.findByUserId(id);
+    @GetMapping("/{email}")
+    public ResponseEntity<UserResource> findUserByEmail(@PathVariable String email){
+        User user = this.userService.findByEmail(email);
         return ResponseEntity.ok(userMapper.userToUserResource(user));
     }
 
@@ -72,9 +67,9 @@ public class UserController {
     }
 
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UserResource> updateUser(@PathVariable String id, @Valid @RequestBody UserResource userResource){
-        User user = userService.findByUserId(id);
+    @PatchMapping("/{email}")
+    public ResponseEntity<UserResource> updateUser(@PathVariable String email, @Valid @RequestBody UserResource userResource){
+        User user = userService.findByEmail(email);
         userMapper.updateUserFromResource(userResource, user);
         User updatedUser = this.userService.updateUser(user);
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));

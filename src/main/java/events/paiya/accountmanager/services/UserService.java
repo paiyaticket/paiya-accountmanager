@@ -8,7 +8,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.List;
 
 public interface UserService {
-    boolean isUserExist(String userId);
+    boolean isUserExist(String email);
+    User findByEmail(String email) throws HttpClientErrorException.NotFound;
     User findByUserId(String userId) throws HttpClientErrorException.NotFound;
     List<User> findAllUser();
     Page<User> findPaginatedUserList(int page, int size);

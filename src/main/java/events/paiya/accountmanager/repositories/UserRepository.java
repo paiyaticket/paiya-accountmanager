@@ -18,5 +18,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     Page<User> findAllByActiveIsTrue(Pageable pageable);
     Optional<User> findUserByIdAndActiveIsTrue(String id);
     boolean existsByEmailAndActiveIsTrue(String email);
+    Optional<User> findByEmailAndActiveIsTrue(String email);
 
 }
