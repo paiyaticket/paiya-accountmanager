@@ -7,6 +7,7 @@ import lombok.*;
 
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
