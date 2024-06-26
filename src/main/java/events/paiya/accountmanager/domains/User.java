@@ -2,7 +2,6 @@ package events.paiya.accountmanager.domains;
 
 import events.paiya.accountmanager.enumerations.Gender;
 import lombok.*;
-import lombok.Builder.Default;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;

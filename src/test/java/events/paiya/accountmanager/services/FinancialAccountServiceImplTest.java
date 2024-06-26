@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class FinancialAccountServiceImplTest {
 
-    private final String USER_ID = "64acee0e2162f374bd198208";
     @Mock
     private FinancialAccountRepository financialAccountRepository;
     @Mock
