@@ -3,6 +3,7 @@ package events.paiya.accountmanager.controllers;
 import events.paiya.accountmanager.domains.EventOrganizer;
 import events.paiya.accountmanager.mappers.EventOrganizerMapper;
 import events.paiya.accountmanager.resources.EventOrganizerResource;
+import events.paiya.accountmanager.resources.MemberBundleResource;
 import events.paiya.accountmanager.services.EventOrganizerServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,12 +25,11 @@ public class EventOrganizerController {
         this.eventOrganizerMapper = eventOrganizerMapper;
     }
 
-    @PostMapping
-    public ResponseEntity<EventOrganizerResource> create(@Valid @RequestBody EventOrganizerResource eventOrganizerResource){
-        EventOrganizer eventOrganizer = eventOrganizerMapper.toEntity(eventOrganizerResource);
-        eventOrganizer = eventOrganizerService.create(eventOrganizer);
-        URI uri = URI.create("/v1/users/"+eventOrganizer.getId());
-        return ResponseEntity.created(uri).body(eventOrganizerMapper.toResource(eventOrganizer));
+    
+    @GetMapping()
+    public ResponseEntity<List<EventOrganizerResource>> findAll() {
+        List<EventOrganizer> eventOrganizers = eventOrganizerService.findAll();
+        return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizers));
     }
 
     @GetMapping("/{id}")
@@ -37,11 +37,14 @@ public class EventOrganizerController {
         EventOrganizer eventOrganizer = eventOrganizerService.findById(id);
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
-
-    @GetMapping()
-    public ResponseEntity<List<EventOrganizerResource>> findAll() {
-        List<EventOrganizer> eventOrganizers = eventOrganizerService.findAll();
-        return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizers));
+    
+    
+    @PostMapping
+    public ResponseEntity<EventOrganizerResource> create(@Valid @RequestBody EventOrganizerResource eventOrganizerResource){
+        EventOrganizer eventOrganizer = eventOrganizerMapper.toEntity(eventOrganizerResource);
+        eventOrganizer = eventOrganizerService.create(eventOrganizer);
+        URI uri = URI.create("/v1/users/"+eventOrganizer.getId());
+        return ResponseEntity.created(uri).body(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
     @GetMapping("/criteria")
@@ -53,9 +56,8 @@ public class EventOrganizerController {
     }
 
     @PatchMapping("/add-members")
-    public ResponseEntity<EventOrganizerResource> addMemberByEoId(@RequestParam(value = "eventOrganizerId") String eventOrganizerId,
-                                                                  @RequestBody @NotNull List<String> organizationMemberList) {
-        EventOrganizer eventOrganizer = eventOrganizerService.addMemberToEventOrganizer(eventOrganizerId, organizationMemberList);
+    public ResponseEntity<EventOrganizerResource> addMemberByEoId(@RequestBody MemberBundleResource memberBundleResource) {
+        EventOrganizer eventOrganizer = eventOrganizerService.addMemberToEventOrganizer(memberBundleResource.getEventOrganizerId(), memberBundleResource.getMemberEmailList());
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
 

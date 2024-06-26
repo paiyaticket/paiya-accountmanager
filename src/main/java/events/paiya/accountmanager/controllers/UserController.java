@@ -3,12 +3,11 @@ package events.paiya.accountmanager.controllers;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.mappers.UserMapper;
+import events.paiya.accountmanager.resources.StatusChangeResource;
 import events.paiya.accountmanager.resources.UserResource;
 import events.paiya.accountmanager.services.UserService;
 import events.paiya.accountmanager.services.UserServiceImpl;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -51,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<UserResource> findUserByEmail(@PathVariable String email){
+    public ResponseEntity<UserResource> findUserByEmail(@PathVariable(name = "email") String email){
         User user = this.userService.findByEmail(email);
         return ResponseEntity.ok(userMapper.userToUserResource(user));
     }
@@ -68,23 +67,23 @@ public class UserController {
 
 
     @PatchMapping("/{email}")
-    public ResponseEntity<UserResource> updateUser(@PathVariable String email, @Valid @RequestBody UserResource userResource){
+    public ResponseEntity<UserResource> updateUser(@PathVariable(name = "email") String email, 
+                                                    @Valid @RequestBody UserResource userResource){
         User user = userService.findByEmail(email);
         userMapper.updateUserFromResource(userResource, user);
         User updatedUser = this.userService.updateUser(user);
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id){
-        this.userService.deleteUser(id);
+    @DeleteMapping("/{email}")
+    public ResponseEntity<?> delete(@PathVariable(name = "email") String email){
+        this.userService.deleteUser(email);
         return ResponseEntity.noContent().build();
     }
 
-    // TODO: Add a body to this put Method
-    @PutMapping("/{id}/status")
-    public ResponseEntity<UserResource> changeUserAccountActiveStatus (@PathVariable String id, @PathParam("status") boolean status){
-        User updatedUser = this.userService.changeUserAccountActiveStatus(id, status);
+    @PutMapping("/status/change")
+    public ResponseEntity<UserResource> changeUserAccountActiveStatus (@RequestBody StatusChangeResource statusChange){
+        User updatedUser = this.userService.changeUserAccountActiveStatus(statusChange);
         return ResponseEntity.ok(userMapper.userToUserResource(updatedUser));
     }
 

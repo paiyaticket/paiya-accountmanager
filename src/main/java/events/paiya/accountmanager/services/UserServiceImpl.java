@@ -3,6 +3,8 @@ package events.paiya.accountmanager.services;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
+import events.paiya.accountmanager.resources.StatusChangeResource;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -60,16 +62,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUser(String userId) {
-        this.userRepository.deleteById(userId);
+    public void deleteUser(String email) {
+        this.userRepository.deleteByEmail(email);
     }
 
     @Override
-    public User changeUserAccountActiveStatus(String userId, boolean status) {
-        Optional<User> userOptional = this.userRepository.findById(userId);
+    public User changeUserAccountActiveStatus(StatusChangeResource statusChange) {
+        Optional<User> userOptional = this.userRepository.findByEmail(statusChange.getEmail());
         if (userOptional.isPresent()){
             User user = userOptional.get();
-            if (status){
+            if (statusChange.getStatus()){
                 user.enableUser();
             } else {
                 user.disableUser();

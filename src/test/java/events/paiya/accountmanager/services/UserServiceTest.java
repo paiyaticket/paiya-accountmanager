@@ -5,6 +5,8 @@ import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
+import events.paiya.accountmanager.resources.StatusChangeResource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,7 @@ import java.util.Optional;
 @ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class UserServiceTest {
     private final String USER_ID = "64acee0e2162f374bd198208";
+    private final String USER_EMAIL = "paiyatest@gmail.com";
     @Mock
     private UserRepository userRepository;
     @InjectMocks
@@ -94,19 +97,19 @@ class UserServiceTest {
 
     @Test
     void deleteUser() {
-        Mockito.doNothing().when(userRepository).deleteById(Mockito.anyString());
-        userService.deleteUser(USER_ID);
-        Mockito.verify(userRepository, Mockito.times(1)).deleteById(USER_ID);
+        userService.deleteUser(USER_EMAIL);
+        Mockito.verify(userRepository, Mockito.times(1)).deleteByEmail(USER_EMAIL);
     }
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void givenIdAndStatus_whenStatusIsTrue_thenChangeActiveStatus(boolean b) {
         User user = this.buildUser();
-        Mockito.when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(user));
+        StatusChangeResource statusChange = StatusChangeResource.builder().email(USER_EMAIL).status(b).build();
+        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(user));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 
-        User updatedUser = userService.changeUserAccountActiveStatus(USER_ID, b);
+        User updatedUser = userService.changeUserAccountActiveStatus(statusChange);
         Mockito.verify(userRepository, Mockito.times(1)).save(user);
 
         if (b){
