@@ -1,0 +1,606 @@
+swagger: '2.0'
+info:
+  title: Paiya-accountmanager OpenAPI definition
+  description: Accountmanager API on API Gateway with a Google Cloud Run backend
+  version: 1.0.0
+x-google-backend:
+  address: https://paiya-accountmanager-c24vseuh2q-uc.a.run.app
+basePath: /api
+schemes:
+  - https
+paths:
+  /v1/event-organizers:
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/EventOrganizerResource'
+            type: array
+      tags:
+        - event-organizer-controller
+      operationId: findAll
+    post:
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      tags:
+        - event-organizer-controller
+      operationId: create_1
+  /v1/event-organizers/add-members:
+    patch:
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/MemberBundleResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      tags:
+        - event-organizer-controller
+      operationId: addMemberByEoId
+  /v1/event-organizers/criteria:
+    get:
+      parameters:
+        - default: owner
+          in: query
+          name: parameter
+          required: false
+          type: string
+        - in: query
+          name: value
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/EventOrganizerResource'
+            type: array
+      tags:
+        - event-organizer-controller
+      operationId: findByName
+  /v1/event-organizers/remove-members:
+    patch:
+      parameters:
+        - in: query
+          name: eventOrganizerId
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            items:
+              type: string
+            type: array
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      tags:
+        - event-organizer-controller
+      operationId: removeMemberByEoId
+  '/v1/event-organizers/{id}':
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+      tags:
+        - event-organizer-controller
+      operationId: delete_1
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      tags:
+        - event-organizer-controller
+      operationId: findById_1
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/EventOrganizerResource'
+      tags:
+        - event-organizer-controller
+      operationId: update_1
+  /v1/financial-accounts:
+    delete:
+      parameters:
+        - in: query
+          name: ownerId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+      tags:
+        - financial-account-controller
+      operationId: deleteByOwnerId
+    get:
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/FinancialAccountResource'
+            type: array
+      tags:
+        - financial-account-controller
+      operationId: findByUserId
+    post:
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/FinancialAccountResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FinancialAccountResource'
+      tags:
+        - financial-account-controller
+      operationId: create
+  /v1/financial-accounts/default:
+    get:
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FinancialAccountResource'
+      tags:
+        - financial-account-controller
+      operationId: findUserDefaultFinancialAccount
+  '/v1/financial-accounts/{id}':
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+      tags:
+        - financial-account-controller
+      operationId: deleteById
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FinancialAccountResource'
+      tags:
+        - financial-account-controller
+      operationId: findById
+    patch:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/FinancialAccountResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FinancialAccountResource'
+      tags:
+        - financial-account-controller
+      operationId: update
+  '/v1/financial-accounts/{id}/all':
+    delete:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+      tags:
+        - financial-account-controller
+      operationId: deleteAllByUserId
+  /v1/users:
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/UserResource'
+            type: array
+      tags:
+        - user-controller
+      operationId: findAllUser
+    post:
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserResource'
+      tags:
+        - user-controller
+      operationId: createUser
+  /v1/users/isexist:
+    get:
+      parameters:
+        - in: query
+          name: email
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: boolean
+      tags:
+        - user-controller
+      operationId: isUserExist
+  /v1/users/paginated:
+    get:
+      parameters:
+        - format: int32
+          in: query
+          name: page
+          required: true
+          type: integer
+        - format: int32
+          in: query
+          name: size
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/UserResource'
+            type: array
+      tags:
+        - user-controller
+      operationId: findUserPaginatedList
+  /v1/users/status/change:
+    put:
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/StatusChangeResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserResource'
+      tags:
+        - user-controller
+      operationId: changeUserAccountActiveStatus
+  '/v1/users/{email}':
+    delete:
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+      tags:
+        - user-controller
+      operationId: delete
+    get:
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserResource'
+      tags:
+        - user-controller
+      operationId: findUserByEmail
+    patch:
+      parameters:
+        - in: path
+          name: email
+          required: true
+          type: string
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserResource'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserResource'
+      tags:
+        - user-controller
+      operationId: updateUser
+definitions:
+  AddressResource:
+    properties:
+      addressDetail:
+        type: string
+      city:
+        type: string
+      country:
+        $ref: '#/definitions/Country'
+      postal:
+        type: string
+      state:
+        type: string
+    type: object
+  BankAccountResource:
+    allOf:
+      - $ref: '#/definitions/FinancialAccountResource'
+      - properties:
+          accountNumber:
+            maxLength: 12
+            minLength: 9
+            type: string
+          banqueCode:
+            maxLength: 9
+            minLength: 0
+            type: string
+          bicSwift:
+            maxLength: 12
+            minLength: 8
+            type: string
+          checkNumber:
+            maxLength: 4
+            minLength: 3
+            type: string
+          iban:
+            maxLength: 30
+            minLength: 27
+            type: string
+        type: object
+    type: object
+  CardAccountResource:
+    allOf:
+      - $ref: '#/definitions/FinancialAccountResource'
+      - properties:
+          cardNumber:
+            maxLength: 19
+            minLength: 16
+            type: string
+          expirationDate:
+            type: string
+          provider:
+            enum:
+              - VISA
+              - MASTERCARD
+            type: string
+        type: object
+    type: object
+  Country:
+    properties:
+      code:
+        type: string
+      mobileCode:
+        type: string
+      name:
+        type: string
+      timezone:
+        type: string
+      utc:
+        type: string
+    type: object
+  EventOrganizerResource:
+    properties:
+      createdBy:
+        type: string
+      createdDate:
+        format: date-time
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      lastModifiedDate:
+        format: date-time
+        type: string
+      name:
+        type: string
+      organizationMembers:
+        items:
+          $ref: '#/definitions/OrganizationMember'
+        type: array
+      phoneNumbers:
+        items:
+          type: string
+        type: array
+      socialLinks:
+        additionalProperties:
+          type: string
+        type: object
+      version:
+        format: int32
+        type: integer
+    type: object
+  FinancialAccountResource:
+    properties:
+      createdDate:
+        format: date-time
+        type: string
+      financialAccountType:
+        enum:
+          - CARD
+          - MOBILE_MONEY
+          - BANK_ACCOUNT
+        type: string
+      id:
+        type: string
+      isDefault:
+        type: boolean
+      lastModifiedDate:
+        format: date-time
+        type: string
+      ownerId:
+        type: string
+      version:
+        format: int32
+        type: integer
+    type: object
+  MemberBundleResource:
+    properties:
+      eventOrganizerId:
+        type: string
+      memberEmailList:
+        items:
+          type: string
+        type: array
+      memberList:
+        items:
+          $ref: '#/definitions/OrganizationMember'
+        type: array
+    type: object
+  MobileMoneyAccountResource:
+    allOf:
+      - $ref: '#/definitions/FinancialAccountResource'
+      - properties:
+          countryPrefixNumber:
+            type: string
+          mobileMoneyProvider:
+            enum:
+              - ORANGE_MONEY_CI
+              - MTN_MONEY_CI
+              - MOOV_MONEY_CI
+              - WAVE_CI
+            type: string
+          phoneNumber:
+            type: string
+        type: object
+    type: object
+  OrganizationMember:
+    properties:
+      admin:
+        type: boolean
+      email:
+        type: string
+      firstname:
+        type: string
+      id:
+        type: string
+      lastname:
+        type: string
+      organizationOwner:
+        type: boolean
+    type: object
+  StatusChangeResource:
+    properties:
+      email:
+        type: string
+      status:
+        type: boolean
+    type: object
+  UserResource:
+    properties:
+      active:
+        type: boolean
+      address:
+        $ref: '#/definitions/AddressResource'
+      createdDate:
+        format: date-time
+        type: string
+      displayname:
+        type: string
+      email:
+        type: string
+      firstname:
+        type: string
+      gender:
+        enum:
+          - MAN
+          - WOMAN
+          - OTHER
+        type: string
+      id:
+        type: string
+      lastModifiedDate:
+        format: date-time
+        type: string
+      lastname:
+        type: string
+      phoneNumber:
+        type: string
+      version:
+        format: int32
+        type: integer
+    type: object
+x-components: {}

@@ -97,7 +97,6 @@ class UserServiceTest {
 
     @Test
     void deleteUser() {
-        Mockito.doNothing().when(userRepository).deleteById(Mockito.anyString());
         userService.deleteUser(USER_EMAIL);
         Mockito.verify(userRepository, Mockito.times(1)).deleteByEmail(USER_EMAIL);
     }
