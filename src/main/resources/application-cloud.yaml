@@ -1,7 +1,11 @@
 spring:
+
+  # Database
+  data:
+    mongodb:
+      uri: mongodb+srv://tamsir225:L4fVcDT6Ynee4FMx@democluster.pfnfjyb.mongodb.net/paiya?retryWrites=true&w=majority&appName=DemoCluster
+
   #Config Server
   config:
     import:
     - optional:configserver:https://paiya-config-server-c24vseuh2q-uc.a.run.app
-
-
