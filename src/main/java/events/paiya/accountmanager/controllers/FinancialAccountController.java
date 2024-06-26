@@ -66,8 +66,8 @@ public class FinancialAccountController {
         return ResponseEntity.ok(financialAccountMapper.toResource(financialAccount));
     }
 
-    @DeleteMapping ("/{financialAccountId}")
-    public ResponseEntity<Void> deleteById(@PathVariable(name = "financialAccountId") String financialAccountId){
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id") String financialAccountId){
         financialAccountService.deleteById(financialAccountId);
         return ResponseEntity.noContent().build();
     }
