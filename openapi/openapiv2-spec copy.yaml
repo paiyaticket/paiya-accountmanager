@@ -8,12 +8,6 @@ x-google-backend:
 basePath: /api
 schemes:
   - https
-securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "key"
-    in: header
-
 paths:
   /v1/event-organizers:
     get:
@@ -43,7 +37,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: create_1
-
   /v1/event-organizers/add-members:
     patch:
       parameters:
@@ -60,7 +53,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: addMemberByEoId
-  
   /v1/event-organizers/criteria:
     get:
       parameters:
@@ -83,15 +75,20 @@ paths:
       tags:
         - event-organizer-controller
       operationId: findByName
-  
   /v1/event-organizers/remove-members:
     patch:
       parameters:
+        - in: query
+          name: eventOrganizerId
+          required: true
+          type: string
         - in: body
           name: body
           required: true
           schema:
-            $ref: '#/definitions/MemberBundleResource'
+            items:
+              type: string
+            type: array
       responses:
         '200':
           description: OK
@@ -100,7 +97,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: removeMemberByEoId
-  
   /v1/event-organizers/{id}:
     delete:
       parameters:
@@ -147,7 +143,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: update_1
-
   /v1/financial-accounts:
     delete:
       parameters:
@@ -266,7 +261,6 @@ paths:
       tags:
         - financial-account-controller
       operationId: deleteAllByUserId
-  
   /v1/users:
     get:
       parameters: []
@@ -280,8 +274,6 @@ paths:
       tags:
         - user-controller
       operationId: findAllUser
-      security:
-          - api_key: []
     post:
       parameters:
         - in: body
@@ -380,8 +372,6 @@ paths:
       tags:
         - user-controller
       operationId: findUserByEmail
-      security:
-          - api_key: []
     patch:
       parameters:
         - in: path
@@ -401,7 +391,6 @@ paths:
       tags:
         - user-controller
       operationId: updateUser
-# Object Payload
 definitions:
   AddressResource:
     properties:

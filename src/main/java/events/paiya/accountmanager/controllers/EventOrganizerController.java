@@ -62,9 +62,8 @@ public class EventOrganizerController {
     }
 
     @PatchMapping("/remove-members")
-    public ResponseEntity<EventOrganizerResource> removeMemberByEoId(@RequestParam(value = "eventOrganizerId") String eventOrganizerId,
-                                                                     @RequestBody List<String> organizationMemberList) {
-        EventOrganizer eventOrganizer = eventOrganizerService.removeMemberFromEventOrganizer(eventOrganizerId, organizationMemberList);
+    public ResponseEntity<EventOrganizerResource> removeMemberByEoId(@RequestBody MemberBundleResource memberBundleResource) {
+        EventOrganizer eventOrganizer = eventOrganizerService.removeMemberFromEventOrganizer(memberBundleResource.getEventOrganizerId(), memberBundleResource.getMemberEmailList());
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
