@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByEmail(String email) throws NotFound {
+    public User findByEmail(String email) {
         return userRepository.findByEmailAndActiveIsTrue(email).orElseThrow();
     }
 
