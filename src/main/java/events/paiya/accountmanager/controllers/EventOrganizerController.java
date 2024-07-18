@@ -6,7 +6,6 @@ import events.paiya.accountmanager.resources.EventOrganizerResource;
 import events.paiya.accountmanager.resources.MemberBundleResource;
 import events.paiya.accountmanager.services.EventOrganizerServiceImpl;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

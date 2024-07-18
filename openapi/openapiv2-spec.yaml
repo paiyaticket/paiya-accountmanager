@@ -3,8 +3,13 @@ info:
   title: Paiya-accountmanager OpenAPI definition
   description: Accountmanager API on API Gateway with a Google Cloud Run backend
   version: 1.0.0
+
+x-google-endpoints:
+- name: https://accountmanager-bridge-d31w4uiz.uc.gateway.dev
+  allowCors: True
 x-google-backend:
   address: https://paiya-accountmanager-c24vseuh2q-uc.a.run.app
+  
 basePath: /api
 schemes:
   - https
@@ -43,7 +48,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: create_1
-
   /v1/event-organizers/add-members:
     patch:
       parameters:
@@ -60,7 +64,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: addMemberByEoId
-  
   /v1/event-organizers/criteria:
     get:
       parameters:
@@ -83,7 +86,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: findByName
-  
   /v1/event-organizers/remove-members:
     patch:
       parameters:
@@ -100,7 +102,6 @@ paths:
       tags:
         - event-organizer-controller
       operationId: removeMemberByEoId
-  
   /v1/event-organizers/{id}:
     delete:
       parameters:
@@ -268,6 +269,14 @@ paths:
       operationId: deleteAllByUserId
   
   /v1/users:
+    options:
+      summary: CORS pre-flight
+      operationId: userCorsHello
+      x-google-backend:
+        address: https://paiya-accountmanager-c24vseuh2q-uc.a.run.app/api/v1/users
+      responses:
+        '200':
+          description: A successful response
     get:
       parameters: []
       responses:
