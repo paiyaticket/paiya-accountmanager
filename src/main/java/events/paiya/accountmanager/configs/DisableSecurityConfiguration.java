@@ -26,20 +26,8 @@ public class DisableSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.disable())
+                .cors(Customizer.withDefaults())
                 .build();
     }
-
-    /*
-    @Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-		configuration.setAllowedMethods(List.of("GET","POST", "PUT", "PATCH", "DELETE"));
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
-    */
     
 }
