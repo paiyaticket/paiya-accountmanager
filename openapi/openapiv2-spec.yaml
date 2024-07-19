@@ -4,8 +4,9 @@ info:
   description: Accountmanager API on API Gateway with a Google Cloud Run backend
   version: 1.0.0
 
+host: backend-0zwux25f82fu7.apigateway.paiya-413605.cloud.goog
 x-google-endpoints:
-- name: https://accountmanager-bridge-d31w4uiz.uc.gateway.dev
+- name: backend-0zwux25f82fu7.apigateway.paiya-413605.cloud.goog
   allowCors: True
 x-google-backend:
   address: https://paiya-accountmanager-c24vseuh2q-uc.a.run.app
@@ -269,14 +270,6 @@ paths:
       operationId: deleteAllByUserId
   
   /v1/users:
-    options:
-      summary: CORS pre-flight
-      operationId: userCorsHello
-      x-google-backend:
-        address: https://paiya-accountmanager-c24vseuh2q-uc.a.run.app/api/v1/users
-      responses:
-        '200':
-          description: A successful response
     get:
       parameters: []
       responses:

@@ -8,7 +8,7 @@ spring:
   application:
     name: paiya-accountmanager
   profiles:
-    active: dev, cloud
+    active: default, cloud
 
 
 # Database
