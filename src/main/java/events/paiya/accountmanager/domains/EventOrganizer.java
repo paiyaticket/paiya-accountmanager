@@ -9,9 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Document
 @Data
@@ -26,7 +24,7 @@ public class EventOrganizer {
     private String email;
     private List<String> phoneNumbers;
     @Builder.Default
-    private Map<String, String> socialLinks = new HashMap<>();
+    private List<SocialMedia> socialMedia = new ArrayList<>();
     @Builder.Default
     private List<OrganizationMember> organizationMembers = new ArrayList<>();
 

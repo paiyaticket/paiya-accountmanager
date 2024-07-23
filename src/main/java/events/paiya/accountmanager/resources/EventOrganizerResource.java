@@ -1,6 +1,7 @@
 package events.paiya.accountmanager.resources;
 
 import events.paiya.accountmanager.domains.OrganizationMember;
+import events.paiya.accountmanager.domains.SocialMedia;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -18,7 +19,7 @@ public class EventOrganizerResource extends BaseResource{
     private String name;
     private String email;
     private List<String> phoneNumbers;
-    private Map<String, String> socialLinks;
+    private List<SocialMedia> socialMedia;
     private List<OrganizationMember> organizationMembers;
     private String createdBy;
 }

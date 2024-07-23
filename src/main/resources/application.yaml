@@ -8,13 +8,8 @@ spring:
   application:
     name: paiya-accountmanager
   profiles:
-    active: default, cloud
+    active: dev
 
-
-# Database
-  data:
-    mongodb:
-      uri: mongodb+srv://tamsir225:L4fVcDT6Ynee4FMx@democluster.pfnfjyb.mongodb.net/paiya_accountmanager?retryWrites=true&w=majority&appName=DemoCluster
 
 # OpenApi documentation
 springdoc:
