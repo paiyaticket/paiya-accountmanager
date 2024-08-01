@@ -32,7 +32,7 @@ public class EventOrganizerController {
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<EventOrganizerResource>> findEventOrganizerCreatedBy(@RequestParam(name = "email") String userEmail) {
         List<EventOrganizer> eventOrganizerList = eventOrganizerService.findByCreatedBy(userEmail);
         return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizerList));
