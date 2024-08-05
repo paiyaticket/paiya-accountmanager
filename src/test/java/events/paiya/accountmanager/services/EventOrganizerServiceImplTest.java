@@ -130,7 +130,6 @@ class EventOrganizerServiceImplTest {
                 .name("Johny's Production")
                 .phoneNumbers(List.of("+2250707078548"))
                 .socialMedia(List.of(SocialMedia.builder().name("Instagram").icon("pi-instagram").link("http://instagram.com").build()))
-                .organizationMembers(new ArrayList<>())
                 .build();
     }
 
