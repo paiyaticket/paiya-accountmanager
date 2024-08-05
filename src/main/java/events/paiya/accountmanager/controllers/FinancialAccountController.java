@@ -6,7 +6,6 @@ import events.paiya.accountmanager.resources.FinancialAccountResource;
 import events.paiya.accountmanager.services.FinancialAccountServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +13,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/financial-accounts")
-@Slf4j
 public class FinancialAccountController {
     private final FinancialAccountServiceImpl financialAccountService;
     private final FinancialAccountMapper financialAccountMapper;
@@ -30,9 +29,7 @@ public class FinancialAccountController {
     @PostMapping()
     public ResponseEntity<FinancialAccountResource> create(@RequestBody @Valid FinancialAccountResource financialAccountResource,
                                                            HttpServletRequest request) throws URISyntaxException {
-        log.info("FINANCIAL ACCOUNT RESOURCE == > "+financialAccountResource.toString());
         FinancialAccount financialAccount = financialAccountMapper.toEntity(financialAccountResource);
-        log.info("FINANCIAL ACCOUNT == > "+financialAccount.toString());
         financialAccount = financialAccountService.create(financialAccount);
         URI uri = new URI(request.getRequestURI()+"/"+financialAccount.getId());
         return ResponseEntity.created(uri).body(financialAccountMapper.toResource(financialAccount));

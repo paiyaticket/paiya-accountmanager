@@ -14,4 +14,6 @@ public interface EventOrganizerMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromResource(EventOrganizerResource resource, @MappingTarget EventOrganizer eventOrganizer);
+
+
 }

@@ -3,10 +3,12 @@ package events.paiya.accountmanager.services;
 import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.EventOrganizer;
 import events.paiya.accountmanager.domains.OrganizationMember;
+import events.paiya.accountmanager.domains.SocialMedia;
 import events.paiya.accountmanager.domains.projections.OrganizationMemberProjection;
 import events.paiya.accountmanager.mappers.projection.OrganizationMemberProjectionMapper;
 import events.paiya.accountmanager.repositories.EventOrganizerRepository;
 import events.paiya.accountmanager.repositories.UserRepository;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -127,8 +129,7 @@ class EventOrganizerServiceImplTest {
                 .email("jp@gmail.com")
                 .name("Johny's Production")
                 .phoneNumbers(List.of("+2250707078548"))
-                .socialLinks(Map.of("facebook", "https://facebook.com/johmyproduction"))
-                .organizationMembers(new ArrayList<>())
+                .socialMedia(List.of(SocialMedia.builder().name("Instagram").icon("pi-instagram").link("http://instagram.com").build()))
                 .build();
     }
 

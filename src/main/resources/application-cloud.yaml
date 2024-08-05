@@ -3,7 +3,7 @@ spring:
   # Database
   data:
     mongodb:
-      uri: mongodb+srv://tamsir225:L4fVcDT6Ynee4FMx@democluster.pfnfjyb.mongodb.net/paiya?retryWrites=true&w=majority&appName=DemoCluster
+      uri: mongodb+srv://tamsir225:L4fVcDT6Ynee4FMx@democluster.pfnfjyb.mongodb.net/paiya_accountmanager?retryWrites=true&w=majority&appName=DemoCluster
 
   #Config Server
   config:

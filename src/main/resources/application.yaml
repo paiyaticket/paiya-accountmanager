@@ -3,11 +3,12 @@ server:
   servlet:
     context-path: /api
 
+
 spring:
   application:
     name: paiya-accountmanager
   profiles:
-    active: default, cloud
+    active: dev
 
 
 # OpenApi documentation

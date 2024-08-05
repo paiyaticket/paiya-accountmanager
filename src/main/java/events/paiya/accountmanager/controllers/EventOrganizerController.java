@@ -6,13 +6,13 @@ import events.paiya.accountmanager.resources.EventOrganizerResource;
 import events.paiya.accountmanager.resources.MemberBundleResource;
 import events.paiya.accountmanager.services.EventOrganizerServiceImpl;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/event-organizers")
 public class EventOrganizerController {
@@ -25,17 +25,17 @@ public class EventOrganizerController {
         this.eventOrganizerMapper = eventOrganizerMapper;
     }
 
-    
-    @GetMapping()
-    public ResponseEntity<List<EventOrganizerResource>> findAll() {
-        List<EventOrganizer> eventOrganizers = eventOrganizerService.findAll();
-        return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizers));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<EventOrganizerResource> findById(@PathVariable(name = "id") String id) {
         EventOrganizer eventOrganizer = eventOrganizerService.findById(id);
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<EventOrganizerResource>> findEventOrganizerCreatedBy(@RequestParam(name = "email") String userEmail) {
+        List<EventOrganizer> eventOrganizerList = eventOrganizerService.findByCreatedBy(userEmail);
+        return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizerList));
     }
     
     
@@ -43,7 +43,7 @@ public class EventOrganizerController {
     public ResponseEntity<EventOrganizerResource> create(@Valid @RequestBody EventOrganizerResource eventOrganizerResource){
         EventOrganizer eventOrganizer = eventOrganizerMapper.toEntity(eventOrganizerResource);
         eventOrganizer = eventOrganizerService.create(eventOrganizer);
-        URI uri = URI.create("/v1/users/"+eventOrganizer.getId());
+        URI uri = URI.create("/v1/event-organizers/"+eventOrganizer.getId());
         return ResponseEntity.created(uri).body(eventOrganizerMapper.toResource(eventOrganizer));
     }
 

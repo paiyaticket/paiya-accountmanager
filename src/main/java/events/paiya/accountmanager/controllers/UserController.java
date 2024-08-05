@@ -18,9 +18,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/v1/users")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
