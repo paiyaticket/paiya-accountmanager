@@ -18,66 +18,66 @@ import java.util.List;
 @RequestMapping("/v1/cash-accounts")
 public class CashAccountController {
     private final CashAccountServiceImpl cashAccountService;
-    private final CashAccountMapper financialAccountMapper;
+    private final CashAccountMapper cashAccountMapper;
 
-    public CashAccountController(CashAccountServiceImpl financialAccountService,
-                                      CashAccountMapper financialAccountMapper) {
-        this.cashAccountService = financialAccountService;
-        this.financialAccountMapper = financialAccountMapper;
+    public CashAccountController(CashAccountServiceImpl cashAccountService,
+                                      CashAccountMapper cashAccountMapper) {
+        this.cashAccountService = cashAccountService;
+        this.cashAccountMapper = cashAccountMapper;
     }
 
     @PostMapping()
-    public ResponseEntity<CashAccountResource> create(@RequestBody @Valid CashAccountResource financialAccountResource,
+    public ResponseEntity<CashAccountResource> create(@RequestBody @Valid CashAccountResource cashAccountResource,
                                                            HttpServletRequest request) throws URISyntaxException {
-        CashAccount financialAccount = financialAccountMapper.toEntity(financialAccountResource);
+        CashAccount financialAccount = cashAccountMapper.toEntity(cashAccountResource);
         financialAccount = cashAccountService.create(financialAccount);
         URI uri = new URI(request.getRequestURI()+"/"+financialAccount.getId());
-        return ResponseEntity.created(uri).body(financialAccountMapper.toResource(financialAccount));
+        return ResponseEntity.created(uri).body(cashAccountMapper.toResource(financialAccount));
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity<CashAccountResource> findById(@PathVariable(name = "id") String financialAccountId){
-        CashAccount financialAccount = cashAccountService.findById(financialAccountId);
-        return ResponseEntity.ok(this.financialAccountMapper.toResource(financialAccount));
+    public ResponseEntity<CashAccountResource> findById(@PathVariable(name = "id") String cashAccountId){
+        CashAccount financialAccount = cashAccountService.findById(cashAccountId);
+        return ResponseEntity.ok(this.cashAccountMapper.toResource(financialAccount));
     }
 
     @GetMapping ("/default")
-    public ResponseEntity<CashAccountResource> findUserDefaultFinancialAccount(@RequestParam(name = "userEmail") String userEmail){
+    public ResponseEntity<CashAccountResource> findUserDefaultFinancialAccount(@RequestParam(name = "owner") String userEmail){
         CashAccount financialAccounts = cashAccountService.findByOwnerAndIsDefault(userEmail, true);
-        return ResponseEntity.ok(this.financialAccountMapper.toResource(financialAccounts));
+        return ResponseEntity.ok(this.cashAccountMapper.toResource(financialAccounts));
     }
 
     @GetMapping ()
-    public ResponseEntity<List<CashAccountResource>> findByUserId(@RequestParam(name = "userId") String userId){
+    public ResponseEntity<List<CashAccountResource>> findByOwner(@RequestParam(name = "owner") String userId){
         List<CashAccount> financialAccounts = cashAccountService.findByOwner(userId);
-        List<CashAccountResource> financialAccountResources = financialAccountMapper.toResourceList(financialAccounts);
+        List<CashAccountResource> financialAccountResources = cashAccountMapper.toResourceList(financialAccounts);
         return ResponseEntity.ok(financialAccountResources);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CashAccountResource> update(@PathVariable(name = "id") String financialAccountId,
-                                                           @RequestBody @Valid CashAccountResource financialAccountResource){
-        CashAccount financialAccount = this.cashAccountService.findById(financialAccountId);
-        financialAccountMapper.updateCashAccountFromResource(financialAccountResource, financialAccount);
+    public ResponseEntity<CashAccountResource> update(@PathVariable(name = "id") String cashAccountId,
+                                                           @RequestBody @Valid CashAccountResource cashAccountResource){
+        CashAccount financialAccount = this.cashAccountService.findById(cashAccountId);
+        cashAccountMapper.updateCashAccountFromResource(cashAccountResource, financialAccount);
         financialAccount = cashAccountService.update(financialAccount);
-        return ResponseEntity.ok(financialAccountMapper.toResource(financialAccount));
+        return ResponseEntity.ok(cashAccountMapper.toResource(financialAccount));
     }
 
     @DeleteMapping ("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable(name = "id") String financialAccountId){
-        cashAccountService.deleteById(financialAccountId);
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id") String cashAccountId){
+        cashAccountService.deleteById(cashAccountId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping ()
-    public ResponseEntity<Void> deleteByOwnerId(@RequestParam(name = "ownerId") String ownerId){
+    public ResponseEntity<Void> deleteByOwnerId(@RequestParam(name = "owner") String ownerId){
         cashAccountService.deleteByOwner(ownerId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping ("/{id}/all")
-    public ResponseEntity<Void> deleteAllByUserId(@PathVariable(name = "id") String financialAccountId){
-        cashAccountService.deleteAllByOwner(financialAccountId);
+    public ResponseEntity<Void> deleteAllByOwner(@PathVariable(name = "owner") String cashAccountId){
+        cashAccountService.deleteAllByOwner(cashAccountId);
         return ResponseEntity.noContent().build();
     }
 

@@ -13,12 +13,12 @@ import org.springframework.test.context.ContextConfiguration;
 class FinancialAccountServiceImplTest {
 
     @Mock
-    private CashAccountRepository financialAccountRepository;
+    private CashAccountRepository cashAccountRepository;
     @Mock
     private UserServiceImpl userService;
 
     @InjectMocks
-    private CashAccountServiceImpl financialAccountService;
+    private CashAccountServiceImpl accountServiceImpl;
 
     /*
     @Test

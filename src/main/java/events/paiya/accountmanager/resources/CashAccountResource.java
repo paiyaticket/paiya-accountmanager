@@ -18,9 +18,10 @@ import lombok.experimental.SuperBuilder;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=BankAccountResource.class, name="BANK_ACCOUNT"),
+        @JsonSubTypes.Type(value= BankAccountResource.class, name="BANK_ACCOUNT"),
         @JsonSubTypes.Type(value= CardAccountResource.class, name="CARD"),
-        @JsonSubTypes.Type(value= MobileMoneyAccountResource.class, name="MOBILE_MONEY")
+        @JsonSubTypes.Type(value= MobileMoneyAccountResource.class, name="MOBILE_MONEY"),
+        @JsonSubTypes.Type(value= DigitalWalletAccountResource.class, name="DIGITAL_WALLET")
 })
 @SuperBuilder
 public abstract class CashAccountResource extends BaseResource{
