@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccount extends FinancialAccount{
+public class BankAccount extends CashAccount{
     private String banqueCode;
     private String accountNumber;
     private String checkNumber;

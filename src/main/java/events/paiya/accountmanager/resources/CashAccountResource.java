@@ -23,12 +23,12 @@ import lombok.experimental.SuperBuilder;
         @JsonSubTypes.Type(value= MobileMoneyAccountResource.class, name="MOBILE_MONEY")
 })
 @SuperBuilder
-public abstract class FinancialAccountResource extends BaseResource{
+public abstract class CashAccountResource extends BaseResource{
     private String id;
     private FinancialAccountType financialAccountType;
     private Boolean isDefault;
-    private String ownerId;
+    private String owner;
 
-    public FinancialAccountResource() {
+    public CashAccountResource() {
     }
 }

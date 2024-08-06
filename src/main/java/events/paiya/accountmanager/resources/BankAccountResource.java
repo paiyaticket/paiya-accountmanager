@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccountResource extends FinancialAccountResource {
+public class BankAccountResource extends CashAccountResource {
     @Size(max = 9)
     private String banqueCode;
     @Size(min = 9, max = 12)

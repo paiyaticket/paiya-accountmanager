@@ -1,17 +1,17 @@
 package events.paiya.accountmanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import events.paiya.accountmanager.controllers.FinancialAccountController;
-import events.paiya.accountmanager.domains.FinancialAccount;
+import events.paiya.accountmanager.controllers.CashAccountController;
+import events.paiya.accountmanager.domains.CashAccount;
 import events.paiya.accountmanager.enumerations.CardProvider;
 import events.paiya.accountmanager.enumerations.FinancialAccountType;
 import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
-import events.paiya.accountmanager.mappers.FinancialAccountMapper;
+import events.paiya.accountmanager.mappers.CashAccountMapper;
 import events.paiya.accountmanager.resources.BankAccountResource;
 import events.paiya.accountmanager.resources.CardAccountResource;
-import events.paiya.accountmanager.resources.FinancialAccountResource;
+import events.paiya.accountmanager.resources.CashAccountResource;
 import events.paiya.accountmanager.resources.MobileMoneyAccountResource;
-import events.paiya.accountmanager.services.FinancialAccountServiceImpl;
+import events.paiya.accountmanager.services.CashAccountServiceImpl;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,9 +39,9 @@ public class FinancialAccountControllerIntegrationTest {
     private static ObjectMapper objectMapper;
 
     @Autowired
-    private FinancialAccountServiceImpl financialAccountService;
+    private CashAccountServiceImpl financialAccountService;
     @Autowired
-    private FinancialAccountMapper financialAccountMapper;
+    private CashAccountMapper financialAccountMapper;
 
     private MockMvc mockMvc;
 
@@ -53,7 +53,7 @@ public class FinancialAccountControllerIntegrationTest {
     @BeforeEach
     void setup(){
         this.mockMvc = MockMvcBuilders
-                .standaloneSetup(new FinancialAccountController(financialAccountService, financialAccountMapper))
+                .standaloneSetup(new CashAccountController(financialAccountService, financialAccountMapper))
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class FinancialAccountControllerIntegrationTest {
     @Order(0)
     void create() throws Exception {
         financialAccountService.deleteAll();
-        FinancialAccountResource mobileAccountResource = this.buildCardAccount();
+        CashAccountResource mobileAccountResource = this.buildCardAccount();
         mockMvc.perform(post(BASE_URI_TEMPLATE)
                         .content(objectMapper.writeValueAsBytes(mobileAccountResource))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -83,7 +83,7 @@ public class FinancialAccountControllerIntegrationTest {
     @Test
     @Order(2)
     void findUserDefaultFinancialAccount() throws Exception {
-        FinancialAccountResource mobileAccountResource = this.buildMobileMoneyAccount();
+        CashAccountResource mobileAccountResource = this.buildMobileMoneyAccount();
         financialAccountService.create(financialAccountMapper.toEntity(mobileAccountResource));
 
         mockMvc.perform(get(BASE_URI_TEMPLATE+"/default")
@@ -111,7 +111,7 @@ public class FinancialAccountControllerIntegrationTest {
     @Test
     @Order(4)
     void update() throws Exception {
-        FinancialAccountResource financialAccountResource = this.buildMobileMoneyAccount();
+        CashAccountResource financialAccountResource = this.buildMobileMoneyAccount();
         financialAccountResource.setIsDefault(false);
         mockMvc.perform(patch(BASE_URI_TEMPLATE+"/"+MOBILE_ID)
                         .content(objectMapper.writeValueAsBytes(financialAccountResource))
@@ -135,7 +135,7 @@ public class FinancialAccountControllerIntegrationTest {
     @Test
     @Order(6)
     void deleteByOwnerId() throws Exception {
-        FinancialAccountResource buildBankAccount = this.buildBankAccount();
+        CashAccountResource buildBankAccount = this.buildBankAccount();
         financialAccountService.create(financialAccountMapper.toEntity(buildBankAccount));
 
         mockMvc.perform(delete(BASE_URI_TEMPLATE)
@@ -143,7 +143,7 @@ public class FinancialAccountControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        List<FinancialAccount> financialAccounts = financialAccountService.findByUserId(OWNER_ID);
+        List<CashAccount> financialAccounts = financialAccountService.findByOwner(OWNER_ID);
         Assertions.assertTrue(financialAccounts.isEmpty());
     }
 
@@ -154,11 +154,11 @@ public class FinancialAccountControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        List<FinancialAccount> financialAccounts = financialAccountService.findByUserId(OTHER_OWNER_ID);
+        List<CashAccount> financialAccounts = financialAccountService.findByOwner(OTHER_OWNER_ID);
         Assertions.assertTrue(financialAccounts.isEmpty());
     }
 
-    private FinancialAccountResource buildMobileMoneyAccount(){
+    private CashAccountResource buildMobileMoneyAccount(){
         return MobileMoneyAccountResource.builder().id(MOBILE_ID)
                 .financialAccountType(FinancialAccountType.MOBILE_MONEY)
                 .mobileMoneyProvider(MobileMoneyProvider.WAVE_CI)
@@ -169,7 +169,7 @@ public class FinancialAccountControllerIntegrationTest {
                 .build();
     }
 
-    private FinancialAccountResource buildCardAccount(){
+    private CashAccountResource buildCardAccount(){
         return CardAccountResource.builder().id(CARD_ID)
                 .financialAccountType(FinancialAccountType.CARD)
                 .cardNumber("4541122587796253")
@@ -177,7 +177,7 @@ public class FinancialAccountControllerIntegrationTest {
                 .provider(CardProvider.VISA).ownerId(OWNER_ID).build();
     }
 
-    private FinancialAccountResource buildBankAccount(){
+    private CashAccountResource buildBankAccount(){
         String BANK_ID = "68acee0e2162f374bd198208";
         return BankAccountResource.builder().id(BANK_ID)
                 .financialAccountType(FinancialAccountType.BANK_ACCOUNT)

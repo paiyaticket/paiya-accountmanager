@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MobileMoneyAccount extends FinancialAccount{
+public class MobileMoneyAccount extends CashAccount{
     private String countryPrefixNumber;
     private String phoneNumber;
     private MobileMoneyProvider mobileMoneyProvider;

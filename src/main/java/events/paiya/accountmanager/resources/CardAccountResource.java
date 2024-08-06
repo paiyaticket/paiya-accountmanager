@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardAccountResource extends FinancialAccountResource {
+public class CardAccountResource extends CashAccountResource {
     @Size(min = 16, max = 19)
     private String cardNumber;
     private String expirationDate;

@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardAccount extends FinancialAccount{
+public class CardAccount extends CashAccount{
     private String cardNumber;
     private String expirationDate;
     private CardProvider provider;

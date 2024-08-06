@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class MobileMoneyAccountResource extends FinancialAccountResource {
+public class MobileMoneyAccountResource extends CashAccountResource {
     private String countryPrefixNumber;
     private String phoneNumber;
     private MobileMoneyProvider mobileMoneyProvider;

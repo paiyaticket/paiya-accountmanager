@@ -7,13 +7,13 @@ import org.springframework.data.annotation.Id;
 
 @Data
 @SuperBuilder
-public abstract class FinancialAccount {
+public abstract class CashAccount {
     @Id
     private String id;
     @Builder.Default
     private Boolean isDefault = false;
-    private String ownerId;
+    private String owner;
 
-    public FinancialAccount() {
+    public CashAccount() {
     }
 }

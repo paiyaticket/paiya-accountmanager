@@ -1,7 +1,7 @@
 package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
-import events.paiya.accountmanager.repositories.FinancialAccountRepository;
+import events.paiya.accountmanager.repositories.CashAccountRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,12 +13,12 @@ import org.springframework.test.context.ContextConfiguration;
 class FinancialAccountServiceImplTest {
 
     @Mock
-    private FinancialAccountRepository financialAccountRepository;
+    private CashAccountRepository financialAccountRepository;
     @Mock
     private UserServiceImpl userService;
 
     @InjectMocks
-    private FinancialAccountServiceImpl financialAccountService;
+    private CashAccountServiceImpl financialAccountService;
 
     /*
     @Test

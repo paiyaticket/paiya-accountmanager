@@ -1,63 +1,63 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.domains.FinancialAccount;
-import events.paiya.accountmanager.repositories.FinancialAccountRepository;
+import events.paiya.accountmanager.domains.CashAccount;
+import events.paiya.accountmanager.repositories.CashAccountRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class FinancialAccountServiceImpl implements FinancialAccountService{
+public class CashAccountServiceImpl implements CashAccountService{
 
-    private final FinancialAccountRepository financialAccountRepository;
+    private final CashAccountRepository cashAccountRepository;
 
-    public FinancialAccountServiceImpl(FinancialAccountRepository financialAccountRepository) {
-        this.financialAccountRepository = financialAccountRepository;
+    public CashAccountServiceImpl(CashAccountRepository financialAccountRepository) {
+        this.cashAccountRepository = financialAccountRepository;
     }
 
     @Override
-    public FinancialAccount findById(String id) {
-        return financialAccountRepository.findById(id).orElseThrow();
+    public CashAccount findById(String id) {
+        return cashAccountRepository.findById(id).orElseThrow();
     }
 
     @Override
-    public FinancialAccount findByUserIdAndIsDefault(String id, Boolean isDefault) {
-        return financialAccountRepository.findByOwnerIdAndIsDefault(id, isDefault).orElseThrow();
+    public CashAccount findByOwnerAndIsDefault(String owner, Boolean isDefault) {
+        return cashAccountRepository.findByOwnerAndIsDefault(owner, isDefault).orElseThrow();
     }
 
     @Override
-    public FinancialAccount create(FinancialAccount financialAccount) {
-        return financialAccountRepository.insert(financialAccount);
+    public CashAccount create(CashAccount financialAccount) {
+        return cashAccountRepository.insert(financialAccount);
     }
 
     @Override
-    public FinancialAccount update(FinancialAccount financialAccount) {
-        return financialAccountRepository.save(financialAccount);
+    public CashAccount update(CashAccount financialAccount) {
+        return cashAccountRepository.save(financialAccount);
     }
 
     @Override
-    public List<FinancialAccount> findByUserId(String id) {
-        return financialAccountRepository.findByOwnerId(id);
+    public List<CashAccount> findByOwner(String owner) {
+        return cashAccountRepository.findByOwner(owner);
     }
 
     @Override
-    public void deleteAllByOwnerId(String id) {
-        financialAccountRepository.deleteAllByOwnerId(id);
+    public void deleteAllByOwner(String owner) {
+        cashAccountRepository.deleteAllByOwner(owner);
     }
 
     @Override
-    public void deleteByOwnerId(String id) {
-        financialAccountRepository.deleteByOwnerId(id);
+    public void deleteByOwner(String owner) {
+        cashAccountRepository.deleteByOwner(owner);
     }
 
     @Override
     public void deleteById(String financialAccountId) {
-        financialAccountRepository.deleteById(financialAccountId);
+        cashAccountRepository.deleteById(financialAccountId);
     }
 
     @Override
     public void deleteAll() {
-        financialAccountRepository.deleteAll();
+        cashAccountRepository.deleteAll();
     }
 
     /*
