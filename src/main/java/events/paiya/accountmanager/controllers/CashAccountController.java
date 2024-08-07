@@ -29,10 +29,10 @@ public class CashAccountController {
     @PostMapping()
     public ResponseEntity<CashAccountResource> create(@RequestBody @Valid CashAccountResource cashAccountResource,
                                                            HttpServletRequest request) throws URISyntaxException {
-        CashAccount financialAccount = cashAccountMapper.toEntity(cashAccountResource);
-        financialAccount = cashAccountService.create(financialAccount);
-        URI uri = new URI(request.getRequestURI()+"/"+financialAccount.getId());
-        return ResponseEntity.created(uri).body(cashAccountMapper.toResource(financialAccount));
+        CashAccount cashAccount = cashAccountMapper.toEntity(cashAccountResource);
+        cashAccount = cashAccountService.create(cashAccount);
+        URI uri = new URI(request.getRequestURI()+"/"+cashAccount.getId());
+        return ResponseEntity.created(uri).body(cashAccountMapper.toResource(cashAccount));
     }
 
     @GetMapping ("/{id}")

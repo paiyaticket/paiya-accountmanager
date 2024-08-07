@@ -6,6 +6,7 @@ import events.paiya.accountmanager.domains.MobileMoneyAccount;
 import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
 import events.paiya.accountmanager.repositories.CashAccountRepository;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,7 @@ import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = DisableSecurityConfiguration.class)
-class FinancialAccountServiceImplTest {
+class CashAccountServiceImplTest {
 
     private final String ID = UUID.randomUUID().toString();
 
@@ -42,6 +43,16 @@ class FinancialAccountServiceImplTest {
         CashAccount account = cashAccountService.findById(ID);
 
         Assert.notNull(account, () -> "The [account] object must be null");
+        Mockito.verify(cashAccountRepository, Mockito.times(1)).findById(ID);
+    }
+
+    @Test()
+    @DisplayName(value = "Given Id, When Id not exist, Then throw exception")
+    void findById_ThrowsNoSuchElement(){
+
+        Mockito.when(cashAccountRepository.findById(ID)).thenThrow(new NoSuchElementException());
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> cashAccountService.findById(ID));
         Mockito.verify(cashAccountRepository, Mockito.times(1)).findById(ID);
     }
 
