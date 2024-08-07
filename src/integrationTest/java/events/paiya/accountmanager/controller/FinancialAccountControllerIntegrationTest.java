@@ -33,15 +33,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FinancialAccountControllerIntegrationTest {
     private final String MOBILE_ID = "64acee0e2162f374bd198208";
     private final String CARD_ID = "68acee0e2162f374bd198208";
-    private final String OWNER_ID = "64acee0e2162f374bd198208";
-    private final String OTHER_OWNER_ID = "92azze0e2162f374bd198208";
-    private static final String BASE_URI_TEMPLATE = "/v1/financial-accounts";
+    private final String OWNER_ID = "owner@paiya.event";
+    private final String OTHER_OWNER_ID = "other_owner@paiya.event";
+    private static final String BASE_URI_TEMPLATE = "/v1/cash-accounts";
     private static ObjectMapper objectMapper;
 
     @Autowired
-    private CashAccountServiceImpl financialAccountService;
+    private CashAccountServiceImpl cashAccountService;
     @Autowired
-    private CashAccountMapper financialAccountMapper;
+    private CashAccountMapper cashAccountMapper;
 
     private MockMvc mockMvc;
 
@@ -53,14 +53,14 @@ public class FinancialAccountControllerIntegrationTest {
     @BeforeEach
     void setup(){
         this.mockMvc = MockMvcBuilders
-                .standaloneSetup(new CashAccountController(financialAccountService, financialAccountMapper))
+                .standaloneSetup(new CashAccountController(cashAccountService, cashAccountMapper))
                 .build();
     }
 
     @Test
     @Order(0)
     void create() throws Exception {
-        financialAccountService.deleteAll();
+        cashAccountService.deleteAll();
         CashAccountResource mobileAccountResource = this.buildCardAccount();
         mockMvc.perform(post(BASE_URI_TEMPLATE)
                         .content(objectMapper.writeValueAsBytes(mobileAccountResource))
@@ -84,10 +84,10 @@ public class FinancialAccountControllerIntegrationTest {
     @Order(2)
     void findUserDefaultFinancialAccount() throws Exception {
         CashAccountResource mobileAccountResource = this.buildMobileMoneyAccount();
-        financialAccountService.create(financialAccountMapper.toEntity(mobileAccountResource));
+        cashAccountService.create(cashAccountMapper.toEntity(mobileAccountResource));
 
         mockMvc.perform(get(BASE_URI_TEMPLATE+"/default")
-                        .param("userId", OWNER_ID)
+                        .param("owner", OWNER_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
@@ -97,15 +97,15 @@ public class FinancialAccountControllerIntegrationTest {
 
     @Test
     @Order(3)
-    void findByUserId() throws Exception {
+    void findByOwner() throws Exception {
 
         mockMvc.perform(get(BASE_URI_TEMPLATE)
-                        .param("userId", OWNER_ID)
+                        .param("owner", OWNER_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].ownerId").value(OWNER_ID));
+                .andExpect(jsonPath("$[0].owner").value(OWNER_ID));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class FinancialAccountControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$.isDefault").value(false))
-                .andExpect(jsonPath("$.ownerId").value(OWNER_ID));
+                .andExpect(jsonPath("$.owner").value(OWNER_ID));
     }
 
     @Test
@@ -129,34 +129,24 @@ public class FinancialAccountControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        Assertions.assertThrows(NoSuchElementException.class, () -> financialAccountService.findById(CARD_ID));
+        Assertions.assertThrows(NoSuchElementException.class, () -> cashAccountService.findById(CARD_ID));
     }
 
     @Test
     @Order(6)
-    void deleteByOwnerId() throws Exception {
+    void deleteByOwner() throws Exception {
         CashAccountResource buildBankAccount = this.buildBankAccount();
-        financialAccountService.create(financialAccountMapper.toEntity(buildBankAccount));
+        cashAccountService.create(cashAccountMapper.toEntity(buildBankAccount));
 
         mockMvc.perform(delete(BASE_URI_TEMPLATE)
-                        .param("ownerId", OWNER_ID)
+                        .param("owner", OWNER_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        List<CashAccount> financialAccounts = financialAccountService.findByOwner(OWNER_ID);
+        List<CashAccount> financialAccounts = cashAccountService.findByOwner(OWNER_ID);
         Assertions.assertTrue(financialAccounts.isEmpty());
     }
 
-    @Test
-    @Order(7)
-    void deleteAllByUserId() throws Exception {
-        mockMvc.perform(delete(BASE_URI_TEMPLATE+"/"+OTHER_OWNER_ID+"/all")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        List<CashAccount> financialAccounts = financialAccountService.findByOwner(OTHER_OWNER_ID);
-        Assertions.assertTrue(financialAccounts.isEmpty());
-    }
 
     private CashAccountResource buildMobileMoneyAccount(){
         return MobileMoneyAccountResource.builder().id(MOBILE_ID)
@@ -164,7 +154,7 @@ public class FinancialAccountControllerIntegrationTest {
                 .mobileMoneyProvider(MobileMoneyProvider.WAVE_CI)
                 .phoneNumber("0709652655")
                 .countryPrefixNumber("+225")
-                .ownerId(OWNER_ID)
+                .owner(OWNER_ID)
                 .isDefault(true)
                 .build();
     }
@@ -174,7 +164,7 @@ public class FinancialAccountControllerIntegrationTest {
                 .financialAccountType(FinancialAccountType.CARD)
                 .cardNumber("4541122587796253")
                 .expirationDate("2026/12")
-                .provider(CardProvider.VISA).ownerId(OWNER_ID).build();
+                .provider(CardProvider.VISA).owner(OWNER_ID).build();
     }
 
     private CashAccountResource buildBankAccount(){
@@ -183,6 +173,6 @@ public class FinancialAccountControllerIntegrationTest {
                 .financialAccountType(FinancialAccountType.BANK_ACCOUNT)
                 .banqueCode("123456789")
                 .accountNumber("648444649").checkNumber("2843")
-                .ownerId(OTHER_OWNER_ID).build();
+                .owner(OTHER_OWNER_ID).build();
     }
 }

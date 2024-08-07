@@ -70,14 +70,8 @@ public class CashAccountController {
     }
 
     @DeleteMapping ()
-    public ResponseEntity<Void> deleteByOwnerId(@RequestParam(name = "owner") String ownerId){
+    public ResponseEntity<Void> deleteByOwner(@RequestParam(name = "owner") String ownerId){
         cashAccountService.deleteByOwner(ownerId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping ("/{id}/all")
-    public ResponseEntity<Void> deleteAllByOwner(@PathVariable(name = "owner") String cashAccountId){
-        cashAccountService.deleteAllByOwner(cashAccountId);
         return ResponseEntity.noContent().build();
     }
 

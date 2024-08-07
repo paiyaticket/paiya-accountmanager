@@ -1,24 +1,53 @@
 package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
+import events.paiya.accountmanager.domains.CashAccount;
+import events.paiya.accountmanager.domains.MobileMoneyAccount;
+import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
 import events.paiya.accountmanager.repositories.CashAccountRepository;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.util.Assert;
+
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class FinancialAccountServiceImplTest {
 
+    private final String ID = UUID.randomUUID().toString();
+
     @Mock
     private CashAccountRepository cashAccountRepository;
+
     @Mock
     private UserServiceImpl userService;
 
     @InjectMocks
-    private CashAccountServiceImpl accountServiceImpl;
+    private CashAccountServiceImpl cashAccountService;
+
+    @Test()
+    @DisplayName(value = "Given Id, When Id exist, Then return CashAccount")
+    void findById(){
+
+        Mockito.when(cashAccountRepository.findById(ID)).thenReturn(Optional.of(this.buildCashAccount()));
+
+        CashAccount account = cashAccountService.findById(ID);
+
+        Assert.notNull(account, () -> "The [account] object must be null");
+        Mockito.verify(cashAccountRepository, Mockito.times(1)).findById(ID);
+    }
+
+    private CashAccount buildCashAccount(){
+        return MobileMoneyAccount.builder().id(ID).mobileMoneyProvider(MobileMoneyProvider.WAVE_CI).build();
+    }
 
     /*
     @Test
