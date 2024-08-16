@@ -22,7 +22,7 @@ public class CashAccountServiceImpl implements CashAccountService{
 
     @Override
     public CashAccount findByOwnerAndIsDefault(String owner, Boolean isDefault) {
-        return cashAccountRepository.findByOwnerAndIsDefault(owner, isDefault).orElseThrow();
+        return cashAccountRepository.findByOwnerAndIsDefault(owner, isDefault).orElse(null);
     }
 
     @Override
