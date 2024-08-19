@@ -25,8 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("integration-test")
 public class UserControllerIntegrationTest {
-    private final String USER1_ID = "64acee0e2162f374bd198208";
-    private final String USER2_ID = "68acee0e2162f374bd198208";
+    private final String JOHNY_ID = "64acee0e2162f374bd198208";
+    private final String JOHNY_EMAIL = "johnylafleur@gmail.com";
+    private final String DJEDJE_ID = "68acee0e2162f374bd198208";
+    private final String DJEDJE_EMAIL = "ernestodjedje@gmail.com";
     private static final String BASE_URI_TEMPLATE = "/v1/users";
     private static ObjectMapper objectMapper;
 
@@ -73,13 +75,13 @@ public class UserControllerIntegrationTest {
     }
     @Test
     @Order(3)
-    void findUserById() throws Exception {
-        mockMvc.perform(get(BASE_URI_TEMPLATE+"/"+USER1_ID)
+    void findUserByEmail() throws Exception {
+        mockMvc.perform(get(BASE_URI_TEMPLATE+"/"+JOHNY_EMAIL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(USER1_ID))
-                .andExpect(jsonPath("$.email").value("johnylafleur@gmail.com"));
+                .andExpect(jsonPath("$.id").value(JOHNY_ID))
+                .andExpect(jsonPath("$.email").value(JOHNY_EMAIL));
     }
 
     @Test
@@ -102,7 +104,7 @@ public class UserControllerIntegrationTest {
     @Order(5)
     void updateUser() throws Exception {
         UserResource userResource = this.buildUserErnestoUpdateResource();
-        mockMvc.perform(patch(BASE_URI_TEMPLATE+"/"+USER2_ID)
+        mockMvc.perform(patch(BASE_URI_TEMPLATE+"/"+DJEDJE_EMAIL)
                         .content(objectMapper.writeValueAsBytes(userResource))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -114,13 +116,13 @@ public class UserControllerIntegrationTest {
     @Test
     @Order(5)
     void deleteUser() throws Exception {
-        mockMvc.perform(delete(BASE_URI_TEMPLATE+"/"+USER2_ID))
+        mockMvc.perform(delete(BASE_URI_TEMPLATE+"/"+DJEDJE_ID))
                 .andExpect(status().isNoContent());
     }
 
 
     private User buildUserJohny(){
-        return User.builder().id(USER1_ID)
+        return User.builder().id(JOHNY_ID)
                 .firstname("Johny")
                 .lastname("LaFleur")
                 .email("johnylafleur@gmail.com")
@@ -131,7 +133,7 @@ public class UserControllerIntegrationTest {
     }
 
     private User buildUserErnesto(){
-        return User.builder().id(USER2_ID)
+        return User.builder().id(DJEDJE_ID)
                 .firstname("Ernesto")
                 .lastname("Djédjé")
                 .email("ernestodjedje@gmail.com")

@@ -8,10 +8,10 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccount extends FinancialAccount{
-    private String banqueCode;
+public class BankAccount extends CashAccount{
+    private String bankCode;
     private String accountNumber;
-    private String checkNumber;
+    private String succusale;
     private String iban;
     private String bicSwift;
 }

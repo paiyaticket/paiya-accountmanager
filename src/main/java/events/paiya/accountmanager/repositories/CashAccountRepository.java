@@ -1,17 +1,17 @@
 package events.paiya.accountmanager.repositories;
 
-import events.paiya.accountmanager.domains.FinancialAccount;
+import events.paiya.accountmanager.domains.CashAccount;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface FinancialAccountRepository extends MongoRepository<FinancialAccount, String> {
+public interface CashAccountRepository extends MongoRepository<CashAccount, String> {
 
-    List<FinancialAccount> findByOwnerId(String id);
-    Optional<FinancialAccount> findByOwnerIdAndIsDefault(String id, Boolean isDefault);
-    void deleteByOwnerId(String id);
-    void deleteAllByOwnerId(String id);
+    List<CashAccount> findByOwner(String owner);
+    Optional<CashAccount> findByOwnerAndIsDefault(String owner, Boolean isDefault);
+    void deleteByOwner(String owner);
+    void deleteAllByOwner(String owner);
 
 
 

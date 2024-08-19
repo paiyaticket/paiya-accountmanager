@@ -1,6 +1,6 @@
 package events.paiya.accountmanager.domains;
 
-import events.paiya.accountmanager.enumerations.CardProvider;
+import events.paiya.accountmanager.enumerations.DigitalWalletProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,8 +12,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardAccount extends CashAccount{
-    private String cardNumber;
-    private String expirationDate;
-    private CardProvider provider;
+public class DigitalWalletAccount extends CashAccount{
+    private String email;
+    private String phoneNumber;
+    private DigitalWalletProvider digitalWalletProvider;
 }

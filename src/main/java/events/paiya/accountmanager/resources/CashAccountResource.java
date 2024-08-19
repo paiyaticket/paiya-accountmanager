@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import events.paiya.accountmanager.enumerations.FinancialAccountType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
@@ -18,17 +20,19 @@ import lombok.experimental.SuperBuilder;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=BankAccountResource.class, name="BANK_ACCOUNT"),
+        @JsonSubTypes.Type(value= BankAccountResource.class, name="BANK_ACCOUNT"),
         @JsonSubTypes.Type(value= CardAccountResource.class, name="CARD"),
-        @JsonSubTypes.Type(value= MobileMoneyAccountResource.class, name="MOBILE_MONEY")
+        @JsonSubTypes.Type(value= MobileMoneyAccountResource.class, name="MOBILE_MONEY"),
+        @JsonSubTypes.Type(value= DigitalWalletAccountResource.class, name="DIGITAL_WALLET")
 })
 @SuperBuilder
-public abstract class FinancialAccountResource extends BaseResource{
+public abstract class CashAccountResource extends BaseResource{
     private String id;
+    @NotNull
     private FinancialAccountType financialAccountType;
     private Boolean isDefault;
-    private String ownerId;
+    private String owner;
 
-    public FinancialAccountResource() {
+    public CashAccountResource() {
     }
 }

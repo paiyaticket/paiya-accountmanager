@@ -18,9 +18,9 @@ public interface EventOrganizerService {
 
     List<EventOrganizer> findByCreatedBy(String userEmail);
 
-    EventOrganizer addMemberToEventOrganizer(String eventOrganizerId, List<String> organizationMemberList);
+    // EventOrganizer addMemberToEventOrganizer(String eventOrganizerId, List<String> organizationMemberList);
 
-    EventOrganizer removeMemberFromEventOrganizer(String eventOrganizerId, List<String> userEmailList);
+    // EventOrganizer removeMemberFromEventOrganizer(String eventOrganizerId, List<String> userEmailList);
 
     EventOrganizer updateEventOrganizer(EventOrganizer eventOrganizer);
 

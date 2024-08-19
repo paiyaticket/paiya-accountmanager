@@ -1,7 +1,6 @@
 package events.paiya.accountmanager.resources;
 
-import events.paiya.accountmanager.enumerations.CardProvider;
-import jakarta.validation.constraints.Size;
+import events.paiya.accountmanager.enumerations.DigitalWalletProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,9 +12,8 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardAccountResource extends CashAccountResource {
-    @Size(min = 16, max = 19)
-    private String cardNumber;
-    private String expirationDate;
-    private CardProvider provider;
+public class DigitalWalletAccountResource  extends CashAccountResource {
+    private String email;
+    private String phoneNumber;
+    private DigitalWalletProvider digitalWalletProvider;
 }

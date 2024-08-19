@@ -12,9 +12,10 @@ consulter la liste des evènements avenirs.
 * ID d'un compte utilisateur est un ID fournit par AWS cognito.
 * Un compte utilisateur est soit de type Promoteur, soit de type Participant.
 
-**Compte financier (FinancialAccount)**
-* Un utilisateur peut avoir un ou plusieurs comptes financier (FinancialAccount);
-* Un compte utilisateur a un seul compte finanicer par defaut;
+**Compte financier (CashAccount)**
+* un compte d'encaissement est un compte ou un mode de paiement via lequel un organisateur d'evènement reçoit l'argent des tickets vendus.
+* Un utilisateur peut avoir un ou plusieurs comptes d'encaissement (FinancialAccount);
+* Un compte utilisateur a un seul compte d'encaissement par defaut;
 
 **Groupe d'utilisateur (EventOrganizer)**
 * Un EventOrganizer est un groupe utilisateur. Il permet de représenter un simple 

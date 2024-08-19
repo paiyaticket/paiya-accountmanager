@@ -3,7 +3,6 @@ package events.paiya.accountmanager.controllers;
 import events.paiya.accountmanager.domains.EventOrganizer;
 import events.paiya.accountmanager.mappers.EventOrganizerMapper;
 import events.paiya.accountmanager.resources.EventOrganizerResource;
-import events.paiya.accountmanager.resources.MemberBundleResource;
 import events.paiya.accountmanager.services.EventOrganizerServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,7 @@ public class EventOrganizerController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<EventOrganizerResource>> findEventOrganizerCreatedBy(@RequestParam(name = "email") String userEmail) {
+    public ResponseEntity<List<EventOrganizerResource>> findEventOrganizerOwner(@RequestParam(name = "owner") String userEmail) {
         List<EventOrganizer> eventOrganizerList = eventOrganizerService.findByCreatedBy(userEmail);
         return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizerList));
     }
@@ -47,14 +46,13 @@ public class EventOrganizerController {
         return ResponseEntity.created(uri).body(eventOrganizerMapper.toResource(eventOrganizer));
     }
 
-    @GetMapping("/criteria")
-    public ResponseEntity<List<EventOrganizerResource>> findByName(@RequestParam(value = "parameter", defaultValue = "owner") String parameter,
-                                                                   @RequestParam(value = "value") String value) {
-        List<EventOrganizer> eventOrganizer = ("owner".equals(parameter)) ?
-                eventOrganizerService.findByCreatedBy(value) : eventOrganizerService.findByOrganizationMembersEmail(value);
+    @GetMapping("/staff")
+    public ResponseEntity<List<EventOrganizerResource>> findByStaffEmail(@RequestParam(value = "staff-member-mail") String staff_member_mail) {
+        List<EventOrganizer> eventOrganizer = eventOrganizerService.findByOrganizationMembersEmail(staff_member_mail);
         return ResponseEntity.ok(eventOrganizerMapper.toResourceList(eventOrganizer));
     }
 
+    /*
     @PatchMapping("/add-members")
     public ResponseEntity<EventOrganizerResource> addMemberByEoId(@RequestBody MemberBundleResource memberBundleResource) {
         EventOrganizer eventOrganizer = eventOrganizerService.addMemberToEventOrganizer(memberBundleResource.getEventOrganizerId(), memberBundleResource.getMemberEmailList());
@@ -66,6 +64,8 @@ public class EventOrganizerController {
         EventOrganizer eventOrganizer = eventOrganizerService.removeMemberFromEventOrganizer(memberBundleResource.getEventOrganizerId(), memberBundleResource.getMemberEmailList());
         return ResponseEntity.ok(eventOrganizerMapper.toResource(eventOrganizer));
     }
+     */
+    
 
     @PatchMapping("/{id}")
     public ResponseEntity<EventOrganizerResource> update(@PathVariable String id, @RequestBody EventOrganizerResource eventOrganizerResource) {

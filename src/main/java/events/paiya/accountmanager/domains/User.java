@@ -31,7 +31,7 @@ public class User {
     @Indexed(unique = true)
     private String phoneNumber;
     private Address address;
-    private List<FinancialAccount> financialAccounts;
+    private List<CashAccount> financialAccounts;
     @Builder.Default
     private boolean active = true;
 
