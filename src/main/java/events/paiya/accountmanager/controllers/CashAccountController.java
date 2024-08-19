@@ -6,6 +6,8 @@ import events.paiya.accountmanager.resources.CashAccountResource;
 import events.paiya.accountmanager.services.CashAccountServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/v1/cash-accounts")
@@ -28,7 +31,7 @@ public class CashAccountController {
 
     @PostMapping()
     public ResponseEntity<CashAccountResource> create(@RequestBody @Valid CashAccountResource cashAccountResource,
-                                                           HttpServletRequest request) throws URISyntaxException {
+                                                        HttpServletRequest request) throws URISyntaxException {
         CashAccount cashAccount = cashAccountMapper.toEntity(cashAccountResource);
         cashAccount = cashAccountService.create(cashAccount);
         URI uri = new URI(request.getRequestURI()+"/"+cashAccount.getId());
@@ -56,11 +59,15 @@ public class CashAccountController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<CashAccountResource> update(@PathVariable(name = "id") String cashAccountId,
-                                                           @RequestBody @Valid CashAccountResource cashAccountResource){
-        CashAccount financialAccount = this.cashAccountService.findById(cashAccountId);
-        cashAccountMapper.updateCashAccountFromResource(cashAccountResource, financialAccount);
-        financialAccount = cashAccountService.update(financialAccount);
-        return ResponseEntity.ok(cashAccountMapper.toResource(financialAccount));
+                                                      @RequestBody @Valid CashAccountResource cashAccountResource){
+
+        log.info(" ===> resources : "+cashAccountResource.toString());
+        CashAccount cashAccount = this.cashAccountService.findById(cashAccountId);
+        cashAccount = cashAccountService.updateCashAccountFromResource(cashAccountResource, cashAccount);
+
+        log.info(" ===> updater : "+cashAccount.toString());
+        CashAccount updatedCashAccount = cashAccountService.update(cashAccount);
+        return ResponseEntity.ok(cashAccountMapper.toResource(updatedCashAccount));
     }
 
     @DeleteMapping ("/{id}")

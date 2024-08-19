@@ -171,8 +171,8 @@ public class FinancialAccountControllerIntegrationTest {
         String BANK_ID = "68acee0e2162f374bd198208";
         return BankAccountResource.builder().id(BANK_ID)
                 .financialAccountType(FinancialAccountType.BANK_ACCOUNT)
-                .banqueCode("123456789")
-                .accountNumber("648444649").checkNumber("2843")
+                .bankCode("123456789")
+                .accountNumber("648444649").succusale("2843")
                 .owner(OTHER_OWNER_ID).build();
     }
 }

@@ -11,14 +11,12 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BankAccountResource extends CashAccountResource {
-    @Size(max = 9)
-    private String banqueCode;
-    @Size(min = 9, max = 12)
-    private String accountNumber;
-    @Size(min = 3, max = 4)
-    private String checkNumber;
-    @Size(min = 27, max = 30)
-    private String iban;
-    @Size(min = 8, max = 12)
-    private String bicSwift;
+    @Size(max = 3)
+    private String bankCode; // numero d'institution
+    @Size(min = 7, max = 12)
+    private String accountNumber; // numero de compte
+    @Size(max = 5)
+    private String succusale; // numero de succussale
+    @Size(min = 14, max = 34)
+    private String iban; //  numero de compte dans le systeme europeen
 }

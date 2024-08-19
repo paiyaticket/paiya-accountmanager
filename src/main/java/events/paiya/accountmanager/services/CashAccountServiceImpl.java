@@ -1,18 +1,33 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.domains.CashAccount;
-import events.paiya.accountmanager.repositories.CashAccountRepository;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+import events.paiya.accountmanager.domains.BankAccount;
+import events.paiya.accountmanager.domains.CardAccount;
+import events.paiya.accountmanager.domains.CashAccount;
+import events.paiya.accountmanager.domains.DigitalWalletAccount;
+import events.paiya.accountmanager.domains.MobileMoneyAccount;
+import events.paiya.accountmanager.mappers.CashAccountMapper;
+import events.paiya.accountmanager.repositories.CashAccountRepository;
+import events.paiya.accountmanager.resources.BankAccountResource;
+import events.paiya.accountmanager.resources.CardAccountResource;
+import events.paiya.accountmanager.resources.CashAccountResource;
+import events.paiya.accountmanager.resources.DigitalWalletAccountResource;
+import events.paiya.accountmanager.resources.MobileMoneyAccountResource;
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class CashAccountServiceImpl implements CashAccountService{
 
     private final CashAccountRepository cashAccountRepository;
+    private final CashAccountMapper cashAccountMapper;
 
-    public CashAccountServiceImpl(CashAccountRepository financialAccountRepository) {
+    public CashAccountServiceImpl(CashAccountRepository financialAccountRepository, CashAccountMapper cashAccountMapper) {
         this.cashAccountRepository = financialAccountRepository;
+        this.cashAccountMapper = cashAccountMapper;
     }
 
     @Override
@@ -31,8 +46,8 @@ public class CashAccountServiceImpl implements CashAccountService{
     }
 
     @Override
-    public CashAccount update(CashAccount financialAccount) {
-        return cashAccountRepository.save(financialAccount);
+    public CashAccount update(CashAccount cashAccount) {
+        return cashAccountRepository.save(cashAccount);
     }
 
     @Override
@@ -60,45 +75,33 @@ public class CashAccountServiceImpl implements CashAccountService{
         cashAccountRepository.deleteAll();
     }
 
-    /*
-    @Override
-    public List<FinancialAccount> addFinancialAccountByUserId(String userId, FinancialAccount financialAccount) {
-        financialAccount.setId(UUID.randomUUID().toString());
-        if (this.hasFinancialAccounts(userId))
-            this.financialAccountRepository.unDefaultFinancialAccountByUserId(userId);
+    public CashAccount updateCashAccountFromResource(CashAccountResource cashAccountResource, CashAccount cashAccount){
+        switch (cashAccountResource.getFinancialAccountType()) {
+            case BANK_ACCOUNT:
+                BankAccountResource bankAccountResource = (BankAccountResource) cashAccountResource;
+                BankAccount bankAccount = (BankAccount) cashAccount;
+                cashAccountMapper.updateBankAccountFromResource(bankAccountResource , bankAccount);
+                break;
 
-        this.financialAccountRepository.addFinancialAccountByUserId(userId, financialAccount);
-        return this.findAllFinancialAccountByUserId(userId);
+            case CARD:
+                CardAccountResource cardAccountResource = (CardAccountResource) cashAccountResource;
+                CardAccount cardAccount = (CardAccount) cashAccount;
+                cashAccountMapper.updateCardAccountFromResource(cardAccountResource, cardAccount);
+                break;
+
+            case MOBILE_MONEY:
+                MobileMoneyAccountResource mobileMoneyAccountResource = (MobileMoneyAccountResource) cashAccountResource;
+                MobileMoneyAccount mobileMoneyAccount = (MobileMoneyAccount) cashAccount;
+                cashAccountMapper.updateMobileMoneyAccountFromResource(mobileMoneyAccountResource, mobileMoneyAccount);
+                break;
+        
+            default:
+                DigitalWalletAccountResource digitalWalletAccountResource = (DigitalWalletAccountResource) cashAccountResource;
+                DigitalWalletAccount digitalWalletAccount = (DigitalWalletAccount) cashAccount;
+                cashAccountMapper.updateDigitalWalletAccountFromResource(digitalWalletAccountResource, digitalWalletAccount);
+                break;
+        }
+
+        return cashAccount;
     }
-
-    @Override
-    public List<FinancialAccount> removeFinancialAccountByUserId(String id, String financialAccountId) {
-        this.financialAccountRepository.removeFinancialAccountByUserId(id, financialAccountId);
-        return this.userService.findByUserId(id).getFinancialAccounts();
-    }
-
-    @Override
-    public FinancialAccount changeDefaultFinancialAccountByUserId(String userId, String financialAccountId) {
-        if (this.hasFinancialAccounts(userId))
-            this.financialAccountRepository.unDefaultFinancialAccountByUserId(userId);
-        this.financialAccountRepository.defaultFinancialAccountByUserId(userId, financialAccountId);
-        return this.financialAccountRepository.findFinancialAccountById(userId, financialAccountId);
-    }
-
-    @Override
-    public FinancialAccount findDefaultFinancialAccountByUserId(String userId) {
-        return this.financialAccountRepository.findDefaultFinancialAccountByUserId(userId);
-    }
-
-    public List<FinancialAccount> findAllFinancialAccountByUserId(String userId) {
-        UserFinancialAccount userFinancialAccount = this.financialAccountRepository.findAllFinancialAccountByUserId(userId);
-        return userFinancialAccount.getFinancialAccounts();
-    }
-
-
-    private boolean hasFinancialAccounts(String userId){
-        List<FinancialAccount> financialAccounts = this.findAllFinancialAccountByUserId(userId);
-        return !financialAccounts.isEmpty();
-    }
-     */
 }

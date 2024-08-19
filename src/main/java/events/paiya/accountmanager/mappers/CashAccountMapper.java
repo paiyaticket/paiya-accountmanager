@@ -31,5 +31,16 @@ public interface CashAccountMapper {
     List<CashAccount> toEntityList(List<CashAccountResource> cashAccountResourceList);
     List<CashAccountResource> toResourceList(List<CashAccount> fcashAccountList);
 
-    void updateCashAccountFromResource(CashAccountResource resource, @MappingTarget CashAccount account);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateBankAccountFromResource(BankAccountResource resource, @MappingTarget BankAccount account);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateCardAccountFromResource(CardAccountResource resource, @MappingTarget CardAccount account);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateMobileMoneyAccountFromResource(MobileMoneyAccountResource resource, @MappingTarget MobileMoneyAccount account);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateDigitalWalletAccountFromResource(DigitalWalletAccountResource resource, @MappingTarget DigitalWalletAccount account);
+
 }
