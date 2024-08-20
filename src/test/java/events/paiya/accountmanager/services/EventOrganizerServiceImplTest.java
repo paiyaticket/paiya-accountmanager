@@ -2,9 +2,7 @@ package events.paiya.accountmanager.services;
 
 import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.EventOrganizer;
-import events.paiya.accountmanager.domains.OrganizationMember;
 import events.paiya.accountmanager.domains.SocialMedia;
-import events.paiya.accountmanager.domains.projections.OrganizationMemberProjection;
 import events.paiya.accountmanager.mappers.projection.OrganizationMemberProjectionMapper;
 import events.paiya.accountmanager.repositories.EventOrganizerRepository;
 import events.paiya.accountmanager.repositories.UserRepository;
@@ -26,8 +24,8 @@ class EventOrganizerServiceImplTest {
 
     private final String EVENT_ORGANIZER_ID = UUID.randomUUID().toString();
     private final String EVENT_ORGANIZER_EMAIL = "jp@gmail.com";
-    private final String USER_ID = UUID.randomUUID().toString();
-    private final String USER_EMAIL = "johnylafleur@gmail.com";
+    // private final String USER_ID = UUID.randomUUID().toString();
+    // private final String USER_EMAIL = "johnylafleur@gmail.com";
     @Mock
     private EventOrganizerRepository eventOrganizerRepository;
     @Mock

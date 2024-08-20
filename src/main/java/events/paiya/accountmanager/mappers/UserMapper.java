@@ -10,7 +10,6 @@ public interface UserMapper {
     @Mapping(target = "financialAccounts", ignore = true)
     User userResourceToUser(UserResource userResource);
 
-    //TODO  : retirer le @Mapping ignore = true une fois que le refactoring sera terminer au niveau des financial account.
     @Mapping(target = "financialAccounts", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserFromResource(UserResource resource, @MappingTarget User user);
