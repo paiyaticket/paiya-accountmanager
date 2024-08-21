@@ -61,11 +61,9 @@ public class CashAccountController {
     public ResponseEntity<CashAccountResource> update(@PathVariable(name = "id") String cashAccountId,
                                                       @RequestBody @Valid CashAccountResource cashAccountResource){
 
-        log.info(" ===> resources : "+cashAccountResource.toString());
         CashAccount cashAccount = this.cashAccountService.findById(cashAccountId);
         cashAccount = cashAccountService.updateCashAccountFromResource(cashAccountResource, cashAccount);
 
-        log.info(" ===> updater : "+cashAccount.toString());
         CashAccount updatedCashAccount = cashAccountService.update(cashAccount);
         return ResponseEntity.ok(cashAccountMapper.toResource(updatedCashAccount));
     }
