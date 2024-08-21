@@ -12,7 +12,7 @@ spring:
   # Database
   data:
     mongodb:
-      host: localhost
+      host: mongodb
       port: 27017
       database: paiya_accountmanager
       username: paiya
