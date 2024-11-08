@@ -6,7 +6,6 @@ import events.paiya.accountmanager.resources.CashAccountResource;
 import events.paiya.accountmanager.services.CashAccountServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-@Slf4j
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/v1/cash-accounts")
 public class CashAccountController {

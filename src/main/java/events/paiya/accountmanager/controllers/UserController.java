@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
