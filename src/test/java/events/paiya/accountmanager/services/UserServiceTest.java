@@ -1,6 +1,5 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
@@ -18,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -26,7 +24,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class UserServiceTest {
     private final String USER_ID = "64acee0e2162f374bd198208";
     private final String USER_EMAIL = "paiyatest@gmail.com";

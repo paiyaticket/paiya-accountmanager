@@ -1,11 +1,9 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.CashAccount;
 import events.paiya.accountmanager.domains.MobileMoneyAccount;
 import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
 import events.paiya.accountmanager.repositories.CashAccountRepository;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +12,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class CashAccountServiceImplTest {
 
     private final String ID = UUID.randomUUID().toString();

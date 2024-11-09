@@ -1,6 +1,5 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.EventOrganizer;
 import events.paiya.accountmanager.domains.SocialMedia;
 import events.paiya.accountmanager.mappers.projection.OrganizationMemberProjectionMapper;
@@ -14,12 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.*;
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class EventOrganizerServiceImplTest {
 
     private final String EVENT_ORGANIZER_ID = UUID.randomUUID().toString();
