@@ -16,6 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
                             "http://localhost:4200", 
                             "http://127.0.0.1:4200" , 
                             "https://paiya-ticket--paiya-413605.us-central1.hosted.app")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE");
     }
 }
