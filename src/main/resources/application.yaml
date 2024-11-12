@@ -8,7 +8,7 @@ spring:
   application:
     name: paiya-accountmanager
   profiles:
-    active: dev
+    active: default, cloud
 
 
 # OpenApi documentation
