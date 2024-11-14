@@ -7,7 +7,7 @@ on:
     branches: [ "dev" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
     permissions:
@@ -27,11 +27,8 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build
-      run: ./gradlew build -x test
-    
-    - name: Test
-      run: ./gradlew test
-
+      run: ./gradlew build
+      
   dependency-submission:
 
     runs-on: ubuntu-latest
@@ -50,3 +47,17 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+  static-analysis:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: super-linter
+        uses: super-linter/super-linter/slim@v7.1.0
