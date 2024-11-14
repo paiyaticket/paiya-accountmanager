@@ -9,6 +9,10 @@ inputs:
     description: "Mongodb root password"
     required: true
     default: paiya
+  database_name:
+    description: "Mongodb database name"
+    required: true
+    default: paiya_accountmanager
 runs:
   using: "composite"
   steps:
@@ -17,7 +21,12 @@ runs:
       run: |
         echo username : "$INPUT_ROOT_USERNAME"
         echo password : "$INPUT_ROOT_PASSWORD"
-        docker run --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=$INPUT_ROOT_USERNAME -e MONGO_INITDB_ROOT_PASSWORD=$INPUT_ROOT_PASSWORD -d mongo:latest
+        docker run --name mongodb -p 27017:27017 \
+        -e MONGO_INITDB_ROOT_USERNAME=$INPUT_ROOT_USERNAME \
+        -e MONGO_INITDB_ROOT_PASSWORD=$INPUT_ROOT_PASSWORD \
+        -e MONGO_INITDB_DATABASE=$INPUT_DATABASE_NAME \
+        -d mongo:latest
       env:
         INPUT_ROOT_USERNAME: ${{inputs.root_username}}
         INPUT_ROOT_PASSWORD: ${{inputs.root_password}}
+        INPUT_DATABASE_NAME: ${{inputs.database_name}}
