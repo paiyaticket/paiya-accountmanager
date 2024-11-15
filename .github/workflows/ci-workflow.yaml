@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: integration-test-report-artifact
-          path: /build/reports/tests/integrationTest
+          path: ${{ github.workspace }}/build/reports/tests/integrationTest
           retention-days: 1
 
       - name: Output report download link
