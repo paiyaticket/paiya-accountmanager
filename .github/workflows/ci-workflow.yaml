@@ -54,6 +54,17 @@ jobs:
       - name: Make integration tests with Gradle
         run: ./gradlew integrationTest
 
+      - name: upload test report
+        id: upload-test-report
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-report-artifact
+          path: /build/reports/tests/integrationTest
+          retention-days: 1
+
+      - name: Output report download link
+        run: echo "Download Link of the Repoort Artifact => ${{ steps.upload-test-report.outputs.artifact-url }} "
+
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
