@@ -24,7 +24,7 @@ runs:
         docker run --name mongodb -p 27017:27017 \
         -e MONGO_INITDB_ROOT_USERNAME=$INPUT_ROOT_USERNAME \
         -e MONGO_INITDB_ROOT_PASSWORD=$INPUT_ROOT_PASSWORD \
-        -d mongodb/mongodb-community-server:latest
+        -it mongodb/mongodb-community-server:latest
       env:
         INPUT_ROOT_USERNAME: ${{inputs.root_username}}
         INPUT_ROOT_PASSWORD: ${{inputs.root_password}}
