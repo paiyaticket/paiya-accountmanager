@@ -51,6 +51,9 @@ jobs:
       - name: Create and run mongodb docker container
         uses: ./.github/actions/run-mongodb-container
 
+      - name: Install mongosh and create database
+        uses: ./.github/actions/install-mongosh-and-create-db
+
       - name: Make integration tests with Gradle
         id: make-integration-test
         run: ./gradlew integrationTest
