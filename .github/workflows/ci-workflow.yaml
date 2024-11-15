@@ -49,10 +49,24 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
 
       - name: Create and run mongodb docker container
-        uses: ./.github/actions/run-mongodb-container
+        uses: DigiPie/mongo-action@v2.0.1
+        with:
+          image_version: latest
+          port: 27017
 
-      - name: Install mongosh and create database
-        uses: ./.github/actions/install-mongosh-and-create-db
+      - name: Install mongosh command
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-mongosh
+
+      - name: Test mongo connection
+        run: |
+          sudo mongosh localhost:27017
+          use paiya_accountmanager
 
       - name: Make integration tests with Gradle
         id: make-integration-test
