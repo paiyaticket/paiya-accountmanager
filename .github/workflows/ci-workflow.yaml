@@ -49,7 +49,21 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
 
       - name: Create and run mongodb docker container
+        id: create-run-mongodb-docker
         uses: ./.github/actions/run-mongodb-container
+
+      - name: Upload mongo container
+        if: ${{ steps.create-run-mongodb-docker.conclusion == 'failure' }}
+        id: upload-mongo-container-report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mongo-container-report-artifact
+          path: /home/runner/work/_temp/*.sh
+          retention-days: 1
+      
+      - name: Output mongo container report download link
+        if: ${{ steps.create-run-mongodb-docker.conclusion == 'failure' }}
+        run: echo "Download Link of the Repoort Artifact => ${{ steps.upload-mongo-container-report.outputs.artifact-url }} "
 
 #      - name: Install mongosh and create database
 #        uses: ./.github/actions/install-mongosh-and-create-db
