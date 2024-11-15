@@ -53,16 +53,16 @@ jobs:
         uses: ./.github/actions/run-mongodb-container
 
       - name: Upload mongo container report
-        if: ${{ steps.create-run-mongodb-docker.conclusion == 'failure' }}
+        if: ${{ steps.create-run-mongodb-docker.outcome == 'failure' }}
         id: upload-mongo-container-report
         uses: actions/upload-artifact@v4
         with:
           name: mongo-container-report-artifact
-          path: /home/runner/work/_temp/*.sh
+          path: /home/runner/work/_temp
           retention-days: 1
       
       - name: Output mongo container report download link
-        if: ${{ steps.create-run-mongodb-docker.conclusion == 'failure' }}
+        if: ${{ steps.create-run-mongodb-docker.outcome == 'failure' }}
         run: echo "Download Link of the Repoort Artifact => ${{ steps.upload-mongo-container-report.outputs.artifact-url }} "
 
 #      - name: Install mongosh and create database
