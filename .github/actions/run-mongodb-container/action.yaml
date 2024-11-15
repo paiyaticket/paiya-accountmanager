@@ -23,6 +23,9 @@ runs:
         -e MONGO_INITDB_ROOT_USERNAME=$INPUT_ROOT_USERNAME \
         -e MONGO_INITDB_ROOT_PASSWORD=$INPUT_ROOT_PASSWORD \
         -d mongodb/mongodb-community-server:latest
+        docker exec -d mongodb mongosh "mongodb://localhost:27017" --username $INPUT_ROOT_USERNAME --password $INPUT_ROOT_PASSWORD \
+        && use $INPUT_DATABASE_NAME \
+        && db
       env:
         INPUT_ROOT_USERNAME: ${{inputs.root_username}}
         INPUT_ROOT_PASSWORD: ${{inputs.root_password}}
