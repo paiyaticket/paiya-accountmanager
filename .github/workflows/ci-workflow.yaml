@@ -52,6 +52,9 @@ jobs:
         id: create-run-mongodb-docker
         uses: ./.github/actions/run-mongodb-container
 
+      - name: Install mongosh and create database
+        uses: ./.github/actions/install-mongosh-and-create-db
+
       - name: Upload mongo container report
         if: ${{ failure() }}
         id: upload-mongo-container-report
@@ -59,14 +62,11 @@ jobs:
         with:
           name: mongo-container-report-artifact
           path: /home/runner/work/_temp
-          retention-days: 1
-      
+          retention-days: 1 
+
       - name: Output mongo container report download link
         if: ${{ steps.create-run-mongodb-docker.conclusion == 'failure' }}
         run: echo "Download Link of the Repoort Artifact => ${{ steps.upload-mongo-container-report.outputs.artifact-url }} "
-
-#      - name: Install mongosh and create database
-#        uses: ./.github/actions/install-mongosh-and-create-db
 
       - name: Make integration tests with Gradle
         id: make-integration-test
@@ -85,20 +85,20 @@ jobs:
         if: ${{ steps.make-integration-test.conclusion == 'failure' }}
         run: echo "Download Link of the Repoort Artifact => ${{ steps.upload-test-report.outputs.artifact-url }} "
 
-  dependency-submission:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+#  dependency-submission:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: write
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+#    steps:
+#    - uses: actions/checkout@v4
+#    - name: Set up JDK 17
+#      uses: actions/setup-java@v4
+#      with:
+#        java-version: '17'
+#        distribution: 'temurin'
 
     # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-    - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+#    - name: Generate and submit dependency graph
+#      uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0

@@ -23,9 +23,7 @@ runs:
     - name: Create database
       shell: bash
       run: |
-        mongosh "mongodb://localhost:27017" --username $INPUT_ROOT_USERNAME --password $INPUT_ROOT_PASSWORD
-        use paiya_accountmanager
-        db
+        mongosh "mongodb://localhost:27017" --username $INPUT_ROOT_USERNAME --password $INPUT_ROOT_PASSWORD --eval "use paiya_accountmanager"
       env:
         INPUT_ROOT_USERNAME: ${{inputs.root_username}}
         INPUT_ROOT_PASSWORD: ${{inputs.root_password}}
