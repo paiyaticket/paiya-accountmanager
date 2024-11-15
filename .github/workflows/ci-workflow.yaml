@@ -52,7 +52,7 @@ jobs:
         id: create-run-mongodb-docker
         uses: ./.github/actions/run-mongodb-container
 
-      - name: Upload mongo container
+      - name: Upload mongo container report
         if: ${{ steps.create-run-mongodb-docker.conclusion == 'failure' }}
         id: upload-mongo-container-report
         uses: actions/upload-artifact@v4
