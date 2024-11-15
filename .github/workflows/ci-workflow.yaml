@@ -52,9 +52,11 @@ jobs:
         uses: ./.github/actions/run-mongodb-container
 
       - name: Make integration tests with Gradle
+        id: make-integration-test
         run: ./gradlew integrationTest
 
       - name: upload test report
+        if: ${{ failure() }}
         id: upload-test-report
         uses: actions/upload-artifact@v4
         with:
@@ -63,6 +65,7 @@ jobs:
           retention-days: 1
 
       - name: Output report download link
+        if: ${{ steps.make-integration-test.conclusion == 'failure' }}
         run: echo "Download Link of the Repoort Artifact => ${{ steps.upload-test-report.outputs.artifact-url }} "
 
   dependency-submission:
