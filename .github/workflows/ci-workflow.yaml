@@ -50,17 +50,17 @@ jobs:
         id: create-run-mongodb-docker
         uses: ./.github/actions/run-mongodb-container
 
-      - name: Install mongosh and create database
-        uses: ./.github/actions/install-mongosh-and-create-db
+#      - name: Install mongosh and create database
+#        uses: ./.github/actions/install-mongosh-and-create-db
 
-      - name: When mongo fail, get failure report
-        if: ${{ failure() }}
-        id: upload-mongo-container-report
-        uses: actions/upload-artifact@v4
-        with:
-          name: mongo-container-report-artifact
-          path: /home/runner/work/_temp
-          retention-days: 1 
+#      - name: When mongo fail, get failure report
+#        if: ${{ failure() }}
+#        id: upload-mongo-container-report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: mongo-container-report-artifact
+#          path: /home/runner/work/_temp
+#          retention-days: 1 
 
       - name: Make integration tests with Gradle
         id: make-integration-test
