@@ -11,8 +11,7 @@ spring:
       host: localhost
       port: 27017
       database: paiya_accountmanager
-      username: ${PAIYA_DB_USERNAME:paiya}
-      password: ${PAIYA_DB_PASSWORD:paiya}
-  cloud:
-    config:
-      enabled: false
+      username: paiya
+      password: paiya
+      authentication-database: admin
+
