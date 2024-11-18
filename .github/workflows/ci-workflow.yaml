@@ -32,6 +32,9 @@ jobs:
   static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest
+    permissions: 
+      contents: write 
+      security-events: write
     steps:
       - uses: actions/checkout@v2
 
