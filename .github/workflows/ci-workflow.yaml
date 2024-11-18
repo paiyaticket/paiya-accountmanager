@@ -6,12 +6,13 @@ on:
   pull_request:
     branches: [ "dev" ]
 
+permissions: 
+  contents: read
+
 jobs:
   build-and-test:
     name: Build and Unit test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
     - uses: actions/checkout@v4
@@ -33,15 +34,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Run Snyk to check for vulnerabilities
         continue-on-error: true
         uses: snyk/actions/gradle@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      
   
   integration-test:
     name: Integration Test
