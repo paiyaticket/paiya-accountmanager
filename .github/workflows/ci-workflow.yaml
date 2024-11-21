@@ -26,31 +26,6 @@ jobs:
 
     - name: Build
       run: ./gradlew build
-
-
-  code-static-analysis:
-    name: Code Static Analysis
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    steps:
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle-jdk17@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: code test
-
-  dependencies-vulnerabilities:
-    name: Test for open-source vulnerabilities and license issues
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    steps:
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle-jdk17@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: test
       
   
   integration-test:
@@ -99,6 +74,32 @@ jobs:
           name: integration-test-report-artifact
           path: ${{ github.workspace }}/build/reports/tests/integrationTest
           retention-days: 1
+
+
+  code-static-analysis:
+    name: Code Static Analysis
+    runs-on: ubuntu-latest
+    needs: integration-test
+    steps:
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/gradle-jdk17@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+
+  dependencies-vulnerabilities:
+    name: Test for open-source vulnerabilities and license issues
+    runs-on: ubuntu-latest
+    needs: integration-test
+    steps:
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/gradle-jdk17@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+
 
   dependency-submission:
     runs-on: ubuntu-latest
