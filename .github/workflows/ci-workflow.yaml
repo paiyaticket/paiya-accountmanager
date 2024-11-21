@@ -80,7 +80,10 @@ jobs:
     name: Code Static Analysis
     runs-on: ubuntu-latest
     needs: integration-test
+    permissions:
+      contents: read
     steps:
+      - uses: actions/checkout@v2
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle-jdk17@master
         env:
@@ -92,7 +95,10 @@ jobs:
     name: Test for open-source vulnerabilities and license issues
     runs-on: ubuntu-latest
     needs: integration-test
+    permissions:
+      contents: read
     steps:
+      - uses: actions/checkout@v2
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle-jdk17@master
         env:
