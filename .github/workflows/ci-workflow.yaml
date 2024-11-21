@@ -90,7 +90,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
       - name: Sonar static analysis
-        run: ./gradlew jacocoTestReport sonar -Dsonar.token=${{ secrets.SONARCLOUD_TOKEN }}
+        run: ./gradlew test jacocoTestReport sonar -Dsonar.token=${{ secrets.SONARCLOUD_TOKEN }}
 
   code-security-static-analysis:
     name: Snyk - Code Security Analysis
