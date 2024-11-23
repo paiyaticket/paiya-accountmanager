@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StatusChangeResource {
     private String email;
-    private Boolean status;
+    private boolean status;
 }

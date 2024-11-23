@@ -60,8 +60,8 @@ class UserServiceTest {
         Mockito.when(userRepository.findAllByActiveIsTrue(Mockito.any())).thenReturn(page);
 
         Page<User> users = userService.findPaginatedUserList(1,1);
-        Assertions.assertEquals(users.getTotalElements(), 1);
-        Assertions.assertEquals(users.getTotalPages(), 1);
+        Assertions.assertEquals(1, users.getTotalElements());
+        Assertions.assertEquals(1, users.getTotalPages());
 
     }
 
@@ -88,7 +88,7 @@ class UserServiceTest {
 
         Assert.notNull(updateUser, "User is null");
         Assertions.assertEquals(updateUser.getId(), USER_ID);
-        Assertions.assertEquals(updateUser.getFirstname(), "Johnnas");
+        Assertions.assertEquals("Johnnas", updateUser.getFirstname());
     }
 
 
