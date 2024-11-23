@@ -11,7 +11,7 @@ spring:
       host: localhost
       port: 27017
       database: paiya_accountmanager
-      username: paiya
-      password: paiya
+      username: ${PAIYAACCOUNTMANAGER_DBUSERNAME}
+      password: ${PAIYAACCOUNTMANAGER_DBPASSWORD}
       authentication-database: admin
 
