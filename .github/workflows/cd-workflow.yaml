@@ -32,8 +32,6 @@ name: 'Build and Deploy on Cloud Run'
 on:
   push:
     branches: [ "staging" ]
-  pull_request:
-    branches: [ "staging" ]
 
 env:
   PROJECT_ID: 'paiya-413605' # TODO: update to your Google Cloud project ID
