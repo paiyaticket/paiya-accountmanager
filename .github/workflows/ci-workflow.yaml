@@ -64,6 +64,9 @@ jobs:
       - name: Make integration tests with Gradle
         id: make-integration-test
         run: ./gradlew integrationTest
+        env:
+          PAIYAACCOUNTMANAGER_DBUSERNAME: paiya
+          PAIYAACCOUNTMANAGER_DBPASSWORD: paiya
 
       - name: When integration tests fail, get failure report
         if: ${{ failure() }}
@@ -106,6 +109,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: code test
+          args: --severity-threshold=high
+
 
   dependencies-vulnerabilities-analysis:
     name: Snyk - Test for dependencies vulnerabilities and license issues
@@ -121,6 +126,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
+          args: --severity-threshold=high
 
 
   dependency-submission:

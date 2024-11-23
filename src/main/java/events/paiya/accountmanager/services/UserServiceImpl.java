@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> userOptional = this.userRepository.findByEmail(statusChange.getEmail());
         if (userOptional.isPresent()){
             User user = userOptional.get();
-            if (statusChange.getStatus()){
+            if (statusChange.isStatus()){
                 user.enableUser();
             } else {
                 user.disableUser();
