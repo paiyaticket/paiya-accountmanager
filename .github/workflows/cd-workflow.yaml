@@ -37,7 +37,7 @@ env:
   PROJECT_ID: 'paiya-413605' # TODO: update to your Google Cloud project ID
   REGION: 'us-central1' # TODO: update to your region
   SERVICE: 'paiya-accountmanager' # TODO: update to your service name
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/1025378920331/locations/global/workloadIdentityPools/github/providers/my-repo' # TODO: update to your workload identity provider
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/1025378920331/locations/global/workloadIdentityPools/github-action-identity-pool/providers/github-identity-provider' # TODO: update to your workload identity provider
   
 jobs:
   deploy:
