@@ -1,5 +1,7 @@
+
 #!/bin/bash
 ./gradlew clean build && 
-docker build -t paiya/paiya-accountmanager:latest . &&
+docker build -t koffiange/paiya-accountmanager:latest . &&
+docker push &&
 cd cicd &&
 docker compose up -d --force-recreate
