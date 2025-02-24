@@ -1,12 +1,19 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.0'
-	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.springframework.boot' version '3.4.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.sonarqube" version "6.0.0.5145"
+	id 'jacoco'
 }
 
 group = 'events.paiya'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
 
 ext {
 	mapstructVersion = "1.5.5.Final"
@@ -55,4 +62,22 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+
+sonar {
+	properties {
+		property "sonar.projectKey", "paiyaticket_paiya-accountmanager"
+		property "sonar.projectName", "paiya-accountmanager"
+		property "sonar.organization", "paiyaticket"
+		property "sonar.host.url", "https://sonarcloud.io"
+		property "sonar.sources", "src/main/java/events/paiya/accountmanager/services"
+		property "sonar.tests", "src/test"
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+	}
 }
