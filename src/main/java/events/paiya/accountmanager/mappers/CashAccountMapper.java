@@ -14,7 +14,7 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", subclassExhaustiveStrategy = SubclassExhaustiveStrategy.RUNTIME_EXCEPTION)
+@Mapper(componentModel = "spring", subclassExhaustiveStrategy = SubclassExhaustiveStrategy.RUNTIME_EXCEPTION, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CashAccountMapper {
     @SubclassMapping(source = BankAccountResource.class, target = BankAccount.class)
     @SubclassMapping(source = CardAccountResource.class, target = CardAccount.class)

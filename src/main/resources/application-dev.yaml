@@ -17,7 +17,7 @@ spring:
       database: paiya_accountmanager
       username: ${PAIYA_DB_USERNAME}
       password: ${PAIYA_DB_PASSWORD}
-      authentication-database: admin
+      authentication-database: paiya_accountmanager
 
   #Config Server
   config:
