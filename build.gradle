@@ -66,6 +66,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+
 /*
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-Amapstruct.verbose=true"
