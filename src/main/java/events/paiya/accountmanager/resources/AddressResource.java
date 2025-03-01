@@ -1,14 +1,17 @@
 package events.paiya.accountmanager.resources;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import events.paiya.accountmanager.domains.Country;
 import lombok.*;
 
-@EqualsAndHashCode(callSuper = true)
+
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class AddressResource extends BaseResource{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class AddressResource{
     private Country country;
     private String city;
     private String state;

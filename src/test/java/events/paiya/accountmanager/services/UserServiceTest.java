@@ -1,11 +1,11 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
-import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.enumerations.Gender;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
+import events.paiya.accountmanager.resources.StatusChangeResource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -25,9 +24,9 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class UserServiceTest {
     private final String USER_ID = "64acee0e2162f374bd198208";
+    private final String USER_EMAIL = "paiyatest@gmail.com";
     @Mock
     private UserRepository userRepository;
     @InjectMocks
@@ -61,8 +60,8 @@ class UserServiceTest {
         Mockito.when(userRepository.findAllByActiveIsTrue(Mockito.any())).thenReturn(page);
 
         Page<User> users = userService.findPaginatedUserList(1,1);
-        Assertions.assertEquals(users.getTotalElements(), 1);
-        Assertions.assertEquals(users.getTotalPages(), 1);
+        Assertions.assertEquals(1, users.getTotalElements());
+        Assertions.assertEquals(1, users.getTotalPages());
 
     }
 
@@ -83,38 +82,31 @@ class UserServiceTest {
 
     @Test
     void givenIdAndUser_whenExist_thenUpdate() {
-        Mockito.when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(this.buildUser()));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(this.buildUserUpdate());
 
-        User updateUser = userService.updateUser(USER_ID, this.buildUserUpdate());
+        User updateUser = userService.updateUser(this.buildUserUpdate());
 
         Assert.notNull(updateUser, "User is null");
         Assertions.assertEquals(updateUser.getId(), USER_ID);
-        Assertions.assertEquals(updateUser.getFirstname(), "Johnnas");
+        Assertions.assertEquals("Johnnas", updateUser.getFirstname());
     }
 
-    @Test
-    void userUpdateAddress(){
-        Mockito.doNothing().when(userRepository).updateUserAddressById(Mockito.anyString(), Mockito.any(Address.class));
-        userService.updateUserAddress(USER_ID, new Address());
-        Mockito.verify(userRepository, Mockito.times(1)).updateUserAddressById(USER_ID, new Address());
-    }
 
     @Test
     void deleteUser() {
-        Mockito.doNothing().when(userRepository).deleteById(Mockito.anyString());
-        userService.deleteUser(USER_ID);
-        Mockito.verify(userRepository, Mockito.times(1)).deleteById(USER_ID);
+        userService.deleteUser(USER_EMAIL);
+        Mockito.verify(userRepository, Mockito.times(1)).deleteByEmail(USER_EMAIL);
     }
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void givenIdAndStatus_whenStatusIsTrue_thenChangeActiveStatus(boolean b) {
         User user = this.buildUser();
-        Mockito.when(userRepository.findById(Mockito.anyString())).thenReturn(Optional.of(user));
+        StatusChangeResource statusChange = StatusChangeResource.builder().email(USER_EMAIL).status(b).build();
+        Mockito.when(userRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.of(user));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 
-        User updatedUser = userService.changeUserAccountActiveStatus(USER_ID, b);
+        User updatedUser = userService.changeUserAccountActiveStatus(statusChange);
         Mockito.verify(userRepository, Mockito.times(1)).save(user);
 
         if (b){

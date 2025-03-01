@@ -11,13 +11,13 @@ version = '0.0.1-SNAPSHOT'
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(17)
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
 
 ext {
-	mapstructVersion = "1.5.5.Final"
-	lombokVersion = '1.18.26'
+	mapstructVersion = "1.6.3"
+	lombokVersion = '1.18.36'
 	lombokMapstructBindingVersion = "0.2.0"
 }
 
@@ -28,6 +28,7 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
@@ -42,10 +43,12 @@ compileJava {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
@@ -57,7 +60,6 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test:6.1.2'
 }
 
 tasks.named('test') {
@@ -65,6 +67,50 @@ tasks.named('test') {
 }
 
 
+/*
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Amapstruct.verbose=true"
+}
+*/
+
+
+//*****************//
+// INTEGRATION TEST//
+//*****************//
+
+sourceSets {
+	integrationTest {
+		java {
+			srcDirs = ['src/integrationTest/java']
+		}
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
+	}
+}
+
+configurations {
+	integrationTestImplementation.extendsFrom implementation
+	integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+	integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.register('integrationTest', Test) {
+	description = 'Runs integration tests.'
+	group = 'verification'
+
+	testClassesDirs = sourceSets.integrationTest.output.classesDirs
+	classpath = sourceSets.integrationTest.runtimeClasspath
+
+	useJUnitPlatform()
+}
+
+
+//***********************//
+// SONAR STATIC ANALYSIS //
+//***********************//
 sonar {
 	properties {
 		property "sonar.projectKey", "paiyaticket_paiya-accountmanager"

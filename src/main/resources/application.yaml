@@ -1,3 +1,19 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+
 spring:
+  application:
+    name: paiya-accountmanager
   profiles:
-    active: security
+    active: dev
+
+
+# OpenApi documentation
+springdoc:
+  api-docs:
+    path: /doc
+  swagger-ui:
+    path: /swagger-ui.html

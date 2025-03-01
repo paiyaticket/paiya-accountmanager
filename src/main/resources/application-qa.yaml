@@ -1,0 +1,26 @@
+server:
+  port: 8010
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    web: debug
+
+    
+spring:
+  # Database
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: paiya_accountmanager
+      username: ${PAIYAACCOUNTMANAGER_DBUSERNAME}
+      password: ${PAIYAACCOUNTMANAGER_DBPASSWORD}
+
+  #Config Server
+  config:
+    import:
+    - optional:configserver:http://configuser:20232024@configserver:8888
+
+

@@ -1,0 +1,687 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080/api
+  description: Generated server url
+paths:
+  /v1/users/status/change:
+    put:
+      tags:
+      - user-controller
+      operationId: changeUserAccountActiveStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusChangeResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResource'
+  /v1/users:
+    get:
+      tags:
+      - user-controller
+      operationId: findAllUser
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResource'
+    post:
+      tags:
+      - user-controller
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResource'
+  /v1/financial-accounts:
+    get:
+      tags:
+      - financial-account-controller
+      operationId: findByUserId
+      parameters:
+      - name: userId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/BankAccountResource'
+                  - $ref: '#/components/schemas/CardAccountResource'
+                  - $ref: '#/components/schemas/MobileMoneyAccountResource'
+    post:
+      tags:
+      - financial-account-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/BankAccountResource'
+              - $ref: '#/components/schemas/CardAccountResource'
+              - $ref: '#/components/schemas/MobileMoneyAccountResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BankAccountResource'
+                - $ref: '#/components/schemas/CardAccountResource'
+                - $ref: '#/components/schemas/MobileMoneyAccountResource'
+    delete:
+      tags:
+      - financial-account-controller
+      operationId: deleteByOwnerId
+      parameters:
+      - name: ownerId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /v1/event-organizers:
+    get:
+      tags:
+      - event-organizer-controller
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventOrganizerResource'
+    post:
+      tags:
+      - event-organizer-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventOrganizerResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventOrganizerResource'
+  /v1/users/{email}:
+    get:
+      tags:
+      - user-controller
+      operationId: findUserByEmail
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResource'
+    delete:
+      tags:
+      - user-controller
+      operationId: delete
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    patch:
+      tags:
+      - user-controller
+      operationId: updateUser
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResource'
+  /v1/financial-accounts/{id}:
+    get:
+      tags:
+      - financial-account-controller
+      operationId: findById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BankAccountResource'
+                - $ref: '#/components/schemas/CardAccountResource'
+                - $ref: '#/components/schemas/MobileMoneyAccountResource'
+    delete:
+      tags:
+      - financial-account-controller
+      operationId: deleteById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+    patch:
+      tags:
+      - financial-account-controller
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/BankAccountResource'
+              - $ref: '#/components/schemas/CardAccountResource'
+              - $ref: '#/components/schemas/MobileMoneyAccountResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BankAccountResource'
+                - $ref: '#/components/schemas/CardAccountResource'
+                - $ref: '#/components/schemas/MobileMoneyAccountResource'
+  /v1/event-organizers/{id}:
+    get:
+      tags:
+      - event-organizer-controller
+      operationId: findById_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventOrganizerResource'
+    delete:
+      tags:
+      - event-organizer-controller
+      operationId: delete_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+    patch:
+      tags:
+      - event-organizer-controller
+      operationId: update_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventOrganizerResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventOrganizerResource'
+  /v1/event-organizers/remove-members:
+    patch:
+      tags:
+      - event-organizer-controller
+      operationId: removeMemberByEoId
+      parameters:
+      - name: eventOrganizerId
+        in: query
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventOrganizerResource'
+  /v1/event-organizers/add-members:
+    patch:
+      tags:
+      - event-organizer-controller
+      operationId: addMemberByEoId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberBundleResource'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EventOrganizerResource'
+  /v1/users/paginated:
+    get:
+      tags:
+      - user-controller
+      operationId: findUserPaginatedList
+      parameters:
+      - name: page
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResource'
+  /v1/users/isexist:
+    get:
+      tags:
+      - user-controller
+      operationId: isUserExist
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: boolean
+  /v1/financial-accounts/default:
+    get:
+      tags:
+      - financial-account-controller
+      operationId: findUserDefaultFinancialAccount
+      parameters:
+      - name: userId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BankAccountResource'
+                - $ref: '#/components/schemas/CardAccountResource'
+                - $ref: '#/components/schemas/MobileMoneyAccountResource'
+  /v1/event-organizers/criteria:
+    get:
+      tags:
+      - event-organizer-controller
+      operationId: findByName
+      parameters:
+      - name: parameter
+        in: query
+        required: false
+        schema:
+          type: string
+          default: owner
+      - name: value
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventOrganizerResource'
+  /v1/financial-accounts/{id}/all:
+    delete:
+      tags:
+      - financial-account-controller
+      operationId: deleteAllByUserId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    StatusChangeResource:
+      type: object
+      properties:
+        email:
+          type: string
+        status:
+          type: boolean
+    AddressResource:
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/Country'
+        city:
+          type: string
+        state:
+          type: string
+        postal:
+          type: string
+        addressDetail:
+          type: string
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        timezone:
+          type: string
+        utc:
+          type: string
+        mobileCode:
+          type: string
+    UserResource:
+      type: object
+      properties:
+        id:
+          type: string
+        lastname:
+          type: string
+        firstname:
+          type: string
+        displayname:
+          type: string
+        email:
+          type: string
+        gender:
+          type: string
+          enum:
+          - MAN
+          - WOMAN
+          - OTHER
+        phoneNumber:
+          type: string
+        active:
+          type: boolean
+        address:
+          $ref: '#/components/schemas/AddressResource'
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int32
+    BankAccountResource:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/FinancialAccountResource'
+      - type: object
+        properties:
+          banqueCode:
+            maxLength: 9
+            minLength: 0
+            type: string
+          accountNumber:
+            maxLength: 12
+            minLength: 9
+            type: string
+          checkNumber:
+            maxLength: 4
+            minLength: 3
+            type: string
+          iban:
+            maxLength: 30
+            minLength: 27
+            type: string
+          bicSwift:
+            maxLength: 12
+            minLength: 8
+            type: string
+    CardAccountResource:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/FinancialAccountResource'
+      - type: object
+        properties:
+          cardNumber:
+            maxLength: 19
+            minLength: 16
+            type: string
+          expirationDate:
+            type: string
+          provider:
+            type: string
+            enum:
+            - VISA
+            - MASTERCARD
+    FinancialAccountResource:
+      type: object
+      properties:
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int32
+        id:
+          type: string
+        financialAccountType:
+          type: string
+          enum:
+          - CARD
+          - MOBILE_MONEY
+          - BANK_ACCOUNT
+        isDefault:
+          type: boolean
+        ownerId:
+          type: string
+      discriminator:
+        propertyName: financialAccountType
+    MobileMoneyAccountResource:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/FinancialAccountResource'
+      - type: object
+        properties:
+          countryPrefixNumber:
+            type: string
+          phoneNumber:
+            type: string
+          mobileMoneyProvider:
+            type: string
+            enum:
+            - ORANGE_MONEY_CI
+            - MTN_MONEY_CI
+            - MOOV_MONEY_CI
+            - WAVE_CI
+    EventOrganizerResource:
+      type: object
+      properties:
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int32
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            type: string
+        socialLinks:
+          type: object
+          additionalProperties:
+            type: string
+        organizationMembers:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationMember'
+        createdBy:
+          type: string
+    OrganizationMember:
+      type: object
+      properties:
+        id:
+          type: string
+        lastname:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        organizationOwner:
+          type: boolean
+        admin:
+          type: boolean
+    MemberBundleResource:
+      type: object
+      properties:
+        eventOrganizerId:
+          type: string
+        memberList:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationMember'
+        memberEmailList:
+          type: array
+          items:
+            type: string

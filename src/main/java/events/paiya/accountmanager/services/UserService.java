@@ -1,20 +1,23 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
+import events.paiya.accountmanager.resources.StatusChangeResource;
+
 import org.springframework.data.domain.Page;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
 public interface UserService {
-    User findByUserId(String userId) throws HttpClientErrorException.NotFound;
+    boolean isUserExist(String email);
+    User findByEmail(String email);
+    User findByUserId(String userId);
     List<User> findAllUser();
     Page<User> findPaginatedUserList(int page, int size);
     User createUser(User user) throws UserAlreadyExistException;
-    User updateUser(String userId, User user);
-    void updateUserAddress(String id, Address address);
-    void deleteUser(String userId);
-    User changeUserAccountActiveStatus(String userId, boolean status);
+    User updateUser(User user);
+    void deleteUser(String email);
+    User changeUserAccountActiveStatus(StatusChangeResource statusChange);
+
+    void deleteAll();
 }

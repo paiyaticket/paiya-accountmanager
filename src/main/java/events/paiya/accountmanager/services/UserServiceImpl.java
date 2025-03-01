@@ -1,14 +1,14 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.domains.Address;
 import events.paiya.accountmanager.domains.User;
 import events.paiya.accountmanager.exceptions.UserAlreadyExistException;
 import events.paiya.accountmanager.repositories.UserRepository;
+import events.paiya.accountmanager.resources.StatusChangeResource;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -22,6 +22,11 @@ public class UserServiceImpl implements UserService{
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public boolean isUserExist(String email){
+        return this.userRepository.existsByEmailAndActiveIsTrue(email);
     }
 
     @Override
@@ -50,38 +55,21 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUser(String userId, User user) {
-        Optional<User> userOptional = this.userRepository.findById(userId);
-        if (userOptional.isPresent()){
-            User oldUser = userOptional.get();
-            if (!user.getFirstname().equals(oldUser.getFirstname())) oldUser.setFirstname(user.getFirstname());
-            if (!user.getLastname().equals(oldUser.getLastname())) oldUser.setLastname(user.getLastname());
-            if (!user.getEmail().equals(oldUser.getEmail())) oldUser.setEmail(user.getEmail());
-            if (!user.getGender().equals(oldUser.getGender())) oldUser.setGender(user.getGender());
-            if (!user.getPhoneNumber().equals(oldUser.getPhoneNumber())) oldUser.setPhoneNumber(user.getPhoneNumber());
-            if (!user.isActive() == oldUser.isActive()) oldUser.setActive(user.isActive());
-            return this.userRepository.save(oldUser);
-        } else {
-            throw new NoSuchElementException();
-        }
+    public User updateUser(User user) {
+        return this.userRepository.save(user);
     }
 
     @Override
-    public void updateUserAddress(String id, Address address) {
-        userRepository.updateUserAddressById(id, address);
+    public void deleteUser(String email) {
+        this.userRepository.deleteByEmail(email);
     }
 
     @Override
-    public void deleteUser(String userId) {
-        this.userRepository.deleteById(userId);
-    }
-
-    @Override
-    public User changeUserAccountActiveStatus(String userId, boolean status) {
-        Optional<User> userOptional = this.userRepository.findById(userId);
+    public User changeUserAccountActiveStatus(StatusChangeResource statusChange) {
+        Optional<User> userOptional = this.userRepository.findByEmail(statusChange.getEmail());
         if (userOptional.isPresent()){
             User user = userOptional.get();
-            if (status){
+            if (statusChange.isStatus()){
                 user.enableUser();
             } else {
                 user.disableUser();
@@ -90,6 +78,16 @@ public class UserServiceImpl implements UserService{
         } else {
             throw new NoSuchElementException();
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepository.deleteAll();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmailAndActiveIsTrue(email).orElseThrow();
     }
 
 }

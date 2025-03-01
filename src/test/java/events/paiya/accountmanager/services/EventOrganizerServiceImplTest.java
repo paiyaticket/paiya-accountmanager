@@ -1,12 +1,11 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
 import events.paiya.accountmanager.domains.EventOrganizer;
-import events.paiya.accountmanager.domains.OrganizationMember;
-import events.paiya.accountmanager.domains.projections.OrganizationMemberProjection;
+import events.paiya.accountmanager.domains.SocialMedia;
 import events.paiya.accountmanager.mappers.projection.OrganizationMemberProjectionMapper;
 import events.paiya.accountmanager.repositories.EventOrganizerRepository;
 import events.paiya.accountmanager.repositories.UserRepository;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,18 +13,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.*;
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DisableSecurityConfiguration.class)
 class EventOrganizerServiceImplTest {
 
     private final String EVENT_ORGANIZER_ID = UUID.randomUUID().toString();
     private final String EVENT_ORGANIZER_EMAIL = "jp@gmail.com";
-    private final String USER_ID = UUID.randomUUID().toString();
-    private final String USER_EMAIL = "johnylafleur@gmail.com";
+    // private final String USER_ID = UUID.randomUUID().toString();
+    // private final String USER_EMAIL = "johnylafleur@gmail.com";
     @Mock
     private EventOrganizerRepository eventOrganizerRepository;
     @Mock
@@ -67,11 +64,11 @@ class EventOrganizerServiceImplTest {
 
     @Test
     void givenEmail_whenMembersExist_thenFindByOrganizationMembersEmail(){
-        Mockito.when(eventOrganizerRepository.findByOrganizationMembersEmail(Mockito.anyString()))
+        Mockito.when(eventOrganizerRepository.findByStaffMembers(Mockito.anyString()))
                 .thenReturn(List.of(this.buildEventOrganizer()));
         List<EventOrganizer> eventOrganizerList = eventOrganizerService.findByOrganizationMembersEmail(EVENT_ORGANIZER_EMAIL);
         Assert.notEmpty(eventOrganizerList, "Event list must not be empty");
-        Mockito.verify(eventOrganizerRepository).findByOrganizationMembersEmail(EVENT_ORGANIZER_EMAIL);
+        Mockito.verify(eventOrganizerRepository).findByStaffMembers(EVENT_ORGANIZER_EMAIL);
     }
 
     @Test
@@ -83,6 +80,7 @@ class EventOrganizerServiceImplTest {
         Mockito.verify(eventOrganizerRepository).findByCreatedBy(EVENT_ORGANIZER_EMAIL);
     }
 
+    /*
     @Test
     void givenIdAndUserMailList_whenOrganizerMemberFound_ThenAddMemberToEventOrganizer(){
         List<String> userEmailList = List.of(USER_EMAIL);
@@ -121,17 +119,6 @@ class EventOrganizerServiceImplTest {
         Mockito.verify(eventOrganizerRepository).save(Mockito.any(EventOrganizer.class));
     }
 
-    private EventOrganizer buildEventOrganizer(){
-        return EventOrganizer.builder()
-                .id(EVENT_ORGANIZER_ID)
-                .email("jp@gmail.com")
-                .name("Johny's Production")
-                .phoneNumbers(List.of("+2250707078548"))
-                .socialLinks(Map.of("facebook", "https://facebook.com/johmyproduction"))
-                .organizationMembers(new ArrayList<>())
-                .build();
-    }
-
     private List<OrganizationMemberProjection> buildOrganizationMemberProjection(){
         OrganizationMemberProjection projection = new OrganizationMemberProjection(USER_ID,
                                                 "Lafleur", "johny", USER_EMAIL);
@@ -143,4 +130,17 @@ class EventOrganizerServiceImplTest {
                 .lastname("Lafleur").firstname("johny").email(USER_EMAIL).build();
         return List.of(member);
     }
+    */
+
+    private EventOrganizer buildEventOrganizer(){
+        return EventOrganizer.builder()
+                .id(EVENT_ORGANIZER_ID)
+                .email("jp@gmail.com")
+                .name("Johny's Production")
+                .phoneNumbers(List.of("+2250707078548"))
+                .socialMedia(List.of(SocialMedia.builder().name("Instagram").icon("pi-instagram").link("http://instagram.com").build()))
+                .build();
+    }
+
+    
 }

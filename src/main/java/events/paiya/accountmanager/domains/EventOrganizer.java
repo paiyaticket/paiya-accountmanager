@@ -9,9 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Document
 @Data
@@ -24,11 +22,12 @@ public class EventOrganizer {
     private String id;
     private String name;
     private String email;
+    private String details;
     private List<String> phoneNumbers;
     @Builder.Default
-    private Map<String, String> socialLinks = new HashMap<>();
+    private List<SocialMedia> socialMedia = new ArrayList<>();
     @Builder.Default
-    private List<OrganizationMember> organizationMembers = new ArrayList<>();
+    private List<String> staffMembers = new ArrayList<>();
 
 
     // Auditing
@@ -40,15 +39,19 @@ public class EventOrganizer {
     @Version
     private Integer version;
 
+    
     public void addOrganizationMember(List<OrganizationMember> membersToAddList){
         membersToAddList.forEach(member -> {
+            /*
             if(!this.organizationMembers.contains(member)){
                 this.organizationMembers.add(member);
             }}
-        );
+             */
+            
+        });
     }
 
     public void removeOrganizationMember(List<OrganizationMember> membersToRemoveList){
-        membersToRemoveList.forEach(member -> this.organizationMembers.remove(member));
+        // membersToRemoveList.forEach(member -> this.organizationMembers.remove(member));
     }
 }

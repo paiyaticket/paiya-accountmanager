@@ -1,38 +1,62 @@
 package events.paiya.accountmanager.services;
 
-import events.paiya.accountmanager.configs.DisableSecurityConfiguration;
-import events.paiya.accountmanager.domains.FinancialAccount;
+import events.paiya.accountmanager.domains.CashAccount;
 import events.paiya.accountmanager.domains.MobileMoneyAccount;
-import events.paiya.accountmanager.domains.User;
-import events.paiya.accountmanager.domains.UserFinancialAccount;
-import events.paiya.accountmanager.enumerations.FinancialAccountType;
-import events.paiya.accountmanager.repositories.FinancialAccountRepository;
+import events.paiya.accountmanager.enumerations.MobileMoneyProvider;
+import events.paiya.accountmanager.repositories.CashAccountRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DisableSecurityConfiguration.class)
-class FinancialAccountServiceImplTest {
+class CashAccountServiceImplTest {
 
-    private final String USER_ID = "64acee0e2162f374bd198208";
+    private final String ID = UUID.randomUUID().toString();
+
     @Mock
-    private FinancialAccountRepository financialAccountRepository;
+    private CashAccountRepository cashAccountRepository;
+
     @Mock
     private UserServiceImpl userService;
 
     @InjectMocks
-    private FinancialAccountServiceImpl financialAccountService;
+    private CashAccountServiceImpl cashAccountService;
 
+    @Test()
+    @DisplayName(value = "Given Id, When Id exist, Then return CashAccount")
+    void findById(){
+
+        Mockito.when(cashAccountRepository.findById(ID)).thenReturn(Optional.of(this.buildCashAccount()));
+
+        CashAccount account = cashAccountService.findById(ID);
+
+        Assert.notNull(account, () -> "The [account] object must be null");
+        Mockito.verify(cashAccountRepository, Mockito.times(1)).findById(ID);
+    }
+
+    @Test()
+    @DisplayName(value = "Given Id, When Id not exist, Then throw exception")
+    void findById_ThrowsNoSuchElement(){
+
+        Mockito.when(cashAccountRepository.findById(ID)).thenThrow(new NoSuchElementException());
+
+        Assertions.assertThrows(NoSuchElementException.class, () -> cashAccountService.findById(ID));
+        Mockito.verify(cashAccountRepository, Mockito.times(1)).findById(ID);
+    }
+
+    private CashAccount buildCashAccount(){
+        return MobileMoneyAccount.builder().id(ID).mobileMoneyProvider(MobileMoneyProvider.WAVE_CI).build();
+    }
+
+    /*
     @Test
     void givenUserIdAndFAccount_whenAdd_thenReturnFinantialAccountList(){
         UserFinancialAccount userFinancialAccount = UserFinancialAccount.builder()
@@ -126,8 +150,9 @@ class FinancialAccountServiceImplTest {
 
     private FinancialAccount buildFinancialAccount(){
         return FinancialAccount.builder().id(UUID.randomUUID().toString())
-                .financialAccountType(FinancialAccountType.MOBILE_MONEY)
-                .mobileMoneyAccount(new MobileMoneyAccount("+225", "0745424117", "orange_ci"))
+                .mobileMoneyAccount(new MobileMoneyAccount("+225", "0745424117", MobileMoneyProvider.WAVE_CI))
                 .build();
     }
+
+     */
 }

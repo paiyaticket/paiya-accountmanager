@@ -8,9 +8,8 @@ import java.util.List;
 
 public interface EventOrganizerRepository  extends MongoRepository<EventOrganizer, String> {
 
-    @Query("{'organizationMembers.email' : ?0}")
-    List<EventOrganizer> findByOrganizationMembersEmail(String email);
-
+    @Query("{'staffMembers' : ?0}")
+    List<EventOrganizer> findByStaffMembers(String email);
     List<EventOrganizer> findByCreatedBy(String userEmail);
 
 }

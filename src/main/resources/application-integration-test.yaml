@@ -1,0 +1,17 @@
+server:
+  port: 8011
+  servlet:
+    context-path: /api
+
+
+spring:
+  # Database
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: paiya_accountmanager
+      username: ${PAIYA_DB_USERNAME}
+      password: ${PAIYA_DB_PASSWORD}
+      authentication-database: admin
+
